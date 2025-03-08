@@ -1,0 +1,434 @@
+*{
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+/* Estilos para la nueva barra de navegación */
+.navegacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9); /* Fondo translúcido */
+    padding: 12px 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra para efecto flotante */
+    border-radius: 15px; /* Bordes redondeados */
+    max-width: 85%;
+    width: 100%;
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* Estilos para el logo */
+.navegacion .logo img {
+    height: 80px;
+    width: auto;
+}
+
+/* Opciones del menú */
+.navegacion .menu {
+    display: flex;
+    gap: 20px;
+}
+
+.navegacion .menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.navegacion .menu a:hover {
+    background: #4CAF50; /* Verde */
+    color: white;
+}
+
+/* Estilos para el buscador */
+.navegacion .buscador {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navegacion .buscador input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    border-radius: 15px;
+}
+
+.navegacion .buscador button {
+    background: #f1c40f; /* Amarillo */
+    border: none;
+    padding: 8px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.navegacion .buscador button:hover {
+    background: #e67e22; /* Naranja */
+}
+
+
+.fondo-azul {
+    position: relative;
+    width: 98%;
+    margin-left: 10px;
+    margin-top: 15px;
+    height: 470px;
+    background: #66c5f1; /* Azul claro */
+    overflow:auto;
+    border-radius: 2%;
+}
+
+/* Imagen de fondo */
+.fondo-imagen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3; /* Efecto translúcido */
+}
+
+/* Texto principal */
+.presentacion {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    color: white;
+    max-width: 400px;
+}
+
+.presentacion h1 {
+    font-size: 45px;
+    font-weight: 300;
+}
+
+.presentacion h2 {
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.presentacion h2 span {
+    color: #e74c3c; /* Rojo */
+}
+
+.negro {
+    background: black;
+    color: white;
+    border: none;
+}
+
+.blanco {
+    background: white;
+    color: black;
+    border: 2px solid black;
+}
+
+.negro:hover, .blanco:hover {
+    opacity: 0.8;
+}
+
+/* Círculos con imágenes */
+.circulo {
+    position: absolute;
+    width: 750px;  /* Tamaño aumentado */
+    height: 460px;
+    right: 5%;  /* Lo mueve a la derecha */
+    top: 50%;
+    transform: translateY(-50%);
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.circulo img {
+    width: 650px;
+    height: 489px;
+    object-fit: cover;  /* Evita que la imagen se deforme */
+}
+
+.linea hr{
+    width: 75%;
+    border: 1px solid black;
+    position: absolute;
+    top: 72%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+}
+
+.titulo-labor {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.titulo-labor h2{
+    font-size: 38px;
+    font-weight: bold;
+    color: #14B8C0; /* Color azul similar al de la imagen */
+}
+
+.cartas-ofrecimiento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 120px;
+}
+
+
+.cartas-ofrecimiento .card{
+    margin: 12px;
+}
+
+.card{
+    width: 200px;
+    height: 350px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.card-body h6{
+    margin-top: 12px;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+    color: white;
+    border: 2px solid #ffffff55;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover img {
+    filter: brightness(0.8) contrast(1.2);
+    transition: filter 0.3s ease-in-out;
+}
+
+
+.card-body {
+    padding: 15px;
+    text-align: center;
+}
+
+.card h6 {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#linea-1 hr{
+    width: 75%;
+    border: 1px solid black;
+    position: absolute;
+    top: 145%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.bienvenida {
+    text-align: justify;
+    max-width: 950px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.titulo h2 {
+    font-size: 38px;
+    font-weight: bold;
+    color: #14B8C0; /* Color azul similar al de la imagen */
+}
+
+.parla p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Botón de contacto */
+.boton-contacto {
+    display: inline-block;
+    background-color: #14B8C0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    
+}
+
+.boton-contacto:hover {
+    background-color: #117A8B;
+}
+
+#linea-2 hr{
+    width: 75%;
+    border: 1px solid black;
+    position: absolute;
+    top: 218%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+}
+
+.datos{
+    width: 100%;
+    position: relative; 
+    top: -30px; 
+}
+
+
+.fondo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3; /* Efecto translúcido */
+}
+
+.fondo-gris{
+    position: relative;
+    width: 98%;
+    margin-left: 10px;
+    height: 320px;
+    background: rgb(155, 150, 150); /* Azul claro */
+    overflow:auto;
+    border-radius: 2%;
+}
+
+.fondo-gris img{
+    opacity: 0.3; /* Hace la imagen más transparente */
+    filter: brightness(50%) blur(2px); /* Reduce brillo y aplica un leve desenfoque */
+
+}
+
+
+
+.texto-superpuesto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Ajusta el ancho para que los elementos no queden pegados a los bordes */
+    display: flex;
+    justify-content: space-around; /* Distribuye los elementos equitativamente */
+    text-align: center;
+    color: white; /* Ajusta el color del texto para que resalte */
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.wave-container {
+    position: relative;
+    width: 100%;
+    height: 550px; /* Altura suficiente para el contenido */
+    background: white;
+    overflow: hidden;
+}
+
+.wave {
+    position: absolute;
+    top: -250px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Cubre toda la altura del contenedor */
+    z-index: 1; /* Fondo detrás del contenido */
+}
+
+
+
+.wave-text {
+    position: absolute;
+    top: 12%; /* Posición relativa dentro del SVG */
+    left: 50%;
+    bottom: 120px;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    z-index: 2; /* Encima del SVG */
+}
+
+.wave-text h2{
+    font-size: 35px;
+    font-weight: bolder;
+}
+
+.cartas-cuidado {
+    position: absolute;
+    width: 100%;
+    height: 210px;
+    background-color: #24d7e0;
+    padding-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    top:30%; /* Posición relativa dentro del SVG */
+    z-index: 2; /* Encima del SVG */
+    flex-wrap: wrap; /* Asegura que las cards se ajusten en pantallas pequeñas */
+}
+
+.card-pequena {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    max-width: 280px;
+    min-width: 240px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-pequena:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-pequena img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.card-content h5 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.card-content p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #666;
+}
