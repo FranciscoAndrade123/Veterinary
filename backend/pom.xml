@@ -8,10 +8,10 @@
 		<version>3.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.sena</groupId>
-	<artifactId>crud_basic</artifactId>
+	<groupId>com.example</groupId>
+	<artifactId>veterinarinary</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>crud_basic</name>
+	<name>veterinarinary</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

@@ -1,0 +1,120 @@
+
+
+body {
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.curvatura {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1; /* Para que no cubra la barra de navegación */
+}
+
+.servicios {
+    display: flex;
+    gap: 150px;
+    margin-left: -820px;
+    margin-top: 250px;
+    border: 1px solid black;
+    width:550px;
+    justify-items: center;
+}
+
+/* Estilos para la lista de servicios */
+.lista-statica {
+    border: 1px solid #ddd;
+    background-color: white;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.lista-statica ul {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-statica li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    color: #333;
+}
+
+.lista-statica li:last-child {
+    border-bottom: none;
+}
+
+/* Estilos para la sección de relato de servicios */
+.relato-servicios {
+    width: 3000px;
+    padding: 20px;
+}
+
+.servicio1 {
+    width: 800px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.texto {
+    flex: 1;
+}
+
+.texto h2 {
+    color: #1d2d50;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.texto p {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.texto a {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #1d2d50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.texto a:hover {
+    background-color: #f57c00;
+}
+
+/* Imagen circular */
+.servicio1 img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ddd;
+}
+
+.cajita{
+    display: flex;
+    color: #14B8C0;
+    gap: 10px;
+    height: 60px;
+    align-items: center;
+    border: 2px solid #ddd;
+    margin: 30px;
+    border-radius: 10px;
+    padding-left: 20px;
+}
+.cajita h5{
+    font-weight: bolder;
+    padding-top: 10px;
+}

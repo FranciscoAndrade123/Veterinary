@@ -1,10 +1,10 @@
-package com.sena.crud_basic;
+package com.example.veterinarinary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CrudBasicApplicationTests {
+class VeterinarinaryApplicationTests {
 
 	@Test
 	void contextLoads() {

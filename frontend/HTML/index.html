@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>veterinaria</title>
+    <title>Veterinaria</title>
     <link rel="stylesheet" href="/frontend/CSS/style.CSS">
     <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
@@ -16,15 +16,10 @@
     </div>
 
     <div class="menu">
-        <a href="#">Inicio</a>
-        <a href="#">Servicios</a>
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
         <a href="#">Nosotros</a>
-        <a href="#">Contacto</a>
-    </div>
-
-    <div class="buscador">
-        <input type="text" placeholder="Buscar...">
-        <button>🔍</button>
+        <a href="#">Citas</a>
     </div>
 </nav>
     <!--/navegador-->
@@ -175,94 +170,72 @@
             </div>
             <!-- /Sección de Datos Favorables -->
 
-            <!--curvatura-->
-            <div class="wave-container">
-                
-                <svg class="wave" viewBox="0 0 1440 320">
-                    <path fill="#24d7e0" fill-opacity="1"
-                        d="M0,200L100,180C200,160,400,120,600,140C800,160,1000,200,1200,210C1400,220,1440,200,1440,200L1440,320L0,320Z">
-                    </path>  
-                </svg>
+                 <!--linea-->
+        <div class="linea" id="linea-3">
+            <hr>
+        </div>
+        <!--/linea-->
 
-                 <!-- Wave Text dentro del SVG -->
-                 <div class="wave-text">
-                    <h2>Contenido para el cuidado de tu mascota</h2>
-                </div>
-                
-            
-                <!-- Cartas dentro del SVG -->
-                <div class="cartas-cuidado">
-                    <div class="card-pequena">
-                        <img src="/frontend/img/veterinario.jpg" alt="Veterinario">
-                        <div class="card-content">
-                            <h5>Clínica Veterinaria</h5>
-                            <p>Atención 24 horas en Medellín, sector Estadio.</p>
-                        </div>
-                    </div>
-                    <div class="card-pequena">
-                        <img src="/frontend/img/veterinario.jpg" alt="Veterinario">
-                        <div class="card-content">
-                            <h5>Clínica Veterinaria</h5>
-                            <p>Atención 24 horas en Medellín, sector Estadio.</p>
-                        </div>
-                    </div>
-                    <div class="card-pequena">
-                        <img src="/frontend/img/veterinario.jpg" alt="Veterinario">
-                        <div class="card-content">
-                            <h5>Clínica Veterinaria</h5>
-                            <p>Atención 24 horas en Medellín, sector Estadio.</p>
-                        </div>
-                    </div>
-                    <div class="card-pequena">
-                        <img src="/frontend/img/veterinario.jpg" alt="Veterinario">
-                        <div class="card-content">
-                            <h5>Clínica Veterinaria</h5>
-                            <p>Atención 24 horas en Medellín, sector Estadio.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--curvatura-->
+
 
             <!--footer-->
 
-            <footer>
-                <div class="pie-pagina">
-                    <div class="redes-sociales">
-                        <h2>Nuestras redes</h2>
-                        <h3>Siguenos y descubre nuest</h3>
-                        <i class="fa-brands fa-instagram"></i>
-                        <i class="fa-brands fa-facebook"></i>   
-                        <i class="fa-brands fa-tiktok"></i>
-                    </div>
-                    <div class="informacion">
-                        <div class="logo">
-                            <img src="" alt="Logo">
-                        </div>
-                        <div class="horas">
-                            <h2>ATENCIÓN 24 HORAS</h2>
-                            <i class="fa-solid fa-phone-volume"></i>
-                            <p>Telefono: 123456789</p>
-                            <i class="fa-brands fa-whatsapp"></i>
-                            <p>(+57) 311 291 9194</p>
-                            <i class="fa-solid fa-envelope"></i>
-                            <p>servicioalcliente@puntovet.com.co</p>
-                        </div>
-                        <div class="servicios">
-                            <p>Ayudas Diagnósticas</p>
-                            <p>Hospitalización</p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                            <p></p>
-                        </div>
-                    </div>
+            <footer class="pie-pagina">
+                <h2 class="titulo">Nuestras redes</h2>
+                <p class="descripcion">Síguenos y descubre nuestro contenido de interés:</p>
+                
+                <div class="redes-sociales">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-tiktok"></i>
                 </div>
+        
+                <div class="informacion">
+                    <div class="logo-informacion">
+                        <img src="logo.png" alt="Logo Clínica Veterinaria">
+                    </div>
+        
+                    <div class="horas">
+                        <h3>ATENCIÓN 24 HORAS</h3>
+                        <p><i class="fas fa-phone"></i> <strong>Línea de atención:</strong> (+57) 311 291 9194</p>
+                        <p><i class="fab fa-whatsapp"></i> (+57) 311 291 9194</p>
+                        <p><i class="far fa-envelope"></i> servicioalcliente@puntovet.com.co</p>
+                    </div>
+        
+                    <div class="servicios">
+                        <h3>SERVICIOS</h3>
+                        <ul>
+                            <li>Ayudas Diagnósticas</li>
+                            <li>Hospitalización</li>
+                            <li>Urgencias 24 Horas</li>
+                            <li>Cirugía</li>
+                            <li>Medicina Preventiva</li>
+                            <li>Consulta</li>
+                            <li>Trámite de viaje</li>
+                            <li>Laboratorio Clínico</li>
+                        </ul>
+                    </div>
+        
+                    <div class="informacion-adicional">
+                        <h3>INFORMACIÓN</h3>
+                        <ul>
+                            <li>Nosotros</li>
+                            <li>Contáctanos</li>
+                            <li>Preguntas frecuentes sobre cuidado animal</li>
+                            <li>Blog/Noticias</li>
+                            <li>Términos y Condiciones</li>
+                        </ul>
+                    </div>        
+                </div>
+                <div class="footer-custom">
+                    <p><strong>Punto Vet 2022 © Medellín, Colombia</strong></p>
+                    <p>Diseño y desarrollo por Gulupa Digital © 2022</p>
+                    <p class="derechos-reservados">
+                        Todos los derechos reservados | <a href="#">Términos y condiciones</a>
+                    </p>
+                </div> 
             </footer>
-
-
+            
             <!--/footer-->
             
 
