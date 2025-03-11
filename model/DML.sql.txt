@@ -1,0 +1,62 @@
+USE VeterinaryClinic;
+
+-- Insertando clientes
+INSERT INTO client (clientName, phone) VALUES
+('Juan Pérez', '555-1234'),
+('María Gómez', '555-5678'),
+('Carlos López', '555-8765');
+
+-- Insertando razas de mascotas
+INSERT INTO breed (breedName, characteristic) VALUES
+('Labrador', 'Perro amigable y juguetón'),
+('Persa', 'Gato de pelo largo y tranquilo'),
+('Golden Retriever', 'Perro leal y energético');
+
+-- Insertando mascotas
+INSERT INTO pet (clientID, breedID, petName) VALUES
+(1, 1, 'Max'),
+(2, 2, 'Luna'),
+(3, 3, 'Rocky');
+
+-- Insertando ubicaciones (lugares de consulta)
+INSERT INTO place (placeName) VALUES
+('Clínica Central'),
+('Sucursal Norte'),
+('Sucursal Sur');
+
+-- Insertando veterinarios
+INSERT INTO veterinarian (veterinarianName) VALUES
+('Dr. Alejandro Torres'),
+('Dra. Fernanda Ruiz'),
+('Dr. José Martínez');
+
+-- Insertando especialidades veterinarias
+INSERT INTO specialty (specialtyName) VALUES
+('Cirugía'),
+('Dermatología'),
+('Odontología');
+
+-- Relacionando veterinarios con especialidades
+INSERT INTO veterinarianSpecialty (veterinarianID, specialtyID) VALUES
+(1, 1), -- Alejandro Torres - Cirugía
+(1, 2), -- Alejandro Torres - Dermatología
+(2, 3), -- Fernanda Ruiz - Odontología
+(3, 1); -- José Martínez - Cirugía
+
+-- Insertando tratamientos
+INSERT INTO treatment (treatmentName, treatmentDescription) VALUES
+('Vacunación', 'Vacuna contra la rabia y moquillo'),
+('Desparasitación', 'Tratamiento para eliminar parásitos internos'),
+('Cirugía menor', 'Procedimiento quirúrgico ambulatorio');
+
+-- Insertando citas médicas
+INSERT INTO appointment (petID, veterinarianID, placeID, appointmentDate) VALUES
+(1, 1, 1, '2024-03-15'),
+(2, 2, 2, '2024-03-16'),
+(3, 3, 3, '2024-03-17');
+
+-- Relacionando citas con tratamientos realizados
+INSERT INTO appointmentTreatment (appointmentID, treatmentID) VALUES
+(1, 1), -- Primera cita: vacunación
+(2, 2), -- Segunda cita: desparasitación
+(3, 3); -- Tercera cita: cirugía menor

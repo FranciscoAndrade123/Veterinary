@@ -1,0 +1,254 @@
+/* Estilos generales para las cartas */
+.carta-agendamiento, .carta-citas {
+    border: 2px solid #ddd; /* Borde inicial */
+    height: 200px;
+    width: 500px;
+    margin-bottom: 32px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between; /* Separa el contenido y el ícono */
+    align-items: center; /* Centra verticalmente */
+    text-align: left;
+    border-radius: 32px;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transición suave */
+    cursor: pointer; /* Cambia el cursor al pasar sobre la carta */
+    margin-top: -20px;
+}
+
+.carta-agendamiento:hover, .carta-citas:hover {
+    border-color: #14B8C0; /* Borde naranja al pasar el mouse */
+    box-shadow: 0 4px 8px rgba(245, 124, 0, 0.2); /* Sombra naranja */
+}
+
+.carta-agendamiento.seleccionada, .carta-citas.seleccionada {
+    border-color: #14B8C0; /* Borde naranja al seleccionar */
+    box-shadow: 0 4px 8px rgba(245, 124, 0, 0.2); /* Sombra naranja */
+}
+
+.contenido {
+    flex: 1; /* Ocupa el espacio disponible */
+}
+
+/* Estilos para el botón Continuar */
+.boton-continuar {
+    text-align: center; /* Centra el botón horizontalmente */
+    margin-top: -20px; /* Espacio entre las cartas y el botón */
+    width: 100%; /* Ocupa el ancho completo */
+}
+
+.boton-continuar .btn {
+    padding: 10px 30px; /* Ajusta el padding del botón */
+    font-size: 18px; /* Tamaño de la fuente */
+    background-color: #14B8C0; /* Color de fondo */
+    border: none; /* Sin borde */
+    border-radius: 25px; /* Bordes redondeados */
+    color: white; /* Color del texto */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s; /* Transición suave */
+    margin-bottom: 30px;
+}
+
+.boton-continuar .btn:hover {
+    background-color: #0f8a8f; /* Cambia el color al pasar el mouse */
+}
+
+/* Estilos para las animaciones y transiciones */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Estilos para el botón continuar */
+.btn.activo {
+    background-color: #14B8C0;
+    box-shadow: 0 4px 8px rgba(20, 184, 192, 0.3);
+}
+
+.btn:not(.activo) {
+    background-color: #a8a8a8;
+    cursor: not-allowed;
+}
+
+/* Estilos para la transición de los íconos */
+.carta-agendamiento i, .carta-citas i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Estilos para el indicador de pasos */
+.pasos-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.indicador-paso {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.indicador-paso.activo {
+    background-color: #14B8C0;
+    color: white;
+}
+
+.indicador-paso.completado {
+    background-color: #0f8a8f;
+    color: white;
+}
+
+.indicador-paso:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 2px;
+    background-color: #e0e0e0;
+}
+
+.indicador-paso.completado:not(:last-child)::after {
+    background-color: #0f8a8f;
+}
+
+.formulario {
+    width: 550px;
+    height: 320px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.formulario-2{
+    width: 550px;
+    height: 320px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 80px;
+}
+
+.formulario-2 h5{
+    margin-bottom: 15px;
+    color: #14B8C0; /* Azul marino */
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.formulario h5 {
+    margin-bottom: 15px;
+    color: #14B8C0; /* Azul marino */
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.campo label {
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #14B8C0; /* Azul marino */
+}
+
+.campo input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 14px;
+    transition: 0.3s ease-in-out;
+}
+
+.campo input:focus {
+    border-color: #1f3c88;
+    box-shadow: 0px 0px 8px rgba(31, 60, 136, 0.5);
+    outline: none;
+}
+
+.telefono {
+    display: flex;
+}
+
+
+.telefono input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s ease-in-out;
+}
+
+
+.telefono input:focus {
+    border-color: #1f3c88;
+    box-shadow: 0px 0px 8px rgba(31, 60, 136, 0.5);
+    outline: none;
+}
+
+.telefono input {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.especie {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px
+}
+
+.especie label{
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #14B8C0; /* Azul marino */
+}
+
+.especie select{
+    width: 100%;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.3s ease-in-out;
+}

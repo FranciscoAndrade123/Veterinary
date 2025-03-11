@@ -1,0 +1,87 @@
+/* Estilos para la sección Nosotros */
+.nosotros {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.nosotros h2 {
+    color: #14B8C0;
+    font-weight: bolder;
+    text-align: left;
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.nosotros p {
+    text-align: left;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.nosotros ul {
+    text-align: left;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #555;
+}
+
+.nosotros ul li {
+    margin-bottom: 10px;
+}
+
+/* Estilos para la imagen */
+.imagen img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la sección de Caracterización */
+.caracterizacion {
+    margin-top: 40px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.caracterizacion h2 {
+    color: #14B8C0;
+    font-weight: bolder;
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.caracterizacion ul {
+    text-align: left;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #555;
+}
+
+.caracterizacion ul li {
+    margin-bottom: 10px;
+}
+
+/* Estilos para el botón de contacto */
+.boton-contacto {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #14B8C0;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.boton-contacto:hover {
+    background-color: #0f8a8f;
+}
+
+.boton-contacto i {
+    margin-right: 10px;
+}

@@ -1,0 +1,89 @@
+CREATE DATABASE VeterinaryClinic;
+USE VeterinaryClinic;
+
+-- Tabla de clientes
+CREATE TABLE client (
+    clientID INT(11) NOT NULL AUTO_INCREMENT,
+    clientName VARCHAR(200) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    PRIMARY KEY (clientID)
+);
+
+-- Tabla de razas de mascotas
+CREATE TABLE breed (
+    breedID INT(11) NOT NULL AUTO_INCREMENT,
+    breedName VARCHAR(50) NOT NULL,
+    characteristic VARCHAR(150) NOT NULL,
+    PRIMARY KEY (breedID)
+);
+
+-- Tabla de mascotas
+CREATE TABLE pet (
+    petID INT(11) NOT NULL AUTO_INCREMENT,
+    clientID INT(11) NOT NULL,
+    breedID INT(11) NOT NULL,
+    petName VARCHAR(150) NOT NULL,
+    PRIMARY KEY (petID),
+    FOREIGN KEY (clientID) REFERENCES client(clientID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (breedID) REFERENCES breed(breedID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de ubicaciones (lugares de consulta)
+CREATE TABLE place (
+    placeID INT(11) NOT NULL AUTO_INCREMENT,
+    placeName VARCHAR(100) NOT NULL,
+    PRIMARY KEY (placeID)
+);
+
+-- Tabla de veterinarios
+CREATE TABLE veterinarian (
+    veterinarianID INT(11) NOT NULL AUTO_INCREMENT,
+    veterinarianName VARCHAR(200) NOT NULL,
+    PRIMARY KEY (veterinarianID)
+);
+
+-- Tabla de especialidades
+CREATE TABLE specialty (
+    specialtyID INT(11) NOT NULL AUTO_INCREMENT,
+    specialtyName VARCHAR(100) NOT NULL,
+    PRIMARY KEY (specialtyID)
+);
+
+-- Relación entre veterinarios y especialidades (Muchos a Muchos)
+CREATE TABLE veterinarianSpecialty (
+    veterinarianID INT(11) NOT NULL,
+    specialtyID INT(11) NOT NULL,
+    PRIMARY KEY (veterinarianID, specialtyID),
+    FOREIGN KEY (veterinarianID) REFERENCES veterinarian(veterinarianID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (specialtyID) REFERENCES specialty(specialtyID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de tratamientos
+CREATE TABLE treatment (
+    treatmentID INT(11) NOT NULL AUTO_INCREMENT,
+    treatmentName VARCHAR(150) NOT NULL,
+    treatmentDescription VARCHAR(255) NOT NULL,
+    PRIMARY KEY (treatmentID)
+);
+
+-- Tabla de citas médicas
+CREATE TABLE appointment (
+    appointmentID INT(11) NOT NULL AUTO_INCREMENT,
+    petID INT(11) NOT NULL,
+    veterinarianID INT(11) NOT NULL,
+    placeID INT(11) NOT NULL,
+    appointmentDate DATE NOT NULL,
+    PRIMARY KEY (appointmentID),
+    FOREIGN KEY (petID) REFERENCES pet(petID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (veterinarianID) REFERENCES veterinarian(veterinarianID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (placeID) REFERENCES place(placeID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Relación entre citas y tratamientos (Muchos a Muchos)
+CREATE TABLE appointmentTreatment (
+    appointmentID INT(11) NOT NULL,
+    treatmentID INT(11) NOT NULL,
+    PRIMARY KEY (appointmentID, treatmentID),
+    FOREIGN KEY (appointmentID) REFERENCES appointment(appointmentID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (treatmentID) REFERENCES treatment(treatmentID) ON DELETE CASCADE ON UPDATE CASCADE
+);

@@ -15,11 +15,66 @@ public class appointment {
     // Clave primaria
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointmentld") // Asegúrate de que el nombre coincida con la base de datos
-    private int appointmentld;
+    @Column(name = "appointmentID") // Asegúrate de que el nombre coincida con la base de datos
+    private int appointmentID;
+
+    // Fecha de la cita
+    @Column(name = "appointmentDate", nullable = false)
+    private LocalDate appointmentDate;
+
+    // Relación ManyToOne con pet
+    @ManyToOne
+    @JoinColumn(name = "petID", nullable = false) // Asegúrate de que el nombre coincida con la base de datos
+    private pet pet;
+
+    // Relación ManyToOne con veterinarian
+    @ManyToOne
+    @JoinColumn(name = "veterinarianID", nullable = false) // Asegúrate de que el nombre coincida con la base de datos
+    private veterinarian veterinarian;
+
+    // Constructor vacío (necesario para JPA)
+    public appointment() {}
+
+    // Constructor con parámetros
+    public appointment(LocalDate appointmentDate, pet pet, veterinarian veterinarian) {
+        this.appointmentDate = appointmentDate;
+        this.pet = pet;
+        this.veterinarian = veterinarian;
+    }
+
+    // Getters y Setters
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    public void setAppointmentID(int appointmentID) {
+        this.appointmentID = appointmentID;
+    }
+
+    public LocalDate getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public pet getPet() {
+        return pet;
+    }
+
+    public void setPet(pet pet) {
+        this.pet = pet;
+    }
+
+    public veterinarian getVeterinarian() {
+        return veterinarian;
+    }
+
+    public void setVeterinarian(veterinarian veterinarian) {
+        this.veterinarian = veterinarian;
+    }
+
 
     
-    // Fecha de la cita
-    @Column(name = "appointmentDate", nullable = false) //
-    private LocalDate  appointmentDate;
 }
