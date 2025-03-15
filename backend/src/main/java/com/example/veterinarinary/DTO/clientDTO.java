@@ -4,6 +4,7 @@ public class clientDTO {
     private String clientName ;
     private String phone;
 
+    public clientDTO(){};
     public clientDTO(String clientName, String phone) {
         this.clientName = clientName;
         this.phone = phone;

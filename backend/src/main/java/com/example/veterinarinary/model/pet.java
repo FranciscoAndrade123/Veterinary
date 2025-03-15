@@ -33,7 +33,6 @@ public class pet {
 
     // Constructor vacío (necesario para JPA)
     public pet() {}
-
     // Constructor con parámetros
     public pet(String petName, client client, breed breed) {
         this.petName = petName;

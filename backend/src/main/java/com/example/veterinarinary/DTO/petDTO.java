@@ -1,16 +1,21 @@
 package com.example.veterinarinary.DTO;
 
+
+
+import com.example.veterinarinary.model.breed;
+import com.example.veterinarinary.model.client;
+
 public class petDTO {
     
     private String petName;
-    private int clientID;
-    private int breedID;
+    private client clientID;
+    private breed breedID;
 
     // Constructor vacío (necesario para frameworks como Spring)
     public petDTO() {}
 
     // Constructor con parámetros
-    public petDTO(String petName, int clientID, int breedID) {
+    public petDTO(String petName, client clientID, breed breedID) {
         this.petName = petName;
         this.clientID = clientID;
         this.breedID = breedID;
@@ -25,19 +30,19 @@ public class petDTO {
         this.petName = petName;
     }
 
-    public int getClientID() {
-        return clientID;
+    public client getClientID() {
+        return  clientID;
     }
 
-    public void setClientID(int clientID) {
+    public void setClientID(client clientID) {
         this.clientID = clientID;
     }
 
-    public int getBreedID() {
+    public breed getBreedID() {
         return breedID;
     }
 
-    public void setBreedID(int breedID) {
+    public void setBreedID(breed breedID) {
         this.breedID = breedID;
     }
 }

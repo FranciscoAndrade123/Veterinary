@@ -23,6 +23,7 @@ public class client {
     @Column(name="phone ",length = 15,nullable = false)
     private String phone ;
 
+    public client () {};
     //constructor
     public client (int clientID,String clientName ,String phone ){
         this.clientID = clientID;
