@@ -1,14 +1,17 @@
 package com.example.veterinarinary.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.RestController;
 import com.example.veterinarinary.DTO.breedDTO;
+import com.example.veterinarinary.DTO.responseDTO;
 import com.example.veterinarinary.service.breedService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/breed")
@@ -19,11 +22,28 @@ public class breedController {
 
     @PostMapping("/")
     public ResponseEntity<Object> createBreed(@RequestBody breedDTO breedDTO) {
-        try {
-            breedService.save(breedDTO); // Guarda la raza usando el servicio
-            return new ResponseEntity<>("Breed created successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        responseDTO response = breedService.save(breedDTO);
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(response, status);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<breedDTO>> getAllBreeds() {
+        return new ResponseEntity<>(breedService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getBreedById(@PathVariable int id) {
+        Optional<breedDTO> breed = breedService.findById(id);
+        return breed.isPresent()
+            ? new ResponseEntity<>(breed.get(), HttpStatus.OK)
+            : new ResponseEntity<>(new responseDTO(HttpStatus.NOT_FOUND.toString(), "La raza no existe"), HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteBreed(@PathVariable int id) {
+        responseDTO response = breedService.deleteBreed(id);
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(response, status);
     }
 }

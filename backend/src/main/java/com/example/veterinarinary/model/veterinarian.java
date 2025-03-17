@@ -21,6 +21,9 @@ public class veterinarian {
     @Column(name="veterinarianName",length = 200,nullable = false)
     private String veterinarianName ;
 
+    //constructor vacio
+    public veterinarian () {}
+
        //constructor
        public veterinarian (int veterinarianID,String veterinarianName  ){
         this.veterinarianID = veterinarianID;

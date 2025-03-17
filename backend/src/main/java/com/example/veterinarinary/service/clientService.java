@@ -28,11 +28,35 @@
         private iclient data;
 
 
-        // Método para guardar (Registrar y Actualizar)
-        public void save(clientDTO clientDTO) {
-            client userRegister = converToModel(clientDTO);
-            data.save(userRegister);
-        }
+ // register and update
+ public responseDTO save(clientDTO clientDTO) {
+    // Validation for client name (empty or exceeds length)
+    if (clientDTO.getclientName() == null || 
+            clientDTO.getclientName().trim().isEmpty() ||
+            clientDTO.getclientName().length() > 150) {
+        responseDTO respuesta = new responseDTO(
+                HttpStatus.BAD_REQUEST.toString(),
+                "El nombre del cliente no puede estar vacío y debe tener máximo 150 caracteres");
+        return respuesta;
+    }
+
+    // Validation for phone number (must be numeric only)
+    String phone = clientDTO.getphone();
+    if (phone == null || !phone.matches("\\d+")) {
+        responseDTO respuesta = new responseDTO(
+                HttpStatus.BAD_REQUEST.toString(),
+                "El número de teléfono debe contener solo dígitos numéricos");
+        return respuesta;
+    }
+    
+    // If validations pass, proceed with saving
+    client clientRegister = converToModel(clientDTO);
+    data.save(clientRegister);
+    responseDTO respuesta = new responseDTO(
+            HttpStatus.OK.toString(),
+            "Se guardó correctamente");
+    return respuesta;
+  }
 
         // Convertir de Entidad a DTO
         public clientDTO convertToDTO(client client) {
@@ -52,7 +76,6 @@
         }
 
         //buscar todos los registros
-
         public List <client> findAll(){ 
             return data.findAll();
         }
@@ -66,7 +89,7 @@
             if (!findById(id).isPresent()) {
                 responseDTO respuesta = new responseDTO(
                         HttpStatus.OK.toString(),
-                        "The register does not exist");
+                        "El registro no existe");
                 return respuesta;
             }
             data.deleteById(id);
@@ -75,9 +98,5 @@
                     "Se eliminó correctamente");
             return respuesta;
         }
-    
-
-        
-
 
     }   

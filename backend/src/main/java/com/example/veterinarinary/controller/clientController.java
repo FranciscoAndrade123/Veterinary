@@ -3,6 +3,8 @@ package com.example.veterinarinary.controller;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.veterinarinary.DTO.clientDTO;
 import com.example.veterinarinary.service.clientService;
+import com.example.veterinarinary.DTO.responseDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +27,22 @@ public class clientController {
     @PostMapping("/")
     public ResponseEntity<Object> registerUser(@RequestBody clientDTO clientDTO) {
         try {
-            clientService.save(clientDTO);
-            return new ResponseEntity<>("register OK", HttpStatus.OK);
+            // Utiliza el método save modificado que devuelve responseDTO
+            responseDTO response = clientService.save(clientDTO);
+            
+            // Determina el HttpStatus basado en el status del responseDTO
+            HttpStatus httpStatus = response.getStatus().equals(HttpStatus.OK.toString()) 
+                ? HttpStatus.OK 
+                : HttpStatus.BAD_REQUEST;
+            
+            // Devuelve el responseDTO completo con el status HTTP apropiado
+            return new ResponseEntity<>(response, httpStatus);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            // En caso de excepción, crea un responseDTO de error
+            responseDTO errorResponse = new responseDTO(
+                "Error: " + e.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR.toString());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping("/")

@@ -20,6 +20,10 @@ public class specialty {
     @Column(name="specialtyName",length = 100,nullable = false)
     private String specialtyName ;
 
+    // constructo vacio
+
+    public specialty() {}
+
      //constructor
      public specialty (int specialtyID,String specialtyName  ){
         this.specialtyID = specialtyID;
