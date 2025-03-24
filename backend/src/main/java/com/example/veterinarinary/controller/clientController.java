@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+
 @RestController
 @RequestMapping("/api/v1/client")
 public class clientController {
@@ -72,4 +74,19 @@ public class clientController {
         
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-}
+
+    /*
+     *     @GetMapping("/filter/{filter}")
+         public ResponseEntity<Object> getListUserForName(@PathVariable String filter) {
+        var userList = userService.getListUserForName(filter);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+     */
+
+     @GetMapping("/filter/{filter}")
+      public ResponseEntity<Object> getListClientForName(@PathVariable String filter) {
+        var listaCliente = clientService.getListClientForName(filter);
+        return new ResponseEntity<>(listaCliente, HttpStatus.OK);
+      }
+     
+}   

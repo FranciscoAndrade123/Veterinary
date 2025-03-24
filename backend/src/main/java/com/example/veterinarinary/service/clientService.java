@@ -71,13 +71,19 @@
             return new client(
                 0,  // ID, se generará automáticamente
                 clientDTO.getclientName(),  // Método corregido
-                clientDTO.getphone()        // Método corregido
+                clientDTO.getphone()  ,      // Método corregido
+                true // se agregó el status del cliente 
             );
         }
 
         //buscar todos los registros
         public List <client> findAll(){ 
-            return data.findAll();
+            return data.getListClientActive();
+        }
+
+        //función de filtrar
+        public List <client> getListClientForName(String filter){
+             return data.getListClientForName(filter);
         }
 
         //busca mediante el id

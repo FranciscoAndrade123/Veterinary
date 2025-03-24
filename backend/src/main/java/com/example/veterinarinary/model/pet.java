@@ -17,7 +17,7 @@ public class pet {
     @Column(name = "petld") // Asegúrate de que el nombre coincida con la base de datos
     private int petID;
 
-    // Nombre de la mascota
+    // Nombre de la mascota 
     @Column(name = "pet_name", length = 150, nullable = false) // Asegúrate de que el nombre coincida con la base de datos
     private String petName;
 

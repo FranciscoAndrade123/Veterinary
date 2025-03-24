@@ -23,12 +23,19 @@ public class client {
     @Column(name="phone ",length = 15,nullable = false)
     private String phone ;
 
+
+    //estado del usuario
+    @Column(name="status",nullable = false,  columnDefinition = "boolean default true ")
+    private boolean status ;
+    
+
     public client () {};
     //constructor
-    public client (int clientID,String clientName ,String phone ){
+    public client (int clientID,String clientName ,String phone , boolean status) {
         this.clientID = clientID;
         this.clientName = clientName;
         this.phone = phone;
+        this.status = status;
      }
 
     //set del ID 
@@ -59,8 +66,14 @@ public class client {
         this.phone = phone;
     }
 
-    
-      
+    // Getter y Setter para status
+    public boolean getStatus() {
+        return status;
+    }
 
+    // Setter para status
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
      
 }

@@ -108,7 +108,7 @@
 }
 
 .presentacion h2 span {
-    color: #e74c3c; /* Rojo */
+    color: #1d2d50;
 }
 
 .negro {
@@ -284,14 +284,13 @@
     transform: translate(-50%, -50%);
 }
 
-.datos{
+.datos {
     width: 100%;
-    position: relative; 
-    top: -30px; 
+    position: relative;
+    top: -30px;
 }
 
-
-.fondo{
+.fondo {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -299,37 +298,68 @@
     opacity: 0.3; /* Efecto translúcido */
 }
 
-.fondo-gris{
+.fondo-gris {
     position: relative;
     width: 98%;
-    margin-left: 10px;
+    margin: 0 auto;
     height: 320px;
-    background: rgb(155, 150, 150); /* Azul claro */
-    overflow:auto;
-    border-radius: 2%;
+    background: rgb(155, 150, 150); /* Color de fondo */
+    overflow: hidden;
+    border-radius: 15px;
 }
 
-.fondo-gris img{
-    opacity: 0.3; /* Hace la imagen más transparente */
-    filter: brightness(50%) blur(2px); /* Reduce brillo y aplica un leve desenfoque */
-
+.fondo-gris img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3; /* Transparencia */
+    filter: brightness(50%) blur(2px); /* Reduce brillo y aplica desenfoque */
 }
-
-
 
 .texto-superpuesto {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%; /* Ajusta el ancho para que los elementos no queden pegados a los bordes */
+    width: 90%;
     display: flex;
-    justify-content: space-around; /* Distribuye los elementos equitativamente */
+    justify-content: space-around;
     text-align: center;
-    color: white; /* Ajusta el color del texto para que resalte */
+    color: white;
     font-size: 20px;
     font-weight: bold;
+    flex-wrap: wrap; /* Para mejorar la adaptabilidad en pantallas pequeñas */
 }
+
+.col {
+    flex: 1;
+    min-width: 200px; /* Para que los elementos no se compriman demasiado en móviles */
+    padding: 10px;
+}
+
+.col h2 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.col strong {
+    font-size: 36px;
+    color: #ffcc00; /* Color llamativo para los números */
+    display: block;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .texto-superpuesto {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col {
+        margin-bottom: 15px;
+    }
+}
+
 
 #linea-3 hr{
     width: 75%;
