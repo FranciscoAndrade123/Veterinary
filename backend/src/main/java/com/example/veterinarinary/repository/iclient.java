@@ -21,7 +21,7 @@ public interface  iclient extends JpaRepository
      List<client> getListClientActive();
 
 
-    
+    //este funcion es para obtener mediante filtraciones el nombre del cliente
     @Query("SELECT cl FROM client cl WHERE cl.clientName LIKE %?1%")
     List<client> getListClientForName(String filter);
      

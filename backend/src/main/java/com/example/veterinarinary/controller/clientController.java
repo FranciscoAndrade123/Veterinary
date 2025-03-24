@@ -75,13 +75,7 @@ public class clientController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    /*
-     *     @GetMapping("/filter/{filter}")
-         public ResponseEntity<Object> getListUserForName(@PathVariable String filter) {
-        var userList = userService.getListUserForName(filter);
-        return new ResponseEntity<>(userList, HttpStatus.OK);
-    }
-     */
+
 
      @GetMapping("/filter/{filter}")
       public ResponseEntity<Object> getListClientForName(@PathVariable String filter) {

@@ -3,7 +3,6 @@ package com.example.veterinarinary.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.web.bind.annotation.RestController;
 import com.example.veterinarinary.DTO.breedDTO;
 import com.example.veterinarinary.DTO.responseDTO;
 import com.example.veterinarinary.service.breedService;
@@ -46,4 +45,10 @@ public class breedController {
         HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(response, status);
     }
+
+      @GetMapping("/filter/{filter}")
+      public ResponseEntity<Object> getListClientForName(@PathVariable String filter) {
+        var listaRaza = breedService.getListBreedForName(filter);
+        return new ResponseEntity<>(listaRaza, HttpStatus.OK);
+      }
 }

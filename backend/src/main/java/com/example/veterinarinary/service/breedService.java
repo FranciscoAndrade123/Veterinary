@@ -59,6 +59,11 @@ public class breedService {
         return new responseDTO(HttpStatus.OK.toString(), "Raza eliminada correctamente");
     }
 
+    //filtrar el nombre de la mascota
+    public List<breed> getListBreedForName(String filter){
+        return data.getListBreedForName(filter);
+    }
+
     // Convertir de Entidad a DTO
     public breedDTO convertToDTO(breed breed) {
         return new breedDTO(
