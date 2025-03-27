@@ -31,6 +31,7 @@
 
 /* Estilos para el botón Continuar */
 .boton-continuar {
+    margin-left: 50%;
     text-align: center; /* Centra el botón horizontalmente */
     margin-top: -20px; /* Espacio entre las cartas y el botón */
     width: 100%; /* Ocupa el ancho completo */

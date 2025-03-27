@@ -32,14 +32,20 @@ public class appointment {
     @JoinColumn(name = "veterinarianID", nullable = false) // Asegúrate de que el nombre coincida con la base de datos
     private veterinarian veterinarian;
 
+    // Relacion con place
+    @ManyToOne 
+    @JoinColumn (name = "placeID" , nullable = false )
+    private place place;
+
     // Constructor vacío (necesario para JPA)
     public appointment() {}
 
     // Constructor con parámetros
-    public appointment(LocalDate appointmentDate, pet pet, veterinarian veterinarian) {
+    public appointment(LocalDate appointmentDate, pet pet, veterinarian veterinarian, place place) {
         this.appointmentDate = appointmentDate;
         this.pet = pet;
         this.veterinarian = veterinarian;
+        this.place = place;
     }
 
     // Getters y Setters
@@ -73,6 +79,14 @@ public class appointment {
 
     public void setVeterinarian(veterinarian veterinarian) {
         this.veterinarian = veterinarian;
+    }
+
+    public place getPlace(){
+        return place;
+    }
+
+    public void setPlace(place place){
+        this.place = place;
     }
 
 
