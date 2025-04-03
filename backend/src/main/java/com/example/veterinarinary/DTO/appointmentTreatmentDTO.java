@@ -1,24 +1,23 @@
 package com.example.veterinarinary.DTO;
 
-import com.example.veterinarinary.model.appointment;
-import com.example.veterinarinary.model.treatment;
+
 
 
 public class appointmentTreatmentDTO {
 
     private int id;
-    private appointment appointmentID;
-    private treatment treatmentId;
+    private int appointmentID;
+    private int treatmentID;
 
     //constructor vacio
     public appointmentTreatmentDTO() {}
     
 
     //constructor 
-    public appointmentTreatmentDTO(int id, appointment appointmentID, treatment treatmentId) {
+    public appointmentTreatmentDTO(int id, int appointmentID, int treatmentID) {
         this.id = id;
         this.appointmentID = appointmentID;
-        this.treatmentId = treatmentId;
+        this.treatmentID = treatmentID;
     }
 
     //setters y getters
@@ -31,20 +30,20 @@ public class appointmentTreatmentDTO {
         this.id = id;
     }
 
-    public appointment getAppointmentID() {
+    public int getAppointmentID() {
         return appointmentID;
     }
 
-    public void setAppointmentID(appointment appointmentID) {
+    public void setAppointmentID(int appointmentID) {
         this.appointmentID = appointmentID;
     }
 
-    public treatment getTreatmentId() {
-        return treatmentId;
+    public int getTreatmentID() {
+        return treatmentID;
     }
 
-    public void setTreatmentId(treatment treatmentId) {
-        this.treatmentId = treatmentId;
+    public void setTreatmentID(int treatmentID) {
+        this.treatmentID = treatmentID;
     }
 
 }
