@@ -1,5 +1,6 @@
 package com.example.veterinarinary.DTO;
 
+import com.example.veterinarinary.model.veterinarianSpecialty;
 
 public class responseDTO {
     private String message;
@@ -11,6 +12,10 @@ public class responseDTO {
     }
 
     public responseDTO(){}
+
+    public responseDTO(String string, veterinarianSpecialty veterinarianSpecialty) {
+        //TODO Auto-generated constructor stub
+    }
 
     // getters and setters
     public String getMessage() {

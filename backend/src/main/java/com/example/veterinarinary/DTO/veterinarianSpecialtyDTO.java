@@ -1,51 +1,43 @@
 package com.example.veterinarinary.DTO;
 
-import com.example.veterinarinary.model.veterinarian;
-import com.example.veterinarinary.model.specialty;
-
 public class veterinarianSpecialtyDTO {
 
     private int id;
-    private veterinarian veterinarianID;
-    private specialty specialtyID;
+    private int veterinarianID;  // Solo almacenar el ID
+    private int specialtyID;     // Solo almacenar el ID
 
-    // constructo vacio 
-    public veterinarianSpecialtyDTO (){}
+    // Constructor vacío
+    public veterinarianSpecialtyDTO() {}
 
-    // constructor
-    public veterinarianSpecialtyDTO(int id, veterinarian veterinarianID, specialty specialtyID) {
+    // Constructor
+    public veterinarianSpecialtyDTO(int id, int veterinarianID, int specialtyID) {
         this.id = id;
         this.veterinarianID = veterinarianID;
-        this.specialtyID= specialtyID;
+        this.specialtyID = specialtyID;
     }
 
-    //getters y setters 
-
+    // Getters y Setters
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
-       this.id = id;
+        this.id = id;
     }
 
-    public veterinarian getVeterinarianID() {
+    public int getVeterinarianID() {
         return veterinarianID;
     }
 
-    public void setVeterinarianID(veterinarian veterinarianID) {
+    public void setVeterinarianID(int veterinarianID) {
         this.veterinarianID = veterinarianID;
     }
 
-    public specialty getSpecialtyID() {
+    public int getSpecialtyID() {
         return specialtyID;
     }
 
-    public void setSpecialtyID(specialty specialtyID) {
+    public void setSpecialtyID(int specialtyID) {
         this.specialtyID = specialtyID;
     }
-
-
-    
-    
 }
