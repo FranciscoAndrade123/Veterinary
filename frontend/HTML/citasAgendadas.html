@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas</title>
+    <link rel="stylesheet" href="/frontend/CSS/style.CSS">
+    <link rel="stylesheet" href="/frontend/CSS/cita.css">
+    <link rel="stylesheet" href="/frontend/CSS/agendas.css">
+    <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
+</head>
+<body>
+     <!-- Curvatura -->
+     <svg class="curvatura" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+        <path fill="#14b7c0be" fill-opacity="1"
+          d="M0,192L80,181.3C160,171,320,149,480,154.7C640,160,800,192,960,197.3C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
+        </path>
+      </svg>
+
+    <!--navegador-->
+  <nav class="navegacion">
+    <div class="logo">
+        <img src="/frontend/img/petvetLogo.png" alt="Logo">
+    </div>
+
+    <div class="menu">
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="cita.html">Citas</a>
+    </div>
+    </nav>  
+ <!--/navegador-->
+
+ <div class="agendamiento-citas">
+    <div class="titulo-agendamiento">
+        <h3><i class="fas fa-calendar-check"></i> Mis Citas Agendadas</h3>
+    </div>
+    <div class="filtrador">
+        <h3>Busca la cita de tu mascota</h3>
+        <input type="text" placeholder="Ingresa el nombre de tu mascota">
+        <button><i class="fas fa-search"></i> Buscar</button>
+    </div>
+    <div class="agendamiento">
+        <!-- Cita 1 -->
+        <div class="cita-card">
+            <div class="cita-header">
+                <div class="cita-mascota">
+                    <div class="cita-mascota-icono">
+                        <i class="fas fa-dog"></i>
+                    </div>
+                    <div class="cita-mascota-info">
+                        <h4>Max</h4>
+                        <p>Dueño: Juan Pérez</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cita-body">
+                <div class="cita-columna">
+                    <div class="cita-info">
+                        <strong>Raza:</strong>
+                        <span>Labrador Retriever</span>
+                    </div>
+                    <div class="cita-info">
+                        <strong>Veterinario:</strong>
+                        <span>Dra. Laura Martínez</span>
+                    </div>
+                    <div class="cita-info">
+                        <strong>Lugar:</strong>
+                        <span>Sede Principal</span>
+                    </div>
+                </div>
+                <div class="cita-columna">
+                    <div class="cita-info">
+                        <strong>Tratamiento:</strong>
+                        <span>Consulta de rutina</span>
+                    </div>
+                    <div class="cita-info">
+                        <strong>Teléfono:</strong>
+                        <span>310-555-1234</span>
+                    </div>
+                </div>
+                <div class="cita-fecha">
+                    <div class="fecha">15 de Noviembre, 2023</div>
+                </div>
+            </div>
+            <div class="cita-acciones">
+                <button class="btn-accion btn-editar" onclick="editarCita(1)">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="btn-accion btn-eliminar" onclick="eliminarCita(1)">
+                    <i class="fas fa-trash-alt"></i> Eliminar
+                </button>
+            </div>
+        </div>
+   
+       <!-- Cita 2 -->
+       <div class="cita-card">
+           <div class="cita-header">
+               <div class="cita-mascota">
+                   <div class="cita-mascota-icono">
+                       <i class="fas fa-cat"></i>
+                   </div>
+                   <div class="cita-mascota-info">
+                       <h4>Luna</h4>
+                       <p>Dueño: María Gómez</p>
+                   </div>
+               </div>
+           </div>
+           <div class="cita-body">
+               <div class="cita-columna">
+                   <div class="cita-info">
+                       <strong>Raza:</strong>
+                       <span>Persa</span>
+                   </div>
+                   <div class="cita-info">
+                       <strong>Veterinario:</strong>
+                       <span>Dr. Carlos Rodríguez</span>
+                   </div>
+                   <div class="cita-info">
+                       <strong>Lugar:</strong>
+                       <span>Sede Norte</span>
+                   </div>
+               </div>
+               <div class="cita-columna">
+                   <div class="cita-info">
+                       <strong>Tratamiento:</strong>
+                       <span>Limpieza dental</span>
+                   </div>
+                   <div class="cita-info">
+                       <strong>Teléfono:</strong>
+                       <span>320-555-5678</span>
+                   </div>
+               </div>
+               <div class="cita-fecha">
+                   <div class="fecha">20 de Noviembre, 2023</div>
+               </div>
+           </div>
+           <div class="cita-acciones">
+               <button class="btn-accion btn-editar" onclick="editarCita(2)">
+                   <i class="fas fa-edit"></i> Editar
+               </button>
+               <button class="btn-accion btn-eliminar" onclick="eliminarCita(2)">
+                   <i class="fas fa-trash-alt"></i> Eliminar
+               </button>
+           </div>
+       </div>
+   
+      <!-- Cita 3 -->
+      <div class="cita-card">
+           <div class="cita-header">
+               <div class="cita-mascota">
+                   <div class="cita-mascota-icono">
+                       <i class="fas fa-dog"></i>
+                   </div>
+                   <div class="cita-mascota-info">
+                       <h4>Rocky</h4>
+                       <p>Dueño: Andrés López</p>
+                   </div>
+               </div>
+           </div>
+           <div class="cita-body">
+               <div class="cita-columna">
+                   <div class="cita-info">
+                       <strong>Raza:</strong>
+                       <span>Bulldog Francés</span>
+                   </div>
+                   <div class="cita-info">
+                       <strong>Veterinario:</strong>
+                       <span>Dra. Sofía Ramírez</span>
+                   </div>
+                   <div class="cita-info">
+                       <strong>Lugar:</strong>
+                       <span>Sede Sur</span>
+                   </div>
+               </div>
+               <div class="cita-columna">
+                   <div class="cita-info">
+                       <strong>Tratamiento:</strong>
+                       <span>Vacunación anual</span>
+                   </div>
+                   <div class="cita-info">
+                       <strong>Teléfono:</strong>
+                       <span>315-555-9012</span>
+                   </div>
+               </div>
+               <div class="cita-fecha">
+                   <div class="fecha">5 de Diciembre, 2023</div>
+               </div>
+           </div>
+           <div class="cita-acciones">
+               <button class="btn-accion btn-editar" onclick="editarCita(3)">
+                   <i class="fas fa-edit"></i> Editar
+               </button>
+               <button class="btn-accion btn-eliminar" onclick="eliminarCita(3)">
+                   <i class="fas fa-trash-alt"></i> Eliminar
+               </button>
+           </div>
+       </div>
+    </div>
+   </div>
+   
+
+<script src="/frontend/JS/modal.js"></script>
+</body>
+</html>

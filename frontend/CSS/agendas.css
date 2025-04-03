@@ -1,0 +1,230 @@
+/* Estilos mejorados para el listado de citas */
+.agendamiento {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.cita-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-top: 4px solid #14B8C0;
+}
+
+.cita-card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.cita-header {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cita-mascota {
+    display: flex;
+    align-items: center;
+}
+
+.cita-mascota-icono {
+    background-color: #14B8C0;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+.cita-mascota-info h4 {
+    color: #1f3c88;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.cita-mascota-info p {
+    color: #666;
+    margin: 3px 0 0;
+    font-size: 0.9rem;
+}
+
+.estado-cita {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.estado-confirmada {
+    background-color: #e6f7f0;
+    color: #00a76f;
+}
+
+.estado-pendiente {
+    background-color: #fff7e6;
+    color: #ff9e00;
+}
+
+.cita-body {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.cita-info {
+    margin-bottom: 12px;
+    display: flex;
+}
+
+.cita-info strong {
+    color: #1f3c88;
+    display: inline-block;
+    min-width: 100px;
+    font-weight: 600;
+}
+
+.cita-info span {
+    color: #555;
+}
+
+.cita-fecha {
+    background-color: #f0f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    grid-column: span 2;
+    margin-top: 10px;
+}
+
+.cita-fecha .fecha {
+    font-size: 1.1rem;
+    color: #1f3c88;
+    font-weight: 600;
+}
+
+.cita-fecha .hora {
+    font-size: 0.9rem;
+    color: #14B8C0;
+    margin-top: 5px;
+}
+
+.filtrador {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.filtrador h3 {
+    color: #1f3c88;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.filtrador input {
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    width: 60%;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+.filtrador input:focus {
+    border-color: #14B8C0;
+    outline: none;
+}
+
+.filtrador button {
+    padding: 12px 25px;
+    background-color: #14B8C0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.filtrador button:hover {
+    background-color: #1f3c88;
+    transform: translateY(-2px);
+}
+
+.titulo-agendamiento h3 {
+    text-align: center;
+    color: #1f3c88;;
+    font-size: 2rem;
+    margin-top: 20px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Estilos adicionales para los botones CRUD */
+.cita-acciones {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    gap: 10px;
+}
+
+.btn-accion {
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-editar {
+    background-color: #1f3c88;
+    color: white;
+    border: none;
+}
+
+.btn-editar:hover {
+    background-color: #142a5e;
+    transform: translateY(-2px);
+}
+
+.btn-eliminar {
+    background-color: #fff;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.btn-eliminar:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Ajustes para mantener la coherencia visual */
+.cita-card {
+    position: relative;
+    overflow: visible;
+}
+
+.cita-header {
+    position: relative;
+    z-index: 1;
+}

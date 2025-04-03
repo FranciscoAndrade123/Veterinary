@@ -11,6 +11,12 @@ function seleccionarCarta(elemento) {
     // Almacenar el tipo de selección
     tipoSeleccionado = elemento.classList.contains('carta-agendamiento') ? 'agendar' : 'consultar';
     
+    // Si seleccionó "consultar citas", redirigir inmediatamente
+    if (tipoSeleccionado === 'consultar') {
+        window.location.href = './citasAgendadas.html'; // Cambia esta ruta según tu necesidad
+        return; // Importante: salir de la función para no ejecutar el resto del código
+    }
+
     // Si estamos en pasos 1-3, avanzar automáticamente (sin botón)
     if (pasoActual >= 1 && pasoActual <= 3) {
         avanzarPaso();
@@ -138,11 +144,10 @@ document.getElementById('next1').addEventListener('click', async function() {
        // else if (pasoActual === 5) {
        //     await enviarDatosMascota();
        //     alert('¡Cita agendada con éxito!');
-            // Aquí podrías redirigir o reiniciar el formulario
-       //     return;
+      // Aquí podrías redirigir o reiniciar el formulario
+      //     return;
       //  }
-        
-        // Avanzar al siguiente paso si todo fue exitoso
+      // Avanzar al siguiente paso si todo fue exitoso
         avanzarPaso();
     } catch (error) {
         console.error("Error:", error);
