@@ -75,68 +75,8 @@
     </div>
 </div>
 
-<!-- Paso 2: Selección de lugar (oculto inicialmente) -->
-<div id="paso-2-seleccion-lugar" class="container text-center" style="display: none;">
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de Lugar 1 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Sede Principal</h3>
-                    <p>Visítanos en nuestra sede principal con atención completa y servicios especializados. Ubicada en el centro de la ciudad.</p>
-                </div>
-                <i class="fa-solid fa-hospital" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de Lugar 2 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Sede Norte</h3>
-                    <p>Nuestra sede norte ofrece atención rápida y servicios básicos. Ideal para revisiones y consultas generales.</p>
-                </div>
-                <i class="fa-solid fa-clinic-medical" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de Lugar 3 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Sede Sur</h3>
-                    <p>Visítanos en nuestra sede sur con equipamiento de última generación y atención especializada.</p>
-                </div>
-                <i class="fa-solid fa-stethoscope" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-</div>
-
-<!--Paso 3: Selección de tratamiento-->
-<div id="paso-3-seleccion-tratamiento" class="container text-center" style="display: none;">
+<!--Paso 3: Selección de tratamiento VACIOOOOOOOOOOO-->
+<div id="paso-2-seleccion-tratamiento" class="container text-center" style="display: none;">
     <div class="row align-items-center">
         <div class="col">
             <!-- Espacio vacío -->
@@ -195,6 +135,67 @@
     </div>
 </div>
 
+
+<!-- Paso 3: Selección de lugar  -->
+<div id="paso-3-seleccion-lugar" class="container text-center" style="display: none;">
+    <div class="row align-items-center">
+        <div class="col">
+            <!-- Espacio vacío -->
+        </div>
+        <div class="col">
+            <!-- Carta de Lugar 1 -->
+            <div class="carta-agendamiento" onclick="seleccionarCarta(this)" data-id="1" >
+                <div class="contenido">
+                    <h3>Sede Principal</h3>
+                    <p>Visítanos en nuestra sede principal con atención completa y servicios especializados. Ubicada en el centro de la ciudad.</p>
+                </div>
+                <i class="fa-solid fa-hospital" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
+            </div>
+        </div>
+        <div class="col">
+            <!-- Espacio vacío -->
+        </div>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col">
+            <!-- Espacio vacío -->
+        </div>
+        <div class="col">
+            <!-- Carta de Lugar 2 -->
+            <div class="carta-agendamiento" onclick="seleccionarCarta(this)" data-id="2" >
+                <div class="contenido">
+                    <h3>Sede Norte</h3>
+                    <p>Nuestra sede norte ofrece atención rápida y servicios básicos. Ideal para revisiones y consultas generales.</p>
+                </div>
+                <i class="fa-solid fa-clinic-medical" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
+            </div>
+        </div>
+        <div class="col">
+            <!-- Espacio vacío -->
+        </div>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col">
+            <!-- Espacio vacío -->
+        </div>
+        <div class="col">
+            <!-- Carta de Lugar 3 -->
+            <div class="carta-agendamiento" onclick="seleccionarCarta(this)" data-id="3" >
+                <div class="contenido">
+                    <h3>Sede Sur</h3>
+                    <p>Visítanos en nuestra sede sur con equipamiento de última generación y atención especializada.</p>
+                </div>
+                <i class="fa-solid fa-stethoscope" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
+            </div>
+        </div>
+        <div class="col">
+            <!-- Espacio vacío -->
+        </div>
+    </div>
+</div>
+
 <!--Paso 4: Formulario del cliente-->
 
 <div id="paso-4-seleccion-formulario" class="container text-center" style="display: none;">
@@ -240,7 +241,7 @@
         <div class="col">
             <!-- formulario -->
                <!-- formulario -->
-               <div class="formulario-2" onclick="seleccionarCarta(this)">
+               <div class="formulario-2">
                 <h5>Datos de la  mascota</h5>
                 <form>
                     <div class="campo">
@@ -248,18 +249,32 @@
                         <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
                     </div>
                     <div class="especie">
-                        <label for="nombre">Especie*</label>
+                        <label for="nombre">Raza</label>
                         <select id="opciones" name="opciones">
                             <option value="opcion1">Opción 1</option>
                             <option value="opcion2">Opción 2</option>
                             <option value="opcion3">Opción 3</option>
                         </select>
                     </div>
-                    <div class="campo">
-                        <label for="telefono">Raza*</label>
-                        <div class="telefono">
-                            <input type="number" id="telefono" name="telefono" placeholder="1234567890" required>
-                        </div>
+                    <div class="especie">
+                        <label for="nombre">Tratamiento</label>
+                        <select id="opciones" name="opciones">
+                            <option value="opcion1">Opción 1</option>
+                            <option value="opcion2">Opción 2</option>
+                            <option value="opcion3">Opción 3</option>
+                        </select>
+                    </div>
+                    <div class="especie">
+                        <label for="nombre">Veterinario</label>
+                        <select id="opciones" name="opciones">
+                            <option value="opcion1">Opción 1</option>
+                            <option value="opcion2">Opción 2</option>
+                            <option value="opcion3">Opción 3</option>
+                        </select>
+                    </div>
+                    <div class="especie">
+                        <label for="nombre">Fecha de cita</label>
+                        <input type="date" id="fecha" name="fechaCita" placeholder="Fecha" required>
                     </div>
                 </form>
             </div>

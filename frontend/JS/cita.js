@@ -1,3 +1,6 @@
+// Declarar objeto global para almacenar la selección de cita
+let citaData = {};
+
 // Función para manejar la selección de cartas
 function seleccionarCarta(elemento) {
     // Eliminar la clase 'seleccionada' de todas las cartas
@@ -7,7 +10,7 @@ function seleccionarCarta(elemento) {
     
     // Agregar la clase 'seleccionada' a la carta seleccionada
     elemento.classList.add('seleccionada');
-    
+
     // Almacenar el tipo de selección
     tipoSeleccionado = elemento.classList.contains('carta-agendamiento') ? 'agendar' : 'consultar';
     
@@ -18,14 +21,21 @@ function seleccionarCarta(elemento) {
     }
 
     // Si estamos en pasos 1-3, avanzar automáticamente (sin botón)
-    if (pasoActual >= 1 && pasoActual <= 3) {
+    if (pasoActual == 1 || pasoActual <= 3) {
         avanzarPaso();
-    }
-    // Si estamos en pasos 4-5, activar el botón "Continuar" (aparecerá)
-    else {
+    } else {
         document.getElementById('next1').classList.add('activo');
         document.getElementById('next1').disabled = false;
     }
+     // Verificar si el elemento seleccionado es una sede (debe tener `data-id`)
+     const sedeID = elemento.getAttribute('data-id');
+     if (sedeID) {
+         // Almacenar la selección en el objeto global
+         citaData.lugar = { id: sedeID };
+         console.log(`Sede seleccionada, ID: ${sedeID}`);
+     } else {
+         console.log("No es una sede, no se asigna ID.");
+     }
 }
 
 // Variables globales
@@ -67,6 +77,13 @@ function avanzarPaso() {
         botonContinuar.textContent = pasoActual === 5 ? 'Finalizar' : 'Continuar';
         botonContinuar.classList.remove('activo');
         botonContinuar.disabled = true;
+
+        // Si el botón es "Finalizar", aplicar margen superior
+    if (pasoActual === 5) {
+        botonContinuar.style.marginTop = '190px';
+    } else {
+        botonContinuar.style.marginTop = '0px'; // Restaurar si no es "Finalizar"
+    }
     } else {
         botonContinuar.style.display = 'none'; // Ocultar en pasos 1-3
     }
@@ -141,12 +158,12 @@ document.getElementById('next1').addEventListener('click', async function() {
             await enviarDatos();
         }
         // Si es paso 5 (formulario mascota), enviar datos y finalizar
-       // else if (pasoActual === 5) {
-       //     await enviarDatosMascota();
-       //     alert('¡Cita agendada con éxito!');
+       else if (pasoActual === 5) {
+            await enviarDatosMascota();
+           alert('¡Cita agendada con éxito!');
       // Aquí podrías redirigir o reiniciar el formulario
-      //     return;
-      //  }
+           return;
+       }
       // Avanzar al siguiente paso si todo fue exitoso
         avanzarPaso();
     } catch (error) {
@@ -179,9 +196,7 @@ document.querySelectorAll('.carta-agendamiento, .carta-citas').forEach(carta => 
 });
 
 
-//peticiones para enviar datos al servidor 
-
-
+//peticiones para enviar datos del cliente al servidor  (Funciona)
 async function enviarDatos() {
        // Solo aplica a los pasos 4 y 5 (formularios)
        if (pasoActual !== 4 && pasoActual !== 5) return true; // No es un formulario, sigue avanzando
@@ -225,6 +240,13 @@ async function enviarDatos() {
             console.error("Error en la petición:", error);
             throw error;
           }
-
 }
 })
+
+async function enviarDatosMascota(){
+     // Solo aplica a los pasos 4 y 5 (formularios)
+    if (pasoActual !== 4 && pasoActual !== 5) return true; // No es un formulario, sigue avanzando
+
+
+
+}
