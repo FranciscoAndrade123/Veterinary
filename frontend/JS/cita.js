@@ -80,7 +80,7 @@ function avanzarPaso() {
 
         // Si el botón es "Finalizar", aplicar margen superior
     if (pasoActual === 5) {
-        botonContinuar.style.marginTop = '190px';
+        botonContinuar.style.marginTop = '195px';
     } else {
         botonContinuar.style.marginTop = '0px'; // Restaurar si no es "Finalizar"
     }
@@ -131,6 +131,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Animación hover en cartas (solo pasos 1-3)
+document.querySelectorAll('.carta-agendamiento, .carta-citas').forEach(carta => {
+    carta.addEventListener('mouseenter', function() {
+        const icono = this.querySelector('i');
+        if (icono) {
+            icono.style.transform = 'scale(1.1) rotate(5deg)';
+            icono.style.color = '#14B8C0';
+        }
+    });
+    
+    carta.addEventListener('mouseleave', function() {
+        const icono = this.querySelector('i');
+        if (icono) {
+            icono.style.transform = 'scale(1) rotate(0deg)';
+            icono.style.color = '';
+        }
+    });
+});
+
    // Evento del botón "Continuar" (solo en pasos 4-5)
 document.getElementById('next1').addEventListener('click', async function() {
     const boton = this;
@@ -176,77 +195,202 @@ document.getElementById('next1').addEventListener('click', async function() {
     }
 });
 
-// Animación hover en cartas (solo pasos 1-3)
-document.querySelectorAll('.carta-agendamiento, .carta-citas').forEach(carta => {
-    carta.addEventListener('mouseenter', function() {
-        const icono = this.querySelector('i');
-        if (icono) {
-            icono.style.transform = 'scale(1.1) rotate(5deg)';
-            icono.style.color = '#14B8C0';
-        }
-    });
-    
-    carta.addEventListener('mouseleave', function() {
-        const icono = this.querySelector('i');
-        if (icono) {
-            icono.style.transform = 'scale(1) rotate(0deg)';
-            icono.style.color = '';
-        }
-    });
-});
+//Variable global para los ID
+let clienteID = null; // Se usará en todos los pasos
 
 
 //peticiones para enviar datos del cliente al servidor  (Funciona)
 async function enviarDatos() {
-       // Solo aplica a los pasos 4 y 5 (formularios)
-       if (pasoActual !== 4 && pasoActual !== 5) return true; // No es un formulario, sigue avanzando
+    if (pasoActual !== 4 && pasoActual !== 5) return true;
 
-       // Recolectar datos del formulario del cliente
-       const nombreCliente = document.getElementById("nombre").value;
-       const telefonoCliente = document.getElementById("telefono").value;
+    const nombreCliente = document.getElementById("nombre").value;
+    const telefonoCliente = document.getElementById("telefono").value;
 
-        // Configurar headers
-         const headersList = {
-         "Accept": "*/*",
-         "User-Agent": "web",
+    const headersList = {
+        "Accept": "*/*",
+        "User-Agent": "web",
         "Content-Type": "application/json"
-         };
+    };
 
-           // Crear cuerpo de la petición con los valores del formulario
-        const bodyContent = JSON.stringify({
-            "clientName": nombreCliente,  // Usa el valor del campo nombre
-            "phone": telefonoCliente      // Usa el valor del campo teléfono
+    const bodyContent = JSON.stringify({
+        "clientName": nombreCliente,
+        "phone": telefonoCliente
+    });
+
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/client/", {
+            method: "POST",
+            body: bodyContent,
+            headers: headersList
         });
 
-        try {
-            // Realizar la petición
-            const response = await fetch("http://localhost:8080/api/v1/client/", { 
-              method: "POST",
-              body: bodyContent,
-              headers: headersList
-            });
-        
-            // Procesar respuesta
-            const data = await response.json();
-            
-            if (!response.ok) {
-              throw new Error(data.message || 'Error al registrar cliente');
-            }
-            
-            console.log("Respuesta del servidor:", data);
-            return data;
-            
-          } catch (error) {
-            console.error("Error en la petición:", error);
-            throw error;
-          }
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Error al registrar cliente');
+        }
+
+        console.log("Respuesta del servidor:", data);
+        clienteID = data.clientID; // <-- Aquí guardamos el ID globalmente
+        return data;
+
+    } catch (error) {
+        console.error("Error en la petición:", error);
+        throw error;
+    }
+          
 }
 })
 
-async function enviarDatosMascota(){
-     // Solo aplica a los pasos 4 y 5 (formularios)
-    if (pasoActual !== 4 && pasoActual !== 5) return true; // No es un formulario, sigue avanzando
-
-
-
+async function enviarDatosMascota() {
+    // Solo aplica a los pasos 4 y 5 (formularios)
+    if (pasoActual !== 4 && pasoActual !== 5) return true;
+    
+    // Obtengo el nombre de la mascota
+    const nombreMascota = document.getElementById("nombreMascota").value;
+    // Agrega aquí otros campos de la mascota que necesites
+    
+    // Configurar headers
+    const headersList = {
+        "Accept": "*/*",
+        "User-Agent": "web",
+        "Content-Type": "application/json"
+    };
+    
+    // Este es el punto clave - incluir el ID del cliente en los datos de la mascota
+    const bodyContent = JSON.stringify({
+        "petName": nombreMascota,
+      //"breedID": breedID,
+        "clientID": clienteID  // Usamos el ID global guardado anteriormente
+    });
+    
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/pet/", {
+            method: "POST",
+            body: bodyContent,
+            headers: headersList
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Error al registrar mascota');
+        }
+        
+        console.log("Mascota registrada:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al registrar mascota:", error);
+        throw error;
+    }
 }
+
+//La obtencion de los datos de los nombre del veterinario
+async function obtenerVeterinarios() {
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/veterinarian/");
+        if (!response.ok) throw new Error("Error al obtener los veterinarios");
+        const data = await response.json();
+        llenarSelect("opciones-veterinario", data);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+function llenarSelect(idSelect, veterinarios) {
+    const select = document.getElementById(idSelect);
+    // Clear existing options
+    select.innerHTML = '';
+    
+    // Add default option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Seleccione un veterinario";
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    select.appendChild(defaultOption);
+    
+    veterinarios.forEach(vet => {
+        const option = document.createElement("option");
+        option.value = vet._veterinarianID; 
+        option.textContent = vet._veterinarianName; 
+        select.appendChild(option);
+    });
+}
+
+
+// La obtención de los datos del nombre del tratamiento
+async function obtenerTratamiento() {
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/treatment/");
+        if (!response.ok) throw new Error("Error al obtener los tratamientos");
+        const data = await response.json();
+        llenarSelectTratamientos("opciones-tratamiento", data); 
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+function llenarSelectTratamientos(idSelect, tratamientos) {
+    const select = document.getElementById(idSelect);
+    // Clear existing options
+    select.innerHTML = '';
+
+    // Agregar opción por defecto
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Seleccione un tratamiento";
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    select.appendChild(defaultOption);
+
+    tratamientos.forEach(trat => {
+        const option = document.createElement("option");
+        option.value = trat.treatmentId; 
+        option.textContent = trat.treatmentName; 
+        select.appendChild(option);
+    });
+}
+
+// La obtención de los datos del nombre de la raza
+
+async function obtenerRaza() {
+    try{
+        const response = await fetch("http://localhost:8080/api/v1/breed/");
+        if (!response.ok) throw new Error("Error al obtener el nombre de la raza");
+        const data = await response.json();
+        llenarSelectRaza("opciones-raza", data); 
+    }catch (error){
+        console.error("Error:", error);
+    }
+}
+
+function llenarSelectRaza(idSelect, raza) {
+    const select = document.getElementById(idSelect);
+    // Clear existing options
+    select.innerHTML = '';
+
+    // Agregar opción por defecto
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Seleccione una raza";
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    select.appendChild(defaultOption);
+
+    raza.forEach(raz => {
+        const option = document.createElement("option");
+        option.value = raz.breedID; 
+        option.textContent = raz.breedName; 
+        select.appendChild(option);
+    });
+}
+
+
+// Ejecutar cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", () => {
+    obtenerVeterinarios();
+    obtenerTratamiento(); 
+    obtenerRaza();
+});
+

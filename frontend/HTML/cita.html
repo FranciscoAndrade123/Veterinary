@@ -246,35 +246,34 @@
                 <form>
                     <div class="campo">
                         <label for="nombre">Nombre de tu peludito*</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                        <input type="text" id="nombreMascota" name="nombre" placeholder="Nombre" required>
                     </div>
                     <div class="especie">
                         <label for="nombre">Raza</label>
-                        <select id="opciones" name="opciones">
-                            <option value="opcion1">Opción 1</option>
-                            <option value="opcion2">Opción 2</option>
-                            <option value="opcion3">Opción 3</option>
+                        <select id="opciones-raza" name="opciones">
+                            <option value="">Seleccione una raza</option>
                         </select>
                     </div>
                     <div class="especie">
                         <label for="nombre">Tratamiento</label>
-                        <select id="opciones" name="opciones">
-                            <option value="opcion1">Opción 1</option>
-                            <option value="opcion2">Opción 2</option>
-                            <option value="opcion3">Opción 3</option>
+                        <select id="opciones-tratamiento" name="opciones">
+                            <option value="">Seleccione un tratamiento</option>
                         </select>
                     </div>
                     <div class="especie">
-                        <label for="nombre">Veterinario</label>
-                        <select id="opciones" name="opciones">
-                            <option value="opcion1">Opción 1</option>
-                            <option value="opcion2">Opción 2</option>
-                            <option value="opcion3">Opción 3</option>
+                        <label for="opciones-veterinario">Veterinario</label>
+                        <select id="opciones-veterinario" name="opciones">
+                            <option value="">Seleccione un veterinario</option>
                         </select>
                     </div>
+                    
                     <div class="especie">
                         <label for="nombre">Fecha de cita</label>
-                        <input type="date" id="fecha" name="fechaCita" placeholder="Fecha" required>
+                        <input type="date" id="fecha" name="fechaCita" placeholder="Fecha" required style=" border-radius: 15px;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        font-size: 14px;
+                        transition: 0.3s ease-in-out;">
                     </div>
                 </form>
             </div>

@@ -32,7 +32,7 @@ public class veterinarianController {
             // Determina el HttpStatus basado en el status del responseDTO
             HttpStatus httpStatus = response.getStatus().equals(HttpStatus.OK.toString()) 
                 ? HttpStatus.OK 
-                : HttpStatus.BAD_REQUEST;
+                : HttpStatus.OK;
             
             // Devuelve el responseDTO completo con el status HTTP apropiado
             return new ResponseEntity<>(response, httpStatus);

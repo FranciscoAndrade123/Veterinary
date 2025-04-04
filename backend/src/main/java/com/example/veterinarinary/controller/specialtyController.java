@@ -23,7 +23,7 @@ public class specialtyController {
     @PostMapping("/")
     public ResponseEntity<Object> createSpecialty(@RequestBody specialtyDTO specialtyDTO) {
         responseDTO response = specialtyService.save(specialtyDTO);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
         return new ResponseEntity<>(response, status);
     }
 
