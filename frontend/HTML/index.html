@@ -9,20 +9,26 @@
     <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
 </head>
 <body>
-    <!--navegador-->
-  <nav class="navegacion">
+<!--navegador-->
+<nav class="navegacion">
     <div class="logo">
         <img src="/frontend/img/petvetLogo.png" alt="Logo">
     </div>
-
-    <div class="menu">
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <div class="menu" id="menu">
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="cita.html">Citas</a>
     </div>
 </nav>
-    <!--/navegador-->
+<!--/navegador-->
 
  <!---fondo azul-->
 <div class="fondo-azul">
@@ -36,7 +42,7 @@
     </div>
 
     <!-- Círculos con imágenes -->
-    <div class="circulo ">
+    <div class="circulo">
         <img src="/frontend/img/slider-img.png" alt="Grupo de perros">
     </div>
     <!---/fondo azul-->
@@ -115,31 +121,24 @@
 
 
          <!-- Bienvenida -->
-        <div class="bienvenida">
-           <div class="titulo">
-              <h2>Bienvenidos a Punto Vet, Clínica Veterinaria 24 Horas en Medellín</h2>
-           </div> 
-           <br>
-          <div class="parla">
-            <p>Entendemos que las emergencias no tienen horario. Nuestra clínica veterinaria 24 horas en Medellín, los 7 días de la semana. Queremos asegurarte que en los momentos de necesidad, siempre puedes contar con nosotros.</p>
-           <p>Contamos con un equipo de auxiliares y profesionales altamente capacitados y es justamente eso lo que distingue a nuestra clínica. Cada uno de ellos tiene una profunda pasión por los animales y se esfuerza por brindar la atención de la más alta calidad. Además, cuentan con una amplia experiencia en una variedad de especialidades, desde cirugía veterinaria hasta medicina preventiva, laboratorio clínico y más.</p>
-           <strong> Creemos que cada mascota es única y merece una atención personalizada.</strong>
-       </div>
-       <br>
-       <br>
-       <div class="container text-center">
-        <div class="row align-items-center">
-          <div class="col">
-          </div>
-          <div class="col">
-              <!-- Botón de contacto -->
-              <a href="#" class="boton-contacto"><i class="fa-brands fa-whatsapp"></i> ¡Quiero más información!!</a>
-          </div>
-          <div class="col">
-           </div>
-          </div>
-        </div>
-      </div>
+<div class="bienvenida">
+    <div class="titulo">
+        <h2>Bienvenidos a Punto Vet, Clínica Veterinaria 24 Horas en Medellín</h2>
+    </div>
+    <br>
+    <div class="parla">
+        <p>Entendemos que las emergencias no tienen horario. Nuestra clínica veterinaria 24 horas en Medellín, los 7 días de la semana. Queremos asegurarte que en los momentos de necesidad, siempre puedes contar con nosotros.</p>
+        <p>Contamos con un equipo de auxiliares y profesionales altamente capacitados y es justamente eso lo que distingue a nuestra clínica. Cada uno de ellos tiene una profunda pasión por los animales y se esfuerza por brindar la atención de la más alta calidad. Además, cuentan con una amplia experiencia en una variedad de especialidades, desde cirugía veterinaria hasta medicina preventiva, laboratorio clínico y más.</p>
+        <strong>Creemos que cada mascota es única y merece una atención personalizada.</strong>
+    </div>
+
+    <!-- Simplified button container -->
+    <div class="button-container">
+        <a href="#" class="boton-contacto">
+            <i class="fa-brands fa-whatsapp"></i> ¡Quiero más información!!
+        </a>
+    </div>
+</div>
         <!--/bienveninda-->
 
 
@@ -156,8 +155,6 @@
     </div>
 </div>
 <!-- /Sección de Datos Favorables -->
-
-
 
 
             <!--footer-->

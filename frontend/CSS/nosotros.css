@@ -85,3 +85,80 @@
 .boton-contacto i {
     margin-right: 10px;
 }
+
+ /* Ajustes responsive para texto e imagen */
+ @media (max-width: 991px) {
+    .nosotros {
+        width: 100%;
+    }
+    
+    .nosotros h2 {
+        font-size: 30px;
+    }
+    
+    .imagen img {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .row-nosotros {
+        flex-direction: column-reverse;
+    }
+    
+    .col-texto, .col-imagen {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+    
+    .nosotros {
+        margin-top: 30px;
+    }
+    
+    .imagen {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .imagen img {
+        max-width: 80%;
+        margin: 0 auto;
+    }
+    
+    .caracterizacion ul {
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+}
+
+@media (max-width: 576px) {
+    .nosotros h2 {
+        font-size: 28px;
+        text-align: center;
+    }
+    
+    .nosotros p, .nosotros ul {
+        text-align: left;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .imagen img {
+        max-width: 100%;
+    }
+    
+    .caracterizacion h2 {
+        font-size: 28px;
+    }
+    
+    .caracterizacion ul {
+        padding-left: 40px;
+        padding-right: 20px;
+    }
+    
+    hr {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

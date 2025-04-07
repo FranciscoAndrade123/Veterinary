@@ -3,44 +3,56 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Estilos para la nueva barra de navegación */
+/* Base navbar styles */
 .navegacion {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.9); /* Fondo translúcido */
-    padding: 12px 25px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra para efecto flotante */
-    border-radius: 15px; /* Bordes redondeados */
-    max-width: 85%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    max-width: 90%;
     width: 100%;
-    height: 13%;
     position: fixed;
-    top: 5%;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    transition: all 0.3s ease;
 }
 
-/* Estilos para el logo */
+/* Logo styles */
+.navegacion .logo {
+    display: flex;
+    align-items: center;
+}
+
 .navegacion .logo img {
-    height: 80px;
+    height: 60px;
     width: auto;
+    transition: height 0.3s ease;
 }
 
-/* Opciones del menú */
+/* Menu styles */
+.navegacion .menu {
+    display: flex;
+    align-items: center;
+}
+
 .navegacion .menu a {
     text-decoration: none;
     color: #333;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    padding: 10px 15px;
+    padding: 8px 12px;
+    margin: 0 3px;
     position: relative;
     border-radius: 8px;
     transition: color 0.3s ease;
 }
 
-/* Línea oculta por defecto */
+/* Underline effect */
 .navegacion .menu a::after {
     content: "";
     position: absolute;
@@ -48,143 +60,315 @@
     bottom: -4px;
     width: 0;
     height: 3px;
-    background: #14B8C0; /* Color de la línea */
+    background: #14B8C0;
     border-radius: 2px;
     transition: width 0.3s ease, left 0.3s ease;
     transform: translateX(-50%);
 }
 
-/* Cambio de color al pasar el cursor */
 .navegacion .menu a:hover {
     color: #14B8C0;
 }
 
-/* Mostrar la línea al hacer hover */
 .navegacion .menu a:hover::after {
-    width: 100%;
-    left: 0;
+    width: 80%;
+    left: 10%;
     transform: translateX(0);
 }
+
+/* Mobile menu button - hidden by default */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px;
+}
+
+.menu-toggle .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #333;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 990px) {
+    .navegacion {
+        padding: 10px 15px;
+    }
+    
+    .navegacion .menu a {
+        font-size: 15px;
+        padding: 6px 8px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navegacion {
+        padding: 8px 15px;
+        max-width: 95%;
+    }
+    
+    .navegacion .logo img {
+        height: 50px;
+    }
+    
+    /* Show hamburger menu button */
+    .menu-toggle {
+        display: block;
+        z-index: 101;
+    }
+    
+    /* Hide the menu by default */
+    .navegacion .menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 0;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+    }
+    
+    /* When menu is active */
+    .navegacion .menu.active {
+        right: 0;
+    }
+    
+    .navegacion .menu a {
+        margin: 15px 0;
+        font-size: 18px;
+    }
+    
+    /* Hamburger to X transition */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .navegacion {
+        max-width: 100%;
+        border-radius: 0;
+        top: 0;
+        padding: 5px 15px;
+    }
+    
+    .navegacion .logo img {
+        height: 40px;
+    }
+    
+    .navegacion .menu {
+        width: 80%;
+    }
+}
+
+/*****El fondo azul ya es responsive para cualquier tipo de dispositivo********/
 
 
 .fondo-azul {
     position: relative;
-    width: 98%;
-    margin-left: 10px;
-    margin-top: 15px;
-    height: 470px;
-    background: #66c5f1; /* Azul claro */
-    overflow:auto;
-    border-radius: 2%;
+    width: 100%;
+    max-width: 1280px;
+    margin: 15px auto;
+    height: auto;
+    min-height: 300px;
+    background: #66c5f1;
+    overflow: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
 }
 
-/* Imagen de fondo */
+/* Image background */
 .fondo-imagen {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.3; /* Efecto translúcido */
+    opacity: 0.3;
+    z-index: 1;
 }
 
-/* Texto principal */
+/* Text content */
 .presentacion {
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translateY(-50%);
+    position: relative;
+    z-index: 2;
     color: white;
-    max-width: 400px;
+    max-width: 100%;
+    padding: 20px 0;
+    text-align: center;
 }
 
 .presentacion h1 {
-    font-size: 45px;
+    font-size: 32px;
     font-weight: 300;
+    margin-bottom: 5px;
 }
 
 .presentacion h2 {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 700;
+    margin-top: 0;
 }
 
 .presentacion h2 span {
     color: #1d2d50;
 }
 
-.negro {
-    background: black;
-    color: white;
-    border: none;
+.presentacion p {
+    font-size: 18px;
+    line-height: 1.5;
 }
 
-.blanco {
-    background: white;
-    color: black;
-    border: 2px solid black;
-}
-
-.negro:hover, .blanco:hover {
-    opacity: 0.8;
-}
-
-/* Círculos con imágenes */
+/* Circle image container */
 .circulo {
-    position: absolute;
-    width: 750px;  /* Tamaño aumentado */
-    height: 460px;
-    right: 5%;  /* Lo mueve a la derecha */
-    top: 50%;
-    transform: translateY(-50%);
- 
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .circulo img {
-    width: 650px;
-    height: 489px;
-    object-fit: cover;  /* Evita que la imagen se deforme */
+    width: 80%;
+    max-width: 300px;
+    height: auto;
+    object-fit: contain;
 }
 
-.linea hr{
-    width: 75%;
-    border: 1px solid black;
-    position: absolute;
-    top: 72%;
-    left: 49%;
-    transform: translate(-50%, -50%);
+/* Tablet responsiveness */
+@media (min-width: 768px) {
+    .fondo-azul {
+        height: 400px;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 30px;
+    }
+    
+    .presentacion {
+        margin-top: 50px    ;
+        width: 50%;
+        text-align: left;
+        padding-left: 20px;
+        align-self: center;
+    }
+    
+    .circulo {
+        width: 50%;
+        margin-top: 0;
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .circulo img {
+        max-width: 350px;
+    }
+    
+    .presentacion h1 {
+        font-size: 36px;
+    }
+    
+    .presentacion h2 {
+        font-size: 44px;
+    }
 }
 
+/* Desktop responsiveness */
+@media (min-width: 1280px) {
+    .fondo-azul {
+        height: 470px;
+    }
+    
+    .presentacion {
+        max-width: 450px;
+        padding-left: 40px;
+    }
+    
+    .presentacion h1 {
+        font-size: 42px;
+    }
+    
+    .presentacion h2 {
+        font-size: 50px;
+    }
+    
+    .presentacion p {
+        font-size: 22px;
+    }
+    
+    .circulo {
+        right: 5%;
+    }
+    
+    .circulo img {
+        max-width: 450px;
+    }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+    .circulo img {
+        max-width: 500px;
+    }
+}
+
+/***** ****/
+
+
+/*** Cartas labor ******/ 
 .titulo-labor {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     margin-top: 40px;
+    padding: 0 15px;
 }
 
-.titulo-labor h2{
-    font-size: 38px;
+.titulo-labor h2 {
+    font-size: 32px;
     font-weight: bold;
-    color: #14B8C0; /* Color azul similar al de la imagen */
+    color: #14B8C0;
 }
 
 .cartas-ofrecimiento {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.cartas-ofrecimiento .row {
     justify-content: center;
-    margin-left: 120px;
+    margin-bottom: 20px;
 }
 
-
-.cartas-ofrecimiento .card{
-    margin: 12px;
-}
-
-.card{
-    width: 200px;
-    height: 350px;
+.card {
+    width: 100%;
+    max-width: 280px;
+    height: 250px;
     background: white;
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
@@ -193,12 +377,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
     padding: 15px;
+    margin: 0 auto 20px;
 }
 
-.card-body h6{
-    margin-top: 12px;
+.card-body {
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card h6 {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.3;
 }
 
 .card:hover {
@@ -210,34 +408,121 @@
     transition: all 0.3s ease-in-out;
 }
 
-.card:hover img {
-    filter: brightness(0.8) contrast(1.2);
-    transition: filter 0.3s ease-in-out;
+.card:hover i {
+    color: white;
+    transition: color 0.3s ease-in-out;
 }
 
-
-.card-body {
-    padding: 15px;
-    text-align: center;
+.card:hover .text-body-secondary {
+    color: white !important;
+    transition: color 0.3s ease-in-out;
 }
 
-.card h6 {
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
+/* Small mobile devices (< 576px) */
+@media(max-width: 575px) {
+    .col-md-4 {
+        padding: 0 10px;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .titulo-labor h2 {
+        font-size: 28px;
+    }
 }
 
-#linea-1 hr{
-    width: 75%;
-    border: 1px solid black;
-    position: absolute;
-    top: 145%;
-    left: 49%;
-    transform: translate(-50%, -50%);
+/* Tablets and small desktops (576px - 767px) */
+@media(min-width: 576px) and (max-width: 767px) {
+    .cartas-ofrecimiento .container {
+        max-width: 540px;
+    }
+    
+    .card {
+        height: 270px;
+        margin-bottom: 20px;
+    }
+    
+    .titulo-labor h2 {
+        font-size: 30px;
+    }
 }
 
+/* Medium devices (768px - 991px) - The specific range you mentioned */
+@media(min-width: 768px) and (max-width: 991px) {
+    .cartas-ofrecimiento {
+        margin-left: 0;
+    }
+    
+    .cartas-ofrecimiento .container {
+        max-width: 720px;
+    }
+    
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+        padding: 0 10px;
+    }
+    
+    .card {
+        width: 100%;
+        height: 300px;
+        margin: 0 0 20px;
+    }
+}
+
+/* Large devices (992px and up) */
+@media(min-width: 992px) {
+    .cartas-ofrecimiento {
+        margin-left: 0;
+    }
+    
+    .titulo-labor h2 {
+        font-size: 38px;
+    }
+    
+    .cartas-ofrecimiento .container {
+        max-width: 960px;
+    }
+    
+    .row {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    
+    .col-md-4 {
+        padding: 0 15px;
+    }
+    
+    .card {
+        width: 100%;
+        height: 280px;
+        margin: 0 0 30px;
+    }
+}
+
+/* Extra large devices (1200px and up) */
+@media(min-width: 1200px) {
+    .cartas-ofrecimiento .container {
+        max-width: 1140px;
+    }
+    
+    .card {
+        height: 250px;
+    }
+}
+
+/******/
 
 
+/*Bienvenida*/
+/* Bienvenida section styling */
 .bienvenida {
     text-align: justify;
     max-width: 950px;
@@ -248,7 +533,8 @@
 .titulo h2 {
     font-size: 38px;
     font-weight: bold;
-    color: #14B8C0; /* Color azul similar al de la imagen */
+    color: #14B8C0;
+    text-align: center;
 }
 
 .parla p {
@@ -258,32 +544,67 @@
     margin-bottom: 15px;
 }
 
-/* Botón de contacto */
+/* Contact button styling */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    width: 100%;
+}
+
 .boton-contacto {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: #14B8C0;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
     transition: background 0.3s ease;
-    
+}
+
+.boton-contacto i {
+    margin-right: 8px;
+    font-size: 18px;
 }
 
 .boton-contacto:hover {
     background-color: #117A8B;
+    color: white;
+    text-decoration: none;
 }
 
-#linea-2 hr{
-    width: 75%;
-    border: 1px solid black;
-    position: absolute;
-    top: 218%;
-    left: 49%;
-    transform: translate(-50%, -50%);
+/* Make sure it's centered on all devices */
+@media (max-width: 768px) {
+    .titulo h2 {
+        font-size: 28px;
+    }
+    
+    .button-container {
+        padding: 0 15px;
+    }
 }
 
+
+/* Tablets and small desktops (576px - 767px) */
+@media(min-width: 576px) and (max-width: 768px) {
+      .boton-contacto{
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         
+      }
+}
+
+
+
+
+
+
+
+/*******/
 .datos {
     width: 100%;
     position: relative;
@@ -348,27 +669,8 @@
     display: block;
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-    .texto-superpuesto {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .col {
-        margin-bottom: 15px;
-    }
-}
 
 
-#linea-3 hr{
-    width: 75%;
-    border: 1px solid black;
-    position: absolute;
-    top: 270%;
-    left: 49%;
-    transform: translate(-50%, -50%);
-}
 
 .pie-pagina {
     position: relative;
@@ -545,3 +847,18 @@
         padding: 10px;
     }
 }
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .texto-superpuesto {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col {
+        margin-bottom: 15px;
+    }
+}
+
+

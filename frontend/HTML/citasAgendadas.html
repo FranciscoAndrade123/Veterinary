@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultas</title>
     <link rel="stylesheet" href="/frontend/CSS/style.CSS">
-    <link rel="stylesheet" href="/frontend/CSS/cita.css">
     <link rel="stylesheet" href="/frontend/CSS/agendas.css">
     <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
@@ -18,20 +17,26 @@
         </path>
       </svg>
 
-    <!--navegador-->
-  <nav class="navegacion">
+   <!--navegador-->
+<nav class="navegacion">
     <div class="logo">
         <img src="/frontend/img/petvetLogo.png" alt="Logo">
     </div>
-
-    <div class="menu">
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <div class="menu" id="menu">
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="cita.html">Citas</a>
     </div>
-    </nav>  
- <!--/navegador-->
+</nav>
+<!--/navegador-->
 
  <div class="agendamiento-citas">
     <div class="titulo-agendamiento">
@@ -203,5 +208,6 @@
    
 
 <script src="/frontend/JS/modal.js"></script>
+<script src="/frontend/JS/index.js"></script>
 </body>
 </html>

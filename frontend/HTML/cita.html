@@ -18,21 +18,26 @@
           d="M0,192L80,181.3C160,171,320,149,480,154.7C640,160,800,192,960,197.3C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
         </path>
       </svg>
-
-    <!--navegador-->
-  <nav class="navegacion">
+<!--navegador-->
+<nav class="navegacion">
     <div class="logo">
         <img src="/frontend/img/petvetLogo.png" alt="Logo">
     </div>
-
-    <div class="menu">
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <div class="menu" id="menu">
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="cita.html">Citas</a>
     </div>
-    </nav>  
- <!--/navegador-->
+</nav>
+<!--/navegador-->
           
 <!-- Paso 1: Selección de tipo de cita -->
 <div id="paso-1-seleccion-tipo" class="container text-center">
@@ -301,6 +306,7 @@
 
 <script src="/frontend/fontawesome/fontawesome-free-6.6.0-web/js/all.js"></script>
 <script src="/frontend/JS/cita.js"></script>
+<script src="/frontend/JS/index.js"></script>
 <script src="/frontend/bootstrap/bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script>
 </body>
 </html>

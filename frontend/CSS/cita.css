@@ -95,55 +95,212 @@
     cursor: not-allowed;
 }
 
-/* Estilos para la transición de los íconos */
-.carta-agendamiento i, .carta-citas i {
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-/* Estilos para el indicador de pasos */
-.pasos-container {
+/* Estilos generales para las cartas */
+.carta-agendamiento, .carta-citas {
+    border: 2px solid #e0e0e0;
+    background-color: #ffffff;
+    padding: 20px;
     display: flex;
-    justify-content: center;
-    margin: 20px 0;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 15px auto;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
 }
 
-.indicador-paso {
-    width: 30px;
-    height: 30px;
+.carta-agendamiento:hover, .carta-citas:hover {
+    border-color: #14B8C0;
+    box-shadow: 0 8px 15px rgba(20, 184, 192, 0.15);
+    transform: translateY(-5px);
+}
+
+.carta-agendamiento.seleccionada, .carta-citas.seleccionada {
+    border-color: #14B8C0;
+    box-shadow: 0 8px 20px rgba(20, 184, 192, 0.2);
+    transform: translateY(-5px);
+}
+
+.carta-agendamiento.seleccionada:before, .carta-citas.seleccionada:before {
+    content: "✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #14B8C0;
+    color: white;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
-    background-color: #e0e0e0;
-    margin: 0 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    transition: background-color 0.3s;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-.indicador-paso.activo {
+.contenido {
+    flex: 1;
+    padding-right: 15px;
+}
+
+.contenido h3 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.contenido p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    background-color: #f0f9fa;
+    color: #14B8C0;
+    transition: all 0.3s ease;
+}
+
+.carta-agendamiento:hover .icon-container,
+.carta-citas:hover .icon-container,
+.carta-agendamiento.seleccionada .icon-container,
+.carta-citas.seleccionada .icon-container {
     background-color: #14B8C0;
     color: white;
+    transform: rotate(10deg);
 }
 
-.indicador-paso.completado {
-    background-color: #0f8a8f;
+/* Estilos para el botón Continuar */
+.boton-continuar-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 40px;
+}
+
+.boton-continuar .btn {
+    padding: 12px 35px;
+    font-size: 18px;
+    background-color: #14B8C0;
+    border: none;
+    border-radius: 30px;
     color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(20, 184, 192, 0.2);
 }
 
-.indicador-paso:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: -15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 2px;
-    background-color: #e0e0e0;
-}
-
-.indicador-paso.completado:not(:last-child)::after {
+.boton-continuar .btn:hover {
     background-color: #0f8a8f;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(20, 184, 192, 0.3);
 }
+
+.boton-continuar .btn:not(.activo) {
+    background-color: #b0b0b0;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Animaciones mejoradas */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .carta-agendamiento, .carta-citas {
+        width: 100%;
+        margin: 15px auto;
+        height: auto;
+        min-height: 150px;
+    }
+    
+    .contenido h3 {
+        font-size: 20px;
+    }
+    
+    .contenido p {
+        font-size: 14px;
+    }
+    
+    .icon-container {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .icon-container i {
+        font-size: 24px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .carta-agendamiento, .carta-citas {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px;
+        height: auto;
+    }
+    
+    .contenido {
+        padding-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .icon-container {
+        margin-top: 10px;
+    }
+    
+    .carta-agendamiento.seleccionada:before, .carta-citas.seleccionada:before {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .boton-continuar .btn {
+        width: 100%;
+        padding: 12px 20px;
+    }
+}
+
 
 .formulario {
     width: 550px;
