@@ -80,9 +80,9 @@ function avanzarPaso() {
 
         // Si el botón es "Finalizar", aplicar margen superior
     if (pasoActual === 5) {
-        botonContinuar.style.marginTop = '195px';
+        botonContinuar.style.marginTop = '0px';
     } else {
-        botonContinuar.style.marginTop = '0px'; // Restaurar si no es "Finalizar"
+        botonContinuar.style.marginTop = '-50px'; // Restaurar si no es "Finalizar"
     }
     } else {
         botonContinuar.style.display = 'none'; // Ocultar en pasos 1-3

@@ -29,25 +29,7 @@
     flex: 1; /* Ocupa el espacio disponible */
 }
 
-/* Estilos para el botón Continuar */
-.boton-continuar {
-    margin-left: 50%;
-    text-align: center; /* Centra el botón horizontalmente */
-    margin-top: -20px; /* Espacio entre las cartas y el botón */
-    width: 100%; /* Ocupa el ancho completo */
-}
 
-.boton-continuar .btn {
-    padding: 10px 30px; /* Ajusta el padding del botón */
-    font-size: 18px; /* Tamaño de la fuente */
-    background-color: #14B8C0; /* Color de fondo */
-    border: none; /* Sin borde */
-    border-radius: 25px; /* Bordes redondeados */
-    color: white; /* Color del texto */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    transition: background-color 0.3s; /* Transición suave */
-    margin-bottom: 30px;
-}
 
 .boton-continuar .btn:hover {
     background-color: #0f8a8f; /* Cambia el color al pasar el mouse */
@@ -188,6 +170,14 @@
     display: flex;
     justify-content: center;
     margin: 20px 0 40px;
+    width: 100%;
+}
+
+.boton-continuar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0 40px;
 }
 
 .boton-continuar .btn {
@@ -213,6 +203,34 @@
     background-color: #b0b0b0;
     cursor: not-allowed;
     box-shadow: none;
+}
+
+/* Media queries for responsive button */
+@media (max-width: 768px) {
+    .boton-continuar .btn {
+        padding: 10px 30px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .boton-continuar .btn {
+        padding: 8px 25px;
+        font-size: 15px;
+        width: 80%;
+        max-width: 250px;
+    }
+    
+    .boton-continuar {
+        margin: 15px 0 30px;
+    }
+}
+
+@media (max-width: 375px) {
+    .boton-continuar .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
 }
 
 /* Animaciones mejoradas */
@@ -302,33 +320,31 @@
 }
 
 
+/* Base styles - keeping your original styles */
 .formulario {
-    width: 550px;
-    height: 320px;
+    width: 100%;
+    max-width: 550px;
+    height: auto;
+    min-height: 320px;
     padding: 20px;
     border-radius: 10px;
+    margin: 0 auto;
 }
 
-.formulario-2{
-    width: 550px;
-    height: 320px;
+.formulario-2 {
+    width: 100%;
+    max-width: 550px;
+    height: auto;
+    min-height: 320px;
     padding: 20px;
     border-radius: 10px;
-    margin-bottom: 80px;
+    margin: 0 auto 80px auto;
 }
 
-.formulario-2 h5{
-    margin-bottom: 15px;
-    color: #14B8C0; /* Azul marino */
-    font-size: 35px;
-    font-weight: bolder;
-    text-align: left;
-    text-transform: uppercase;
-}
-
+.formulario-2 h5,
 .formulario h5 {
     margin-bottom: 15px;
-    color: #14B8C0; /* Azul marino */
+    color: #14B8C0;
     font-size: 35px;
     font-weight: bolder;
     text-align: left;
@@ -341,23 +357,29 @@
     margin-bottom: 30px;
 }
 
-.campo label {
+.campo label,
+.especie label {
     font-weight: bold;
     text-align: left;
     font-size: 20px;
     margin-bottom: 5px;
-    color: #14B8C0; /* Azul marino */
+    color: #14B8C0;
 }
 
-.campo input {
+.campo input,
+.especie select,
+#fecha {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 15px;
     font-size: 14px;
     transition: 0.3s ease-in-out;
+    width: 100%;
 }
 
-.campo input:focus {
+.campo input:focus,
+.especie select:focus,
+#fecha:focus {
     border-color: #1f3c88;
     box-shadow: 0px 0px 8px rgba(31, 60, 136, 0.5);
     outline: none;
@@ -365,17 +387,17 @@
 
 .telefono {
     display: flex;
+    width: 100%;
 }
 
-
 .telefono input {
+    width: 100%;
+    border-radius: 15px;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
     font-size: 14px;
     transition: 0.3s ease-in-out;
 }
-
 
 .telefono input:focus {
     border-color: #1f3c88;
@@ -383,30 +405,81 @@
     outline: none;
 }
 
-.telefono input {
-    width: 100%;
-    border-radius: 15px;
-}
-
 .especie {
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px
+    margin-bottom: 30px;
 }
 
-.especie label{
-    font-weight: bold;
-    text-align: left;
-    font-size: 20px;
-    margin-bottom: 5px;
-    color: #14B8C0; /* Azul marino */
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+    .formulario,
+    .formulario-2 {
+        max-width: 90%;
+    }
 }
 
-.especie select{
+@media (max-width: 768px) {
+    .formulario h5,
+    .formulario-2 h5 {
+        font-size: 28px;
+    }
+    
+    .campo label,
+    .especie label {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .formulario,
+    .formulario-2 {
+        padding: 15px;
+    }
+    
+    .formulario h5,
+    .formulario-2 h5 {
+        font-size: 24px;
+    }
+    
+    .campo label,
+    .especie label {
+        font-size: 16px;
+    }
+    
+    .campo,
+    .especie {
+        margin-bottom: 20px;
+    }
+    
+    .campo input,
+    .especie select,
+    #fecha,
+    .telefono input {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
+
+/* Container adjustments */
+#paso-4-seleccion-formulario,
+#paso-5-seleccion-formulario {
     width: 100%;
-    border-radius: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    transition: 0.3s ease-in-out;
+    padding: 0 15px;
+}
+
+/* Adjustments for Bootstrap columns */
+@media (max-width: 768px) {
+    #paso-4-seleccion-formulario .col,
+    #paso-5-seleccion-formulario .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
