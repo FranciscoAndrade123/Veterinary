@@ -195,96 +195,92 @@ document.getElementById('next1').addEventListener('click', async function() {
     }
 });
 
-//Variable global para los ID
-let clienteID = null; // Se usará en todos los pasos
 
+/**
+ * DATOS DEL CLIENTE
+ */
 
-//peticiones para enviar datos del cliente al servidor  (Funciona)
+// Variable global para almacenar el ID del cliente
+let clienteID = 1;
+
+// Función para obtener los datos del cliente por ID
+async function obtenerClientePorID(id) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/client/${id}`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "User-Agent": "web",
+                "Content-Type": "application/json"
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Error al obtener los datos del cliente por ID: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("Datos del cliente:", data);
+        
+        return data;
+    } catch (error) {
+        console.error("Error al obtener el cliente:", error);
+        throw error; // Re-lanzamos el error para manejarlo en la función que lo llama
+    }
+}
+
+// Función para enviar datos del cliente (registrar)
 async function enviarDatos() {
     if (pasoActual !== 4 && pasoActual !== 5) return true;
-
+    
     const nombreCliente = document.getElementById("nombre").value;
     const telefonoCliente = document.getElementById("telefono").value;
-
-    const headersList = {
-        "Accept": "*/*",
-        "User-Agent": "web",
-        "Content-Type": "application/json"
-    };
-
+    
     const bodyContent = JSON.stringify({
-        "clientName": nombreCliente,
-        "phone": telefonoCliente
+        clientName: nombreCliente,
+        phone: telefonoCliente
     });
-
+    
     try {
         const response = await fetch("http://localhost:8080/api/v1/client/", {
             method: "POST",
             body: bodyContent,
-            headers: headersList
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Error al registrar cliente');
-        }
-
-        console.log("Respuesta del servidor:", data);
-        clienteID = data.clientID; // <-- Aquí guardamos el ID globalmente
-        return data;
-
-    } catch (error) {
-        console.error("Error en la petición:", error);
-        throw error;
-    }
-          
-}
-})
-
-async function enviarDatosMascota() {
-    // Solo aplica a los pasos 4 y 5 (formularios)
-    if (pasoActual !== 4 && pasoActual !== 5) return true;
-    
-    // Obtengo el nombre de la mascota
-    const nombreMascota = document.getElementById("nombreMascota").value;
-    // Agrega aquí otros campos de la mascota que necesites
-    
-    // Configurar headers
-    const headersList = {
-        "Accept": "*/*",
-        "User-Agent": "web",
-        "Content-Type": "application/json"
-    };
-    
-    // Este es el punto clave - incluir el ID del cliente en los datos de la mascota
-    const bodyContent = JSON.stringify({
-        "petName": nombreMascota,
-      //"breedID": breedID,
-        "clientID": clienteID  // Usamos el ID global guardado anteriormente
-    });
-    
-    try {
-        const response = await fetch("http://localhost:8080/api/v1/pet/", {
-            method: "POST",
-            body: bodyContent,
-            headers: headersList
+            headers: {
+                "Accept": "*/*",
+                "User-Agent": "web",
+                "Content-Type": "application/json"
+            }
         });
         
         const data = await response.json();
+        console.log("Respuesta del servidor (POST cliente):", data);
         
         if (!response.ok) {
-            throw new Error(data.message || 'Error al registrar mascota');
+            throw new Error(data.message || "Error al registrar cliente");
         }
         
-        console.log("Mascota registrada:", data);
+        // Validar que venga el ID del cliente
+        if (!data.clientID) {
+            throw new Error("La respuesta no contiene clientID");
+        }
+        
+        clienteID = data.clientID;
+        console.log("🆔 Cliente registrado con ID:", clienteID);
+        
+        // Obtener info del cliente usando GET
+        await obtenerClientePorID(clienteID);
+        
         return data;
     } catch (error) {
-        console.error("Error al registrar mascota:", error);
-        throw error;
+        console.error("❌ Error al registrar cliente:", error);
+        throw error; // Re-lanzar el error para manejarlo donde se llame a esta función
     }
 }
 
+
+
+
+/***/
 //La obtencion de los datos de los nombre del veterinario
 async function obtenerVeterinarios() {
     try {
@@ -393,4 +389,4 @@ document.addEventListener("DOMContentLoaded", () => {
     obtenerTratamiento(); 
     obtenerRaza();
 });
-
+})
