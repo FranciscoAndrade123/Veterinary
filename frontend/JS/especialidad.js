@@ -1,3 +1,10 @@
+function filtrarEspecialidad() {
+    // Esta función solo necesita llamar a actualizarTablaEspecialidades
+    // ya que la lógica de filtrado ya está en obtenerEspecialidades
+    actualizarTablaEspecialidades();
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
     
     // Cargar las especialidades al iniciar la página
@@ -9,17 +16,25 @@ document.addEventListener("DOMContentLoaded", function () {
         buscarBtn.addEventListener("click", actualizarTablaEspecialidades);
     }
     
-    // Configurar evento para la tecla Enter en el campo de búsqueda
-    const filtroInput = document.getElementById("nameFilter");
-    if (filtroInput) {
-        filtroInput.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                actualizarTablaEspecialidades();
-            }
-        });
-    }
+ // Configurar evento para la tecla Enter en el campo de búsqueda
+ const filtroInput = document.getElementById("nameFilter");
+ if (filtroInput) {
+     filtroInput.addEventListener("keypress", function(event) {
+         if (event.key === "Enter") {
+             event.preventDefault();
+             filtrarEspecialidad();
+         }
+     });
+ }
     
+ // También podemos agregar un evento para limpiar el filtro cuando se borre el texto
+ if (filtroInput) {
+    filtroInput.addEventListener("input", function() {
+        if (this.value === "") {
+            filtrarEspecialidad(); // Actualizar sin filtro cuando se borra el texto
+        }
+    });
+}
     // Evento para el botón de agregar especialidad
     const botonEnvio = document.getElementById("botonEspecialidad");
     if (botonEnvio) {
@@ -78,13 +93,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//Obtiene los datos del servidor y lo muestra
 function obtenerEspecialidades() {
     return new Promise(async (resolve, reject) => {
         try {
             var url = "http://localhost:8080/api/v1/specialty/";
             var filtro = document.getElementById("nameFilter").value;
             
-            if (filtro != "") {
+            if (filtro != "") { //si el filtro no está vacio que le muestre los datos según eso
                 url += "filter/" + filtro;
             }
             
@@ -122,17 +138,33 @@ function actualizarTablaEspecialidades() {
             const tbody = document.querySelector(".veterinarios-table tbody");
             tbody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
             
+            if (especialidades.length === 0) {
+                // Mostrar mensaje cuando no hay resultados
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td colspan="3" class="text-center">
+                        No se encontraron especialidades con ese filtro
+                    </td>
+                `;
+                tbody.appendChild(tr);
+                return;
+            }
+            
             // Para cada especialidad, crear una fila en la tabla
             especialidades.forEach(especialidad => {
                 const tr = document.createElement("tr");
                 
+                // Verificar que los datos existen antes de mostrarlos
+                const id = especialidad.id !== undefined ? especialidad.id : 'N/A';
+                const nombre = especialidad.specialtyName || 'Sin nombre';
+                
                 tr.innerHTML = `
-                    <td><span class="vet-id">${especialidad.id}</span></td>
-                    <td>${especialidad.specialtyName}</td>
+                    <td><span class="vet-id">${id}</span></td>
+                    <td>${nombre}</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-edit" data-id="${especialidad.id}"><i class="fas fa-edit"></i></button>
-                            <button class="btn-delete" data-id="${especialidad.id}"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn-edit" data-id="${id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" data-id="${id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </td>
                 `;
@@ -295,7 +327,6 @@ function eliminarEspecialidad(id) {
     }
 } 
 
-//Filtrar por nombre de la especialidad e ID 
 
 
 
