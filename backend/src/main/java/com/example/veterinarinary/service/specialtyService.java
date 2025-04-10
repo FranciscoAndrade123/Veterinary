@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.example.veterinarinary.DTO.specialtyDTO;
 import com.example.veterinarinary.DTO.responseDTO;
+import com.example.veterinarinary.DTO.responseSpecialtyDTO;
 import com.example.veterinarinary.model.specialty;
 import com.example.veterinarinary.repository.ispecialty;
 
@@ -32,11 +33,16 @@ public class specialtyService {
     }
 
     // Listar todas las especialidades
-    public List<specialtyDTO> findAll() {
+    public List<responseSpecialtyDTO> findAll() {
         List<specialty> specialties = data.findAll();
         return specialties.stream()
-                     .map(this::convertToDTO)
+                     .map(this::convertToResponseDTO)
                      .collect(Collectors.toList());
+    }
+
+    //Filtrar por el nombre de la especialidad
+    public List <specialty> getListSpecialtyForName(String filter){
+        return data.getListSpecialtyForName(filter);
     }
 
     // Buscar por ID
@@ -51,9 +57,26 @@ public class specialtyService {
         if (!specialty.isPresent()) {
             return new responseDTO(HttpStatus.NOT_FOUND.toString(), "La especialidad no existe");
         }
-
         data.deleteById(id);
         return new responseDTO(HttpStatus.OK.toString(), "Especialidad eliminada correctamente");
+    }
+
+    //Actualizar
+    public responseDTO updateSpecialty(int id, specialtyDTO specialtyDTO) {
+        Optional<specialty> specialty = data.findById(id);
+        if (!specialty.isPresent()) {
+            responseDTO response = new responseDTO(HttpStatus.NOT_FOUND.toString(), "La especialidad no existe");
+            return response;
+        }
+        specialty existingSpecialty =  specialty.get();
+        existingSpecialty.set_specialtyName(specialtyDTO.getSpecialtyName());
+
+        data.save(existingSpecialty);
+
+        responseDTO respuesta = new responseDTO(
+            HttpStatus.OK.toString(),
+            "Especialidad actualizada correctamente");
+    return respuesta;
     }
 
     // Convertir de Entidad a DTO
@@ -61,6 +84,10 @@ public class specialtyService {
         return new specialtyDTO(specialty.get_specialtyName());
     }
 
+    public responseSpecialtyDTO convertToResponseDTO(specialty specialty) {
+        return new responseSpecialtyDTO(specialty.get_specialtyID(),specialty.get_specialtyName());
+    }
+    
     // Convertir de DTO a Entidad
     public specialty convertToModel(specialtyDTO specialtyDTO) {
         return new specialty(

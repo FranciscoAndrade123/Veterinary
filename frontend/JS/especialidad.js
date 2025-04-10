@@ -1,0 +1,321 @@
+document.addEventListener("DOMContentLoaded", function () {
+    
+    // Cargar las especialidades al iniciar la página
+    actualizarTablaEspecialidades();
+    
+    // Agregar evento al botón de búsqueda
+    const buscarBtn = document.querySelector(".filtrar-veterinarios button");
+    if (buscarBtn) {
+        buscarBtn.addEventListener("click", actualizarTablaEspecialidades);
+    }
+    
+    // Configurar evento para la tecla Enter en el campo de búsqueda
+    const filtroInput = document.getElementById("nameFilter");
+    if (filtroInput) {
+        filtroInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                actualizarTablaEspecialidades();
+            }
+        });
+    }
+    
+    // Evento para el botón de agregar especialidad
+    const botonEnvio = document.getElementById("botonEspecialidad");
+    if (botonEnvio) {
+        botonEnvio.addEventListener('click', async function(event) {
+            event.preventDefault();
+            
+            const nombreEspecialidad = document.getElementById("nombreEspecialidad").value.trim();
+            console.log("nombreEspecialidad capturado:", `"${nombreEspecialidad}"`);
+            
+            if (!nombreEspecialidad) {
+                alert("El nombre de la especialidad no puede estar vacío");
+                return;
+            }
+            
+            const bodyContent = JSON.stringify({
+                "specialtyName": nombreEspecialidad
+            });
+            
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/specialty/", {
+                    method: "POST",
+                    body: bodyContent,
+                    headers: {
+                        "Accept": "*/*",
+                        "User-Agent": "web",
+                        "Content-Type": "application/json"
+                    }
+                });
+                
+                const data = await response.json();
+                console.log("Respuesta del servidor (POST especialidad):", data);
+                
+                if (!response.ok) {
+                    throw new Error(data.message || "Error al registrar la especialidad");
+                }
+                
+                // Cerrar el modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Limpiar el campo
+                document.getElementById("nombreEspecialidad").value = "";
+                
+                // Actualizar la tabla con los nuevos datos
+                actualizarTablaEspecialidades();
+                
+                return data;
+            } catch (error) {
+                console.error("❌ Error al registrar especialidad", error);
+                alert("Error al registrar la especialidad: " + error.message);
+                throw error;
+            }
+        });
+    }
+});
+
+function obtenerEspecialidades() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            var url = "http://localhost:8080/api/v1/specialty/";
+            var filtro = document.getElementById("nameFilter").value;
+            
+            if (filtro != "") {
+                url += "filter/" + filtro;
+            }
+            
+            let headersList = {
+                "Accept": "*/*",
+                "User-Agent": "web",
+                "Content-Type": "application/json"
+            };
+            
+            let response = await fetch(url, {
+                method: "GET",
+                headers: headersList
+            });
+            
+            if (!response.ok) {
+                throw new Error("Error al obtener especialidades");
+            }
+
+         
+            
+            const data = await response.json();
+            console.log(data)
+            resolve(data);
+        } catch (error) {
+            console.error("Error al obtener especialidades:", error);
+            reject(error);
+        }
+    });
+}
+
+//Función donde crea la tabla en el html de la especialidad
+function actualizarTablaEspecialidades() {
+    obtenerEspecialidades()
+        .then(especialidades => {
+            const tbody = document.querySelector(".veterinarios-table tbody");
+            tbody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
+            
+            // Para cada especialidad, crear una fila en la tabla
+            especialidades.forEach(especialidad => {
+                const tr = document.createElement("tr");
+                
+                tr.innerHTML = `
+                    <td><span class="vet-id">${especialidad.id}</span></td>
+                    <td>${especialidad.specialtyName}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-edit" data-id="${especialidad.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" data-id="${especialidad.id}"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+            
+            // Agregar eventos a los botones de editar y eliminar
+            agregarEventosBotones();
+        })
+        .catch(error => {
+            console.error("Error al actualizar la tabla:", error);
+        });
+}
+
+
+//Función para editar el nombre de la tabla
+function editarEspecialidad(id) {
+    // Obtener los datos actuales de la especialidad
+    fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
+        method: "GET",
+        headers: {
+            "Accept": "*/*",
+            "User-Agent": "web",
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al obtener los datos de la especialidad");
+        }
+        return response.json();
+    })
+    .then(especialidad => {
+        // Crear un modal de edición dinámicamente o usar uno existente
+        let modalHtml = `
+            <div class="modal fade" id="editarEspecialidadModal" tabindex="-1" aria-labelledby="editarEspecialidadModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editarEspecialidadModalLabel">Editar Especialidad</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formEditarEspecialidad">
+                                <div class="mb-3">
+                                    <label for="editarNombreEspecialidad" class="form-label">Nombre de la Especialidad</label>
+                                    <input type="text" class="form-control" id="editarNombreEspecialidad" value="${especialidad.specialtyName}" required>
+                                    <input type="hidden" id="especialidadId" value="${id}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="guardarEdicionEspecialidad">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Eliminar el modal anterior si existe
+        const modalAnterior = document.getElementById('editarEspecialidadModal');
+        if (modalAnterior) {
+            modalAnterior.remove();
+        }
+
+        // Agregar el nuevo modal al DOM
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        // Inicializar el modal de Bootstrap
+        const modalElement = document.getElementById('editarEspecialidadModal');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+        // Agregar evento al botón de guardar cambios
+        document.getElementById('guardarEdicionEspecialidad').addEventListener('click', function() {
+            guardarEdicionEspecialidad();
+        });
+    })
+    .catch(error => {
+        console.error("Error al cargar datos para edición:", error);
+        alert("Error al cargar los datos de la especialidad: " + error.message);
+    });
+}
+
+function guardarEdicionEspecialidad() {
+    const id = document.getElementById('especialidadId').value;
+    const nombreEspecialidad = document.getElementById('editarNombreEspecialidad').value.trim();
+    
+    if (!nombreEspecialidad) {
+        alert("El nombre de la especialidad no puede estar vacío");
+        return;
+    }
+    
+    const bodyContent = JSON.stringify({
+        "specialtyName": nombreEspecialidad
+    });
+    
+    fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
+        method: "PUT",
+        body: bodyContent,
+        headers: {
+            "Accept": "*/*",
+            "User-Agent": "web",
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.message || "Error al actualizar la especialidad");
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Respuesta del servidor (PUT especialidad):", data);
+        
+        // Cerrar el modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editarEspecialidadModal'));
+        if (modal) {
+            modal.hide();
+        }
+        
+        // Actualizar la tabla con los nuevos datos
+        actualizarTablaEspecialidades();
+    })
+    .catch(error => {
+        console.error("❌ Error al actualizar especialidad", error);
+    });
+}
+
+//Función de elimiar la tabla en el html de la especialidad 
+function eliminarEspecialidad(id) {
+    if (confirm("¿Está seguro de que desea eliminar esta especialidad?")) {
+        fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "*/*",
+                "User-Agent": "web",
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.message || "Error al eliminar la especialidad");
+                });
+            }
+            
+            // Si la eliminación fue exitosa, actualizar la tabla
+            actualizarTablaEspecialidades();
+            return { success: true };
+        })
+        .catch(error => {
+            console.error("Error al eliminar especialidad:", error);
+            alert("Error al eliminar la especialidad: " + error.message);
+        });
+    }
+} 
+
+//Filtrar por nombre de la especialidad e ID 
+
+
+
+//Botones
+function agregarEventosBotones() {
+    // Eventos para botones de editar
+    document.querySelectorAll(".btn-edit").forEach(button => {
+        button.addEventListener("click", function() {
+            const id = this.getAttribute("data-id");
+            editarEspecialidad(id);
+        });
+    });
+    
+    // Eventos para botones de eliminar
+    document.querySelectorAll(".btn-delete").forEach(button => {
+        button.addEventListener("click", function() {
+            const id = this.getAttribute("data-id");
+            eliminarEspecialidad(id);
+        });
+    });
+}
+
+
