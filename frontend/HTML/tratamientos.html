@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratamiento</title>
+    <link rel="stylesheet" href="/frontend/CSS/style.CSS">
+    <link rel="stylesheet" href="/frontend/CSS/tratamiento.css">
+    <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+     <!-- Curvatura -->
+     <svg class="curvatura" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+        <path fill="#14b7c0be" fill-opacity="1"
+          d="M0,192L80,181.3C160,171,320,149,480,154.7C640,160,800,192,960,197.3C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
+        </path>
+      </svg>
+
+   <!--navegador-->
+<nav class="navegacion">
+    <div class="logo">
+        <img src="/frontend/img/petvetLogo.png" alt="Logo">
+    </div>
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <div class="menu" id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="cita.html">Citas</a>
+        <a href="administrador.html">Administrador</a>
+    </div>
+</nav>
+<!--/navegador-->
+
+<!--modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agrega tratameinto</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Tratamiento:</label>
+              <input type="text" class="form-control" id="nombreTratamiento">
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Descripción:</label>
+                <input type="text" class="form-control" id="descripTratamiento">
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="botonTratamiento">Enviar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- Main Content -->
+    <div class="main-content" style="margin-top: -20px;">
+        <div class="funcionalidades-admin">
+            <div class="titulo-vete" >
+                <h2>Modifica, agrega o elimina los tratamientos</h2>
+            </div>
+            
+            <div class="filtrar-veterinarios">
+                <input  id="nameFilter" type="text" placeholder="Buscar nomre del tratamiento...">
+                <button type="button"><i class="fas fa-search"></i>Buscar</button>
+            </div>
+            
+            <div class="agregarVeterinarios">
+                <button type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="fas fa-plus"></i> Agregar</button>
+            </div>
+            
+            <!-- Tabla de Veterinarios -->
+            <div class="veterinarios-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID </th>
+                            <th>Tratamiento</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--creación de las filas de la tabla-->
+                    </tbody>
+                </table>    
+            </div>
+        </div>
+    </div>
+    <script src="/frontend/JS/tratamiento.js"></script>
+    <script src="/frontend/JS/index.js"></script>
+    <script src="/frontend/bootstrap/bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script>
+    
+</body>
+</html>

@@ -91,4 +91,23 @@ public class treatmentService {
             "Tratamiento eliminado correctamente"
         );
     }
+
+    // Actualizar el tratamiento mediante el ID 
+    public responseDTO updateTreatment(int id, treatmentDTO treatmentDTO) {
+        Optional<treatment> treatment = findById(id);
+        if (!treatment.isPresent()) {
+                responseDTO response = new responseDTO(HttpStatus.NOT_FOUND.toString(), "La especialidad no existe");
+                return response;
+            }
+
+            treatment existingTreatmen = treatment.get();
+            existingTreatmen.setTreatmentName(treatmentDTO.getTreatmentName());
+            existingTreatmen.setTreatmentDescription(treatmentDTO.getTreatmentDescription());
+
+            data.save(existingTreatmen);
+
+            responseDTO respuesta  = new responseDTO(HttpStatus.OK.toString(), "Tratamiento actualizado correctamente");
+            return respuesta;
+    }
+    
 }

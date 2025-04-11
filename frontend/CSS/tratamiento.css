@@ -1,0 +1,308 @@
+:root {
+    --primary: #14b7c0;
+    --primary-light: #14b7c0be;
+    --primary-dark: #0e8a91;
+    --secondary: #3d3d3d;
+    --accent: #f8f9fa;
+    --text-dark: #333;
+    --text-light: #666;
+    --white: #fff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --success: #28a745;
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+/* Funcionalidades admin */
+.funcionalidades-admin {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.titulo-vete {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.titulo-vete h2 {
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+}
+
+.titulo-vete h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    border-radius: 2px;
+}
+
+.filtrar-veterinarios {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.filtrar-veterinarios input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 400px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.filtrar-veterinarios input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(20, 183, 192, 0.25);
+}
+
+.filtrar-veterinarios button,
+.agregarVeterinarios button {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.7rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filtrar-veterinarios button:hover,
+.agregarVeterinarios button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(20, 183, 192, 0.3);
+}
+
+.agregarVeterinarios {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+}
+
+/* Tabla de veterinarios/tratamientos - Ajuste general */
+.veterinarios-table {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.veterinarios-table table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.veterinarios-table th {
+    background-color: var(--primary);
+    color: var(--white);
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem;
+    font-size: 1.05rem;
+}
+
+.veterinarios-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    position: relative;
+}
+
+.veterinarios-table tr:last-child td {
+    border-bottom: none;
+}
+
+.veterinarios-table tr:hover {
+    background-color: rgba(20, 183, 192, 0.05);
+}
+
+/* Distribución equitativa de columnas para el caso de tratamientos (4 columnas) */
+.veterinarios-table th:nth-child(1),
+.veterinarios-table td:nth-child(1) {
+    width: 20%; /* ID - más pequeño */
+}
+
+.veterinarios-table th:nth-child(2),
+.veterinarios-table td:nth-child(2) {
+    width: 35%; /* Tratamiento */
+}
+
+.veterinarios-table th:nth-child(3),
+.veterinarios-table td:nth-child(3) {
+    width: 40%; /* Descripción - más grande para textos largos */
+}
+
+.veterinarios-table th:nth-child(4),
+.veterinarios-table td:nth-child(4) {
+    width: 12%; /* Acciones */
+    text-align: center;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-edit, .btn-delete {
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem;
+    transition: all 0.2s;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: end;
+}
+
+.btn-edit {
+    background-color: #fff9e6;
+    color: #ffb100;
+    border: 1px solid #ffecb3;
+}
+
+.btn-edit:hover {
+    background-color: #ffecb3;
+    color: #e69500;
+}
+
+.btn-delete {
+    background-color: #ffebee;
+    color: #f44336;
+    border: 1px solid #ffcdd2;
+}
+
+.btn-delete:hover {
+    background-color: #ffcdd2;
+    color: #d32f2f;
+}
+
+/* Mejora para textos largos */
+.veterinarios-table td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .veterinarios-table th:nth-child(1),
+    .veterinarios-table td:nth-child(1) {
+        width: 15%; /* ID */
+    }
+
+    .veterinarios-table th:nth-child(2),
+    .veterinarios-table td:nth-child(2) {
+        width: 25%; /* Tratamiento */
+    }
+
+    .veterinarios-table th:nth-child(3),
+    .veterinarios-table td:nth-child(3) {
+        width: 40%; /* Descripción */
+    }
+
+    .veterinarios-table th:nth-child(4),
+    .veterinarios-table td:nth-child(4) {
+        width: 20%; /* Acciones */
+    }
+}
+
+/* ID de veterinario */
+.vet-id {
+    background-color: var(--primary-light);
+    color: var(--white);
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .filtrar-veterinarios {
+        flex-direction: column;
+    }
+
+    .titulo-vete h2 {
+        font-size: 1.5rem;
+    }
+
+    .agregarVeterinarios {
+        justify-content: center;
+    }
+    
+    /* Tabla responsive para móviles */
+    .veterinarios-table {
+        overflow-x: auto;
+        display: block;
+    }
+    
+    .veterinarios-table table {
+        min-width: 600px; /* Asegura que la tabla se pueda desplazar en móviles */
+    }
+    
+    /* Distribución de columnas en móviles */
+    .veterinarios-table th:nth-child(1),
+    .veterinarios-table td:nth-child(1) {
+        width: 15%; /* ID */
+    }
+
+    .veterinarios-table th:nth-child(2),
+    .veterinarios-table td:nth-child(2) {
+        width: 25%; /* Tratamiento */
+    }
+
+    .veterinarios-table th:nth-child(3),
+    .veterinarios-table td:nth-child(3) {
+        width: 40%; /* Descripción */
+    }
+
+    .veterinarios-table th:nth-child(4),
+    .veterinarios-table td:nth-child(4) {
+        width: 20%; /* Acciones */
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .veterinarios-table table {
+        min-width: 450px;
+    }
+    
+    .filtrar-veterinarios input,
+    .filtrar-veterinarios button {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}

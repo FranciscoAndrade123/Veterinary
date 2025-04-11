@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,7 +33,7 @@ public class treatmentController {
             // Determina el HttpStatus basado en el status del responseDTO
             HttpStatus httpStatus = response.getStatus().equals(HttpStatus.OK.toString()) 
                 ? HttpStatus.OK 
-                : HttpStatus.BAD_REQUEST;
+                : HttpStatus.OK;
             
             // Devuelve el responseDTO completo con el status HTTP apropiado
             return new ResponseEntity<>(response, httpStatus);
@@ -70,5 +71,12 @@ public class treatmentController {
     public ResponseEntity<Object> deleteTreatment(@PathVariable int id) {
         var message = treatmentService.deleteTreatment(id);
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    // Endpoint para actualizar un tratamiento
+ @PutMapping("/{id}")
+    public ResponseEntity<Object> updateTreatment(@PathVariable int id, @RequestBody treatmentDTO treatmentDTO) {
+        responseDTO response = treatmentService.updateTreatment(id, treatmentDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
