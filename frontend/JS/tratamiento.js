@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded' , function(){
             });
 
             try{
-                const response = await fetch('http://localhost:8080/api/v1/treatment/', {
+                const response = await fetch('http://172.30.1.238:8080/api/v1/treatment/', {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded' , function(){
 function obtenerTratamiento(){
     return new Promise( async(resolve,reject)=> {
         try{
-            let url = 'http://localhost:8080/api/v1/treatment/';
+            let url = 'http://172.30.1.238:8080/api/v1/treatment/';
             let filtro = document.getElementById('nameFilter').value;
 
             if(filtro != ''){
@@ -158,7 +158,7 @@ function actualizarTablaTratamientos(){
 //Función de elimiar la tabla en el html de la especialidad 
 function eliminarTratamiento(id) {
     if (confirm("¿Está seguro de que desea eliminar este tratamiento?")) {
-        fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+        fetch(`http://172.30.1.238:8080/api/v1/treatment/${id}`, {
             method: "DELETE",
             headers: {
                 "Accept": "*/*",
@@ -187,7 +187,7 @@ function eliminarTratamiento(id) {
 //Función para editar el tratamiento 
 function editarTratamiento(id) {
     // Obtener los datos actuales de la especialidad
-    fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+    fetch(`http://172.30.1.238:8080/api/v1/treatment/${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -271,7 +271,7 @@ function guardarEdicionTratamiento() {
         "treatmentDescription": descripTratamiento
     });
     
-    fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+    fetch(`http://172.30.1.238:8080/api/v1/treatment/${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {
