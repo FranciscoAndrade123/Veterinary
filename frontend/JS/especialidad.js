@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             try {
-                const response = await fetch("http://172.30.1.238:8080/api/v1/specialty/", {
+                const response = await fetch("http://localhost:8080/api/v1/specialty/", {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function obtenerEspecialidades() {
     return new Promise(async (resolve, reject) => {
         try {
-            var url = "http://172.30.1.238:8080/api/v1/specialty/";
+            var url = "http://localhost:8080/api/v1/specialty/";
             var filtro = document.getElementById("nameFilter").value;
 
             if (filtro != "") { //si el filtro no está vacio que le muestre los datos según eso
@@ -190,7 +190,7 @@ function actualizarTablaEspecialidades() {
 //Función para editar el nombre de la tabla
 function editarEspecialidad(id) {
     // Obtener los datos actuales de la especialidad
-    fetch(`http://172.30.1.238:8080/api/v1/specialty/${id}`, {
+    fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -270,7 +270,7 @@ function guardarEdicionEspecialidad() {
         "specialtyName": nombreEspecialidad
     });
 
-    fetch(`http://172.30.1.238:8080/api/v1/specialty/${id}`, {
+    fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {
@@ -307,7 +307,7 @@ function guardarEdicionEspecialidad() {
 //Función de elimiar la tabla en el html de la especialidad 
 function eliminarEspecialidad(id) {
     if (confirm("¿Está seguro de que desea eliminar esta especialidad?")) {
-        fetch(`http://172.30.1.238:8080/api/v1/specialty/${id}`, {
+        fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
             method: "DELETE",
             headers: {
                 "Accept": "*/*",

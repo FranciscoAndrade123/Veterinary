@@ -79,4 +79,11 @@ public class treatmentController {
         responseDTO response = treatmentService.updateTreatment(id, treatmentDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    // Endpoint para filtrar tratamientos por nombre
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<Object> filterTreatments(@PathVariable String filter) {
+        var listaTratamientos = treatmentService.getListTreatmentForName(filter);
+        return new ResponseEntity<>(listaTratamientos, HttpStatus.OK);
+    }
 }

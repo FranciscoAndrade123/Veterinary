@@ -1,3 +1,10 @@
+function filtrarTratamiento() {
+    // Esta función solo necesita llamar a actualizarTablaTratamientos
+    // ya que la lógica de filtrado ya está en obtenerEspecialidades
+    actualizarTablaTratamientos();
+
+}
+
 
 document.addEventListener('DOMContentLoaded' , function(){ 
     //Declaramos el boton para enviar datos al servidor
@@ -5,6 +12,35 @@ document.addEventListener('DOMContentLoaded' , function(){
 
      // Cargar las especialidades al iniciar la página
      actualizarTablaTratamientos()
+// Agregar evento al botón de búsqueda
+     const botonFiltrar = document.querySelector(".filtrar-veterinarios button");
+        if (botonFiltrar) {
+            botonFiltrar.addEventListener("click", function() {
+                actualizarTablaTratamientos();
+            });
+        }
+  // Configurar evento para la tecla Enter en el campo de búsqueda
+        const filtroInput = document.getElementById("nameFilter");
+        if (filtroInput) {
+            filtroInput.addEventListener("input", function(event){
+                if(event.key === "Enter"){
+                    event.preventDefault();
+                    filtrarTratamiento();
+                }
+
+            })
+        }
+
+    // También podemos agregar un evento para limpiar el filtro cuando se borre el texto
+        if (filtroInput){
+            filtroInput.addEventListener("input" , function(event){
+                if (this.value === "") {
+                    filtrarTratamiento(); // Actualizar sin filtro cuando se borra el texto
+                }
+            } )
+        }
+
+
 
     if(botonEnvio){
         botonEnvio.addEventListener('click', async function (event) {
@@ -29,7 +65,7 @@ document.addEventListener('DOMContentLoaded' , function(){
             });
 
             try{
-                const response = await fetch('http://172.30.1.238:8080/api/v1/treatment/', {
+                const response = await fetch('http://localhost:8080/api/v1/treatment/', {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -69,7 +105,7 @@ document.addEventListener('DOMContentLoaded' , function(){
 function obtenerTratamiento(){
     return new Promise( async(resolve,reject)=> {
         try{
-            let url = 'http://172.30.1.238:8080/api/v1/treatment/';
+            let url = 'http://localhost:8080/api/v1/treatment/';
             let filtro = document.getElementById('nameFilter').value;
 
             if(filtro != ''){
@@ -113,7 +149,7 @@ function actualizarTablaTratamientos(){
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td colspan="3" class="text-center">
-                    No se encontraron especialidades con ese filtro
+                    No se encontraron tratamientos con ese filtro
                 </td>
             `;
             tbody.appendChild(tr);
@@ -158,7 +194,7 @@ function actualizarTablaTratamientos(){
 //Función de elimiar la tabla en el html de la especialidad 
 function eliminarTratamiento(id) {
     if (confirm("¿Está seguro de que desea eliminar este tratamiento?")) {
-        fetch(`http://172.30.1.238:8080/api/v1/treatment/${id}`, {
+        fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
             method: "DELETE",
             headers: {
                 "Accept": "*/*",
@@ -187,7 +223,7 @@ function eliminarTratamiento(id) {
 //Función para editar el tratamiento 
 function editarTratamiento(id) {
     // Obtener los datos actuales de la especialidad
-    fetch(`http://172.30.1.238:8080/api/v1/treatment/${id}`, {
+    fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -271,7 +307,7 @@ function guardarEdicionTratamiento() {
         "treatmentDescription": descripTratamiento
     });
     
-    fetch(`http://172.30.1.238:8080/api/v1/treatment/${id}`, {
+    fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {

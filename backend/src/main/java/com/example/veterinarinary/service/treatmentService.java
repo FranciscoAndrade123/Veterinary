@@ -109,5 +109,10 @@ public class treatmentService {
             responseDTO respuesta  = new responseDTO(HttpStatus.OK.toString(), "Tratamiento actualizado correctamente");
             return respuesta;
     }
+
+        // Filtrar tratamientos por nombre
+      public List<treatment> getListTreatmentForName(String filter) {
+        return data.getListTreatmentForName(filter);
+    }
     
 }
