@@ -123,7 +123,7 @@ function obtenerTratamiento(){
             });
 
             if (!response.ok) {
-                throw new Error("Error al obtener especialidades");
+                throw new Error("Error al obtener los tratamientos");
             }
 
             const data = await response.json();

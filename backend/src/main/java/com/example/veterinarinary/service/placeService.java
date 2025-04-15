@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.example.veterinarinary.DTO.placeDTO;
 import com.example.veterinarinary.DTO.responseDTO;
+import com.example.veterinarinary.DTO.responsePlaceDTO;
 import com.example.veterinarinary.model.place;
 import com.example.veterinarinary.repository.iplace;
 
@@ -32,10 +33,10 @@ public class placeService {
     }
 
     // Listar todos los lugares
-    public List<placeDTO> findAll() {
+    public List<responsePlaceDTO> findAll() {
         List<place> places = data.findAll();
         return places.stream()
-                     .map(this::convertToDTO)
+                     .map(this::convertToResponseDTO)
                      .collect(Collectors.toList());
     }
 
@@ -56,9 +57,34 @@ public class placeService {
         return new responseDTO(HttpStatus.OK.toString(), "Lugar eliminado correctamente");
     }
 
+    // Actualizar por ID
+    public responseDTO updatePlace(int id, placeDTO placeDTO) {
+        Optional<place> place = data.findById(id);
+        if (!place.isPresent()) {
+            return new responseDTO(HttpStatus.NOT_FOUND.toString(), "El lugar no existe");
+        }
+        place existingPlace = place.get();
+        existingPlace.setPlaceName(placeDTO.getPlaceName());
+        data.save(existingPlace);
+
+        return new responseDTO(HttpStatus.OK.toString(), "Lugar actualizado correctamente");
+    }
+
+    // Filtrar por nombre
+    public List<place> filterByName(String filter) {
+        return data.getListPlaceForName(filter);
+    }
+
     // Convertir de Entidad a DTO
     public placeDTO convertToDTO(place place) {
         return new placeDTO(place.getPlaceName());
+    }
+
+    public responsePlaceDTO convertToResponseDTO(place place) {
+        return new responsePlaceDTO(
+            place.getPlaceID(),
+            place.getPlaceName()
+        );
     }
 
     // Convertir de DTO a Entidad

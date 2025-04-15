@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 import com.example.veterinarinary.DTO.placeDTO;
+import com.example.veterinarinary.DTO.responsePlaceDTO;
 import com.example.veterinarinary.DTO.responseDTO;
 import com.example.veterinarinary.service.placeService;
 
@@ -23,13 +24,14 @@ public class placeController {
     @PostMapping("/")
     public ResponseEntity<Object> createPlace(@RequestBody placeDTO placeDTO) {
         responseDTO response = placeService.save(placeDTO);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
         return new ResponseEntity<>(response, status);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<placeDTO>> getAllPlaces() {
-        return new ResponseEntity<>(placeService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<responsePlaceDTO>> getAllPlaces() {
+        List<responsePlaceDTO> places = placeService.findAll();
+        return new ResponseEntity<List<responsePlaceDTO>>(places, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -40,10 +42,24 @@ public class placeController {
             : new ResponseEntity<>(new responseDTO(HttpStatus.NOT_FOUND.toString(), "El lugar no existe"), HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updatePlace(@PathVariable int id, @RequestBody placeDTO placeDTO) {
+        responseDTO response = placeService.updatePlace(id,placeDTO);
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
+        return new ResponseEntity<>(response, status);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletePlace(@PathVariable int id) {
         responseDTO response = placeService.deletePlace(id);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
         return new ResponseEntity<>(response, status);
     }
+
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<Object> getListPlaceForName(@PathVariable String filter) {
+        var listaLugar = placeService.filterByName(filter);
+        return new ResponseEntity<>(listaLugar, HttpStatus.OK);
+    }
+    
 }
