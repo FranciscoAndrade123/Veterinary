@@ -28,7 +28,7 @@ public class veterinarianSpecialtyController {
     public ResponseEntity<Object>veterinarianSpecialtyRegister(@RequestBody veterinarianSpecialtyDTO veterinarianSpecialtyDTO){
         try {
             veterinarianSpecialtyService.save(veterinarianSpecialtyDTO);
-            return new ResponseEntity<>("veterinarianSpecialty OK", HttpStatus.OK);
+            return new ResponseEntity<>("veterinarianSpecialty OK", HttpStatus.OK); // Acá se devuelve un mensaje en texto
         } catch (Exception e) {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -37,7 +37,7 @@ public class veterinarianSpecialtyController {
     // Buscar relación por ID
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable int id) {
-        responseDTO response = veterinarianSpecialtyService.findById(id);
+        veterinarianSpecialty response = veterinarianSpecialtyService.findById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.veterinarinary.DTO.breedDTO;
+import com.example.veterinarinary.DTO.responseBreedDTO;
 import com.example.veterinarinary.DTO.responseDTO;
 import com.example.veterinarinary.service.breedService;
 
@@ -22,12 +23,12 @@ public class breedController {
     @PostMapping("/")
     public ResponseEntity<Object> createBreed(@RequestBody breedDTO breedDTO) {
         responseDTO response = breedService.save(breedDTO);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
         return new ResponseEntity<>(response, status);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<breedDTO>> getAllBreeds() {
+    public ResponseEntity<List<responseBreedDTO>> getAllBreeds() {
         return new ResponseEntity<>(breedService.findAll(), HttpStatus.OK);
     }
 
@@ -42,7 +43,14 @@ public class breedController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteBreed(@PathVariable int id) {
         responseDTO response = breedService.deleteBreed(id);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
+        return new ResponseEntity<>(response, status);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateBreed(@PathVariable int id, @RequestBody breedDTO breedDTO) {
+        responseDTO response = breedService.updateBreed(id, breedDTO);
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
         return new ResponseEntity<>(response, status);
     }
 
@@ -51,4 +59,6 @@ public class breedController {
         var listaRaza = breedService.getListBreedForName(filter);
         return new ResponseEntity<>(listaRaza, HttpStatus.OK);
       }
+
+
 }

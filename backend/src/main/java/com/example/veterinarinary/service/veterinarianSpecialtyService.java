@@ -52,28 +52,26 @@ public class veterinarianSpecialtyService {
         return new responseDTO(HttpStatus.OK.toString(), "Veterinario-Especialidad registrada correctamente.");
     }
 
-        // Buscar relación por ID
-        public responseDTO findById(int id) {
-          Optional<veterinarianSpecialty> veterinarianSpecialty = veterinarianSpecialtyRepository.findById(id);
-          if (!veterinarianSpecialty.isPresent()) {
-              return new responseDTO(HttpStatus.NOT_FOUND.toString(), "Veterinario-Especialidad con ID " + id + " no encontrada.");
-          }
-          return new responseDTO(HttpStatus.OK.toString(), veterinarianSpecialty.get());
-      }
-  
-      // Listar todas las relaciones
-      public List<veterinarianSpecialty> findAll() {
-          return veterinarianSpecialtyRepository.findAll();
-      }
-  
-      // Eliminar relación por ID
-      @Transactional
-      public responseDTO deleteById(int id) {
-          if (!veterinarianSpecialtyRepository.existsById(id)) {
-              return new responseDTO(HttpStatus.NOT_FOUND.toString(), "Veterinario-Especialidad con ID " + id + " no encontrada.");
-          }
-  
-          veterinarianSpecialtyRepository.deleteById(id);
-          return new responseDTO(HttpStatus.OK.toString(), "Veterinario-Especialidad eliminada correctamente.");
-      }
+
+
+    public veterinarianSpecialty findById(int id) {
+        return veterinarianSpecialtyRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Veterinario-Especialidad con ID " + id + " no encontrada."));
+    }
+
+    // Listar todas las relaciones
+    public List<veterinarianSpecialty> findAll() {
+        return veterinarianSpecialtyRepository.findAll();
+    }
+
+    // Eliminar relación por ID
+    @Transactional
+    public responseDTO deleteById(int id) {
+        if (!veterinarianSpecialtyRepository.existsById(id)) {
+            return new responseDTO(HttpStatus.NOT_FOUND.toString(), "Veterinario-Especialidad con ID " + id + " no encontrada.");
+        }
+
+        veterinarianSpecialtyRepository.deleteById(id);
+        return new responseDTO(HttpStatus.OK.toString(), "Veterinario-Especialidad eliminada correctamente.");
+    }
 }

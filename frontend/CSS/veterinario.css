@@ -155,11 +155,13 @@
     background-color: #e8f7f8;
     color: var(--primary-dark);
     border-radius: 20px;
-    padding: 0.3rem 0.8rem;
+    padding: 0.13rem 0.8rem;
     font-weight: 600;
     font-size: 0.85rem;
     display: inline-block;
     border: 1px solid rgba(20, 183, 192, 0.3);
+    margin: 12px
+
 }
 
 /* Action buttons */

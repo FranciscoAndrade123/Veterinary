@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.example.veterinarinary.DTO.breedDTO;
+import com.example.veterinarinary.DTO.responseBreedDTO;
 import com.example.veterinarinary.DTO.responseDTO;
 import com.example.veterinarinary.model.breed;
 import com.example.veterinarinary.repository.ibreed;
@@ -35,10 +36,10 @@ public class breedService {
     }
 
     // Listar todas las razas
-    public List<breedDTO> findAll() {
+    public List<responseBreedDTO> findAll() {
         List<breed> breeds = data.findAll();
         return breeds.stream()
-                     .map(this::convertToDTO)
+                     .map(this::convertToResponseDTO)
                      .collect(Collectors.toList());
     }
 
@@ -59,6 +60,20 @@ public class breedService {
         return new responseDTO(HttpStatus.OK.toString(), "Raza eliminada correctamente");
     }
 
+    // Actualizar por ID
+    public responseDTO updateBreed(int id, breedDTO breedDTO) {
+        Optional<breed> breed = data.findById(id);
+        if (!breed.isPresent()) {
+            return new responseDTO(HttpStatus.NOT_FOUND.toString(), "La raza no existe");
+        }
+        breed existingBreed = breed.get();
+        existingBreed.setBreedName(breedDTO.getBreedName());
+        existingBreed.setCharacteristic(breedDTO.getCharacteristic());
+        data.save(existingBreed);
+
+        return new responseDTO(HttpStatus.OK.toString(), "Raza actualizada correctamente");
+    }
+
     //filtrar el nombre de la mascota
     public List<breed> getListBreedForName(String filter){
         return data.getListBreedForName(filter);
@@ -67,6 +82,14 @@ public class breedService {
     // Convertir de Entidad a DTO
     public breedDTO convertToDTO(breed breed) {
         return new breedDTO(
+            breed.getBreedName(),
+            breed.getCharacteristic()
+        );
+    }
+
+    public responseBreedDTO convertToResponseDTO(breed breed) {
+        return new responseBreedDTO(
+            breed.getBreedID(),
             breed.getBreedName(),
             breed.getCharacteristic()
         );
