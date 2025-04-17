@@ -64,6 +64,32 @@ public class veterinarianSpecialtyService {
         return veterinarianSpecialtyRepository.findAll();
     }
 
+    // Actualizar relación por ID
+    public responseDTO update(int id, veterinarianSpecialtyDTO veterinarianSpecialtyDTO) {
+        Optional <veterinarianSpecialty> existingVeterinarianSpecialty = veterinarianSpecialtyRepository.findById(id);
+        if (!existingVeterinarianSpecialty.isPresent()) {
+            return new responseDTO(HttpStatus.NOT_FOUND.toString(), "Veterinario-Especialidad con ID " + id + " no encontrada.");
+        }
+        Optional<veterinarian> vet = veterinarianRepository.findById(veterinarianSpecialtyDTO.getVeterinarianID());
+        if (!vet.isPresent()) {
+            return new responseDTO(HttpStatus.NOT_FOUND.toString(), "Veterinario con ID " + veterinarianSpecialtyDTO.getVeterinarianID() + " no encontrado.");
+        }
+        Optional<specialty> spec = specialtyRepository.findById(veterinarianSpecialtyDTO.getSpecialtyID());
+        if (!spec.isPresent()) {
+            return new responseDTO(HttpStatus.NOT_FOUND.toString(), "Especialidad con ID " + veterinarianSpecialtyDTO.getSpecialtyID() + " no encontrada.");
+        }
+    ;
+        // Actualizamos la relación en la tabla pivote
+        veterinarianSpecialty veterinarianSpecialtyUpdate = existingVeterinarianSpecialty.get();
+        veterinarianSpecialtyUpdate.setVeterinarianID(vet.get());
+        veterinarianSpecialtyUpdate.setSpecialtyID(spec.get());
+
+        veterinarianSpecialtyRepository.save(veterinarianSpecialtyUpdate);
+
+        return new responseDTO(HttpStatus.OK.toString(), "Veterinario-Especialidad actualizada correctamente.");
+    }
+
+
     // Eliminar relación por ID
     @Transactional
     public responseDTO deleteById(int id) {

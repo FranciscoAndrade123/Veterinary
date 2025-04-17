@@ -65,6 +65,23 @@ public class veterinarianService {
         return data.findById(id);
     }
 
+    //Actualizar un veterinario por ID
+    public responseDTO updateVeterinarian(int id, veterinarianDTO veterinarianDTO) {
+        if (!findById(id).isPresent()) {
+            return new responseDTO(
+                HttpStatus.OK.toString(),
+                "El registro no existe"
+            );
+        }
+        veterinarian vet = convertToModel(veterinarianDTO);
+        vet.set_veterinarianID(id); // Asegurarse de que el ID se mantenga
+        data.save(vet);
+        return new responseDTO(
+            HttpStatus.OK.toString(),
+            "Veterinario actualizado correctamente"
+        );
+    }
+
     // Eliminar un veterinario por ID
     public responseDTO deleteVeterinarian(int id) {
         if (!findById(id).isPresent()) {

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/v1/veterinarianSpecialty")
@@ -48,10 +50,20 @@ public class veterinarianSpecialtyController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    //Editar relación por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateById(@PathVariable int id, @RequestBody veterinarianSpecialtyDTO veterinarianSpecialtyDTO) {
+        responseDTO response = veterinarianSpecialtyService.update(id, veterinarianSpecialtyDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     // Eliminar relación por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable int id) {
         responseDTO response = veterinarianSpecialtyService.deleteById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+
 }

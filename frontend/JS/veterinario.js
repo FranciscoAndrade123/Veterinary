@@ -297,6 +297,8 @@ function editarVeterinarioEspecialidad(id){
                                     <!-- Opciones se llenarán dinámicamente -->
                                 </select>
                                 <input type="hidden" id="veterinarioEspecialidad" value="${vetYesp.id}">
+                                <input type="hidden" id="veterinarioID" value="${vetYesp.veterinarianID?._veterinarianID || vetYesp.veterinarianID}">
+                                <input type="hidden" id="especialidadID" value="${vetYesp.specialtyID}">
                             </div>
                         </form>
                     </div>
@@ -349,12 +351,82 @@ function editarVeterinarioEspecialidad(id){
 
         // Agregar evento al botón de guardar cambios
         document.getElementById('guardarVeterinario').addEventListener('click', function() {
-            guardarEdicionVeterinario();
+            guardarEdicionVeterinarios();
         });
     })
     .catch(error => {
         console.error("Error al cargar datos para edición:", error);
         alert("Error al cargar los datos del veterinario: " + error.message);
+    });
+}
+
+
+function guardarEdicionVeterinarios() {
+    const idPivote = document.getElementById('veterinarioEspecialidad').value;
+    const idVeterinario = document.getElementById('veterinarioID').value;
+    const nuevoNombre = document.getElementById('editarNombreVeterinario').value;
+    const nuevaEspecialidad = document.getElementById('editarEspecialidad').value;
+
+    // Validar que los campos no estén vacíos
+    if (!nuevoNombre || !nuevaEspecialidad) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    // Paso 1: Actualizar el nombre del veterinario
+    fetch(`http://localhost:8080/api/v1/veterinarian/${idVeterinario}`, {
+        method: "PUT",
+        body: JSON.stringify({ veterinarianName: nuevoNombre }),
+        headers: {
+            "Accept": "*/*",
+            "User-Agent": "web",
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al actualizar el nombre del veterinario");
+        }
+        return response.json();
+    })
+    .then(() => {
+        console.log("Nombre del veterinario actualizado correctamente");
+
+        // Paso 2: Actualizar la relación en la tabla pivote
+        return fetch(`http://localhost:8080/api/v1/veterinarianSpecialty/${idPivote}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                veterinarianID: idVeterinario,
+                specialtyID: nuevaEspecialidad
+            }),
+            headers: {
+                "Accept": "*/*",
+                "User-Agent": "web",
+                "Content-Type": "application/json"
+            }
+        });
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al actualizar la relación en la tabla pivote");
+        }
+        return response.json();
+    })
+    .then(() => {
+        console.log("Relación en la tabla pivote actualizada correctamente");
+
+        // Cerrar el modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editarVeterinarioModal'));
+        if (modal) {
+            modal.hide();
+        }
+
+        // Actualizar la tabla automáticamente
+        actualizarTablaVeterinarioEspecialidades();
+    })
+    .catch(error => {
+        console.error("❌ Error al guardar los cambios:", error);
+        alert("Error al guardar los cambios: " + error.message);
     });
 }
 
