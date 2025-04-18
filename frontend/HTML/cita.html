@@ -47,14 +47,16 @@
             <!-- Espacio vacío -->
         </div>
         <div class="col">
-            <!-- Carta de Agendamiento -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Agendar tu cita</h3>
-                    <p>Agenda tu cita de forma rápida y sencilla. Elige el día y la hora que mejor se adapten a tu disponibilidad y recibe la mejor atención. ¡Reserva ahora y asegura tu espacio!</p>
+            <!-- Carta de Agendamiento --> 
+             <a href="agendarCita.html"  style="text-decoration: none; color: inherit;">
+                <div class="carta-agendamiento">
+                    <div class="contenido">
+                        <h3>Agendar tu cita</h3>
+                        <p>Agenda tu cita de forma rápida y sencilla. Elige el día y la hora que mejor se adapten a tu disponibilidad y recibe la mejor atención. ¡Reserva ahora y asegura tu espacio!</p>
+                    </div>
+                    <i class="fa-solid fa-calendar" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
                 </div>
-                <i class="fa-solid fa-calendar" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
+             </a>
         </div>
         <div class="col">
             <!-- Espacio vacío -->
@@ -67,237 +69,20 @@
         </div>
         <div class="col">
             <!-- Carta de Citas Agendadas -->
-            <div class="carta-citas" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Citas agendadas</h3>
-                    <p>Consulta tus citas agendadas en un solo lugar. Revisa fechas, horarios y detalles de tu próxima atención de manera fácil y rápida. ¡Mantén tu agenda organizada!</p>
-                </div>
-                <i class="fa-solid fa-paw" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-</div>
-
-<!--Paso 3: Selección de tratamiento VACIOOOOOOOOOOO-->
-<div id="paso-2-seleccion-tratamiento" class="container text-center" style="display: none;">
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de tratamiento 1 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Baño</h3>
-                    <p>Mantén a tu mascota limpia y fresca con nuestro servicio de baño. Usamos productos de alta calidad para cuidar su piel y pelaje, dejándola reluciente y oliendo delicioso.</p>
-                </div>
-                <i class="fa-solid fa-shower" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de tratamiento 2-->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Corte de pelo y baño</h3>
-                    <p>Un servicio completo de higiene y estética para tu mascota. Incluye baño con productos especiales y un corte de pelo personalizado según la raza y estilo deseado. ¡Tu peludo lucirá increíble!</p>
-                </div>
-                <i class="fa-solid fa-scissors" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de tratamiento 3 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)">
-                <div class="contenido">
-                    <h3>Visita médica</h3>
-                    <p>Cuida la salud de tu mascota con una consulta veterinaria. Nuestros expertos realizarán una revisión completa para asegurarse de su bienestar y brindarte las mejores recomendaciones.</p>
-                </div>
-                <i class="fa-solid fa-suitcase-medical" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-</div>
-
-
-<!-- Paso 3: Selección de lugar  -->
-<div id="paso-3-seleccion-lugar" class="container text-center" style="display: none;">
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de Lugar 1 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)" data-id="1" >
-                <div class="contenido">
-                    <h3>Sede Principal</h3>
-                    <p>Visítanos en nuestra sede principal con atención completa y servicios especializados. Ubicada en el centro de la ciudad.</p>
-                </div>
-                <i class="fa-solid fa-hospital" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de Lugar 2 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)" data-id="2" >
-                <div class="contenido">
-                    <h3>Sede Norte</h3>
-                    <p>Nuestra sede norte ofrece atención rápida y servicios básicos. Ideal para revisiones y consultas generales.</p>
-                </div>
-                <i class="fa-solid fa-clinic-medical" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- Carta de Lugar 3 -->
-            <div class="carta-agendamiento" onclick="seleccionarCarta(this)" data-id="3" >
-                <div class="contenido">
-                    <h3>Sede Sur</h3>
-                    <p>Visítanos en nuestra sede sur con equipamiento de última generación y atención especializada.</p>
-                </div>
-                <i class="fa-solid fa-stethoscope" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-</div>
-
-<!--Paso 4: Formulario del cliente-->
-
-<div id="paso-4-seleccion-formulario" class="container text-center" style="display: none;">
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-               <!-- formulario -->
-               <div class="formulario">
-                <h5>Formulario de Contacto</h5>
-                <form>
-                    <div class="campo">
-                        <label for="nombre">Nombre completo*</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required >
+             <a href="citasAgendadas.html" style="text-decoration: none; color: inherit;">
+                <div class="carta-citas">
+                    <div class="contenido">
+                        <h3>Citas agendadas</h3>
+                        <p>Consulta tus citas agendadas en un solo lugar. Revisa fechas, horarios y detalles de tu próxima atención de manera fácil y rápida. ¡Mantén tu agenda organizada!</p>
                     </div>
-    
-                    <div class="campo" >
-                        <label for="telefono">Teléfono*</label>
-                        <div class="telefono">
-                            <input type="number" id="telefono" name="telefono" placeholder="1234567890" required>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                    <i class="fa-solid fa-paw" style="font-size: 48px; margin-left: 20px; transition: color 0.3s;"></i>
+                </div>
+             </a>
         </div>
         <div class="col">
             <!-- Espacio vacío -->
         </div>
     </div>
-
-</div>
-
-<!--/Paso 4: Formulario del cliente-->
-
-<!--Paso 5: Formulario de la mascota-->
-
-<div id="paso-5-seleccion-formulario" class="container text-center" style="display: none;">
-    <div class="row align-items-center">
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-        <div class="col">
-            <!-- formulario -->
-               <!-- formulario -->
-               <div class="formulario-2">
-                <h5>Datos de la  mascota</h5>
-                <form>
-                    <div class="campo">
-                        <label for="nombre">Nombre de tu peludito*</label>
-                        <input type="text" id="nombreMascota" name="nombre" placeholder="Nombre" required>
-                    </div>
-                    <div class="especie">
-                        <label for="nombre">Raza</label>
-                        <select id="opciones-raza" name="opciones">
-                            <option value="">Seleccione una raza</option>
-                        </select>
-                    </div>
-                    <div class="especie">
-                        <label for="nombre">Tratamiento</label>
-                        <select id="opciones-tratamiento" name="opciones">
-                            <option value="">Seleccione un tratamiento</option>
-                        </select>
-                    </div>
-                    <div class="especie">
-                        <label for="opciones-veterinario">Veterinario</label>
-                        <select id="opciones-veterinario" name="opciones">
-                            <option value="">Seleccione un veterinario</option>
-                        </select>
-                    </div>
-                    
-                    <div class="especie" style="margin-bottom: -120px;">
-                        <label for="nombre">Fecha de cita</label>
-                        <input type="date" id="fecha" name="fechaCita" placeholder="Fecha" required style=" border-radius: 15px;
-                        padding: 10px;
-                        border: 1px solid #ccc;
-                        font-size: 14px;
-                        transition: 0.3s ease-in-out;">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="col">
-            <!-- Espacio vacío -->
-        </div>
-    </div>
-
-</div>
-
-<!--/Paso 5: Formulario del cliente-->
-
-
-
-<!-- Botón Continuar (común para todos los pasos) -->
-<div class="boton-continuar">
-    <button type="button" class="btn btn-primary" id="next1">Continuar</button>
 </div>
 
 

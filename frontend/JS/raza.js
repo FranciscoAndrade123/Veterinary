@@ -252,6 +252,7 @@ function editarRaza(id) {
                                         <label for="editarNombreRaza" class="form-label">Nombre de la raza</label>
                                         <input type="text" class="form-control" id="editarNombreRaza" value="${raza.breedName}" required>
                                         <br>
+                                        <label for="editarDescripcionRaza" class="form-label">Descripción</label>
                                         <input type="text" class="form-control" id="editarCaracteristicasRaza" value="${raza.characteristic}" required>
                                         <input type="hidden" id="razaId" value="${id}">
                                     </div>

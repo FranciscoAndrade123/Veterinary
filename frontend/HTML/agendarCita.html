@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar citas</title>
+    <link rel="stylesheet" href="/frontend/CSS/style.CSS">
+    <link rel="stylesheet" href="/frontend/CSS/administrador.css">
+    <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
+</head>
+<body>
+
+     <!-- Curvatura -->
+     <svg class="curvatura" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+        <path fill="#14b7c0be" fill-opacity="1"
+          d="M0,192L80,181.3C160,171,320,149,480,154.7C640,160,800,192,960,197.3C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
+        </path>
+      </svg>
+<!--navegador-->
+<nav class="navegacion">
+    <div class="logo">
+        <img src="/frontend/img/petvetLogo.png" alt="Logo">
+    </div>
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <div class="menu" id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="cita.html">Citas</a>
+        <a href="administrador.html">Administrador</a>
+    </div>
+</nav>
+<!--/navegador-->
+
+<!-- Agendar cliente y citas -->
+<div class="container text-center">
+    <div class="row">
+      <div class="col align-self-start">
+        <!-- Card 1: Registro de Usuarios -->
+        <div class="action-card">
+          <div class="card-body">
+            <div class="icon">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <h3>Registrar Clientes</h3>
+            <p>Agrega a los clientes que desean agendar una cita para que sus mascotas puedan ser atendidas por nuestros veterinarios.</p>
+            <a href="cliente.html" class="btn-action"><i class="fa-solid fa-plus"></i> Registrar cliente</a>
+          </div>
+        </div>
+      </div>
+      <div class="col align-self-end">
+        <!-- Card 2: Registrar Cita -->
+        <div class="action-card">
+          <div class="card-body">
+            <div class="icon">
+              <i class="fa-solid fa-dog"></i>
+            </div>
+            <h3>Agendar Cita</h3>
+            <p>Programa la fecha de atención de tu mascota para asegurar su cuidado con nuestros profesionales.</p>
+            <a href="" class="btn-action"><i class="fa-solid fa-plus"></i> Registrar mascota</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    
+
+<script src="/frontend/fontawesome/fontawesome-free-6.6.0-web/js/all.js"></script>
+<script src="/frontend/JS/index.js"></script>
+<script src="/frontend/bootstrap/bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script>
+</body>
+</html>
