@@ -1,5 +1,7 @@
 package com.example.veterinarinary.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,21 @@ public class appointmentTreatmentService {
             );
         }
     }
+
+    // Obtener todas las relaciones cita-tratamiento
+    @Transactional
+    public List<appointmentTreatmentDTO> getAll() {
+        List<appointmentTreatment> relations = appointmentTreatmentRepository.findAll();
+        return relations.stream().map(relation -> {
+            appointmentTreatmentDTO dto = new appointmentTreatmentDTO();
+            dto.setAppointmentID(relation.getAppointmentID().getAppointmentID());
+            dto.setTreatmentID(relation.getTreatmentId().getTreatmentId());
+            return dto;
+        }).toList();
+    }
+
+    //Eliminar relación por ID
+    
+
     
 }

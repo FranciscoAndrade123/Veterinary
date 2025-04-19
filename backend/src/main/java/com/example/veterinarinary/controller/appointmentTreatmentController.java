@@ -6,9 +6,12 @@ import com.example.veterinarinary.service.appointmentTreatmentService;
 import com.example.veterinarinary.DTO.appointmentTreatmentDTO;
 import com.example.veterinarinary.DTO.responseDTO;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +41,11 @@ public class appointmentTreatmentController {
             );
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/")
+    public ResponseEntity<List<appointmentTreatmentDTO>> getAllAppointmentTreatment() {
+        List<appointmentTreatmentDTO> list = appointmentTreatmentService.getAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

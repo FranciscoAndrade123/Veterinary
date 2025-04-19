@@ -1,130 +1,216 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const currentPage = window.location.pathname;
 
-    //Llamamos el boton de enviar el formulario
-    const btnEnviar = document.getElementById("botonCita");
+    if (currentPage.includes("formularioCita.html")) {
+        // Lógica para registrar citas
+        const btnEnviar = document.getElementById("botonCita");
 
-    if(btnEnviar){
-        btnEnviar.addEventListener("click", async function (e) {
-            e.preventDefault(); // Evitar el envío del formulario por defecto
+        // Cargar las listas desplegables solo si estamos en la página de formulario
+        obternerListaRaza();
+        obternerListaClientes();
+        obtenerListaSede();
+        obtenerListaVeterinarios();
+        obtenerListaTratamientos();
 
-            // Obtener los valores de los campos del formulario
-            const nombreCliente = document.getElementById("listaCliente").value;
-            const nombreMascota = document.getElementById("nombreMascota").value;
-            const razaMascota = document.getElementById("listaRaza").value;
-            const tratamiento = document.getElementById("listaTratamientos").value;
-            const sede = document.getElementById("listaSede").value;
-            const fecha = document.getElementById("fechaCita").value;
-            const veterinario = document.getElementById("listaVeterinarios").value;
+        if (btnEnviar) {
+            btnEnviar.addEventListener("click", async function (e) {
+                e.preventDefault(); // Evitar el envío del formulario por defecto
 
-            // Validar que todos los campos estén llenos
-            if (!nombreCliente || !nombreMascota || !razaMascota || !sede || !fecha || !veterinario || !tratamiento) {
-                alert("Por favor, completa todos los campos.");
-                return;
-            }
+                // Obtener los valores de los campos del formulario
+                const nombreCliente = document.getElementById("listaCliente").value;
+                const nombreMascota = document.getElementById("nombreMascota").value;
+                const razaMascota = document.getElementById("listaRaza").value;
+                const tratamiento = document.getElementById("listaTratamientos").value;
+                const sede = document.getElementById("listaSede").value;
+                const fecha = document.getElementById("fechaCita").value;
+                const veterinario = document.getElementById("listaVeterinarios").value;
 
-            // 1.Empaquetamos el primer objeto JSON para enviar la entidad Mascota
-            const mascotaData = JSON.stringify({
-                "petName" : nombreMascota,
-                "clientID" : nombreCliente,
-                "breedID" : razaMascota,
-            })
+                // Validar que todos los campos estén llenos
+                if (!nombreCliente || !nombreMascota || !razaMascota || !sede || !fecha || !veterinario || !tratamiento) {
+                    alert("Por favor, completa todos los campos.");
+                    return;
+                }
 
-            //Hacemos la peticion de envio de la entidad mascota 
-            try{
-                  // Paso 1: Registrar la  entidad mascota
-                  const petResponse = await fetch("http://localhost:8080/api/v1/pet/", {
-                    method: "POST",
-                    body: mascotaData,
-                    headers: {
-                        "Accept": "*/*",
-                        "User-Agent": "web",
-                        "Content-Type": "application/json"
+                try {
+                    // Paso 1: Registrar la mascota
+                    const mascotaData = JSON.stringify({
+                        petName: nombreMascota,
+                        clientID: nombreCliente,
+                        breedID: razaMascota,
+                    });
+
+                    const petResponse = await fetch("http://localhost:8080/api/v1/pet/", {
+                        method: "POST",
+                        body: mascotaData,
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    if (!petResponse.ok) {
+                        throw new Error("Error al registrar la mascota");
                     }
+
+                    const mascotas = await fetch("http://localhost:8080/api/v1/pet/").then((res) => res.json());
+                    const mascota = mascotas.find((pet) => pet.petName === nombreMascota);
+                    const mascotaID = mascota.petID;
+
+                    // Paso 2: Registrar la cita
+                    const citaData = JSON.stringify({
+                        appointmentDate: fecha,
+                        petID: mascotaID,
+                        veterinarianID: veterinario,
+                        placeID: sede,
+                    });
+
+                    const appointmentResponse = await fetch("http://localhost:8080/api/v1/appointment/", {
+                        method: "POST",
+                        body: citaData,
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    if (!appointmentResponse.ok) {
+                        throw new Error("Error al registrar la cita");
+                    }
+
+                    // Paso 3: Registrar la tabla pivote appointmentTreatment
+                    const citas = await fetch("http://localhost:8080/api/v1/appointment/").then((res) => res.json());
+                    const cita = citas.find((app) => app.appointmentDate === fecha);
+                    const citaID = cita.appointmentID;
+
+                    const appointmentTreatmentData = JSON.stringify({
+                        appointmentID: citaID,
+                        treatmentID: tratamiento,
+                    });
+
+                    const appointmentTreatmentResponse = await fetch("http://localhost:8080/api/v1/appointmentTreatment/", {
+                        method: "POST",
+                        body: appointmentTreatmentData,
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    if (!appointmentTreatmentResponse.ok) {
+                        throw new Error("Error al registrar el tratamiento de la cita");
+                    }
+
+                    // Redirigir a la página de citas agendadas
+                    alert("Cita registrada correctamente");
+                    window.location.href = "citasAgendadas.html";
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Hubo un problema al registrar la cita. Inténtalo de nuevo.");
+                }
+            });
+        }
+    } else if (currentPage.includes("citasAgendadas.html")) {
+        // Lógica para mostrar citas agendadas
+        async function cargarCitas() {
+            try {
+                // Obtener citas
+                const citas = await fetch("http://localhost:8080/api/v1/appointment/").then((res) => res.json());
+                console.log("Citas:", citas);
+                
+                // Obtener las demás entidades (por si necesitamos cruzar información)
+                const tratamientos = await fetch("http://localhost:8080/api/v1/treatment/").then((res) => res.json());
+                const appointmentTreatments = await fetch("http://localhost:8080/api/v1/appointmentTreatment/").then((res) => res.json());
+                
+                const contenedorCitas = document.querySelector(".agendamiento");
+                contenedorCitas.innerHTML = ''; // Limpiar el contenedor
+        
+                citas.forEach((cita) => {
+                    console.log("Procesando cita:", cita);
+                    
+                    // Acceder directamente a los datos anidados
+                    const mascota = cita.pet || {};
+                    const cliente = mascota.client || {};
+                    const raza = mascota.breed || {};
+                    const veterinario = cita.veterinarian || {};
+                    const lugar = cita.place || {};
+                    
+                    // Obtener tratamiento a través de la tabla pivote
+                    let tratamiento = {};
+                    const appointmentTreatmentsList = Array.isArray(appointmentTreatments) 
+                        ? appointmentTreatments 
+                        : appointmentTreatments.data || [];
+                    
+                    const apptTreatment = appointmentTreatmentsList.find(at => at.appointmentID === cita.appointmentID);
+                    
+                    if (apptTreatment && apptTreatment.treatmentID) {
+                        tratamiento = tratamientos.find(t => 
+                            t.treatmentId === apptTreatment.treatmentID || 
+                            t.id === apptTreatment.treatmentID
+                        ) || {};
+                    }
+                    
+                    // Crear la tarjeta de cita
+                    const citaCard = document.createElement("div");
+                    citaCard.classList.add("cita-card");
+                    citaCard.innerHTML = `
+                        <div class="cita-header">
+                            <div class="cita-mascota">
+                                <div class="cita-mascota-icono">
+                                    <i class="fas fa-dog"></i>
+                                </div>
+                                <div class="cita-mascota-info">
+                                    <h4>${mascota.petName || "Sin nombre"}</h4>
+                                    <p>Dueño: ${cliente.clientName || "Sin dueño"}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cita-body">
+                            <div class="cita-columna">
+                                <div class="cita-info">
+                                    <strong>Raza:</strong>
+                                    <span>${raza.breedName || "Sin raza"}</span>
+                                </div>
+                                <div class="cita-info">
+                                    <strong>Veterinario:</strong>
+                                    <span>${veterinario._veterinarianName || "Sin veterinario"}</span>
+                                </div>
+                                <div class="cita-info">
+                                    <strong>Lugar:</strong>
+                                    <span>${lugar.placeName || "Sin lugar"}</span>
+                                </div>
+                            </div>
+                            <div class="cita-columna">
+                                <div class="cita-info">
+                                    <strong>Tratamiento:</strong>
+                                    <span>${tratamiento.treatmentName || "Sin tratamiento"}</span>
+                                </div>
+                                <div class="cita-info">
+                                    <strong>Teléfono:</strong>
+                                    <span>${cliente.phone || "Sin teléfono"}</span>
+                                </div>
+                            </div>
+                            <div class="cita-fecha">
+                                <div class="fecha">${cita.appointmentDate || "Sin fecha"}</div>
+                            </div>
+                        </div>
+                         <div class="cita-acciones">
+                        <button class="btn-accion btn-editar" onclick="editarCita(1)">
+                          <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn-accion btn-eliminar" onclick="eliminarCita(1)">
+                         <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                        </div>
+                    `;
+                    contenedorCitas.appendChild(citaCard);
                 });
-
-                if (!petResponse.ok) {
-                    throw new Error("Error al registrar el veterinario");
-                }
-
-                 // Manejar la respuesta como texto si no es JSON
-                 const responseText = await petResponse.text();
-                 console.log("Respuesta del servidor", responseText);
-                  
-                // Paso 2: Obtener el ID de la mascota recién creada
-                const mascotasResponse = await fetch("http://localhost:8080/api/v1/pet/");
-                if (!mascotasResponse.ok) {
-                    throw new Error("Error al obtener la lista de mascotas");
-                }
-
-                const mascotas = await mascotasResponse.json();
-                const mascota = mascotas.find(pet => pet.petName === nombreMascota);
-
-                if (!mascota) {
-                    throw new Error("No se encontró el mascota recién creado");
-                }
-
-                const mascotaID = mascota.petID; //Ya me esta mostrando el ID de la mascota
-                console.log("Mascota registrado con ID:", mascotaID);
-
-                /*******************************************/
-
-                //Empaquetamiento para enviar petición a la entidad cita
-                const citaData = JSON.stringify({
-                    "appointmentDate" : fecha,
-                    "petID" : mascotaID,
-                    "veterinarianID" : veterinario,
-                    "placeID": sede,
-                })
-
-              //Paso 3: Registrar la cita 
-              const appointmentResponse = await fetch("http://localhost:8080/api/v1/appointment/", {
-                method: "POST",
-                body: citaData,
-                headers: {
-                    "Accept": "*/*",
-                    "User-Agent": "web",
-                    "Content-Type": "application/json"
-                }
-             });
-
-             const data = await appointmentResponse.json();
-             console.log("Respuesta del servidor (POST cita):", data);
-
-             if (!appointmentResponse.ok) {
-                throw new Error("Error al registrar la cita");
+            } catch (error) {
+                console.error("Error al cargar las citas:", error);
             }
+        }
 
-            //Paso 4: Obtener el ID de la cita recién creada
-            const citasRespuesta = await fetch("http://localhost:8080/api/v1/appointment/");
-            if (!citasRespuesta.ok) {
-                throw new Error("Error al obtener la lista de las citas");
-            }
-
-            const citas = await citasRespuesta.json();
-            const cita = citas.find(vet => vet.appointmentDate === fecha);
-
-            if (!cita) {
-                throw new Error("No se encontró la  recién creada");
-            }
-
-            const citaID = cita.appointmentID;
-            console.log("Cita registrada con ID:", citaID);
-
-            //Paso 5 : Registrar la tabla pivote de  appointmentTreatment
-
-            }catch(error){
-                console.error(error);
-            }
-            
-        })
+        cargarCitas();
     }
-})
-
-
-
+});
 
 /****** FUNCIONES DE LAS LISTAS DESPLEGABLES LLAMADAS DESDE EL SERVIDOR ********/
-
 //Obtenemos la lista de clientes y la llenamos en el select
 function obternerListaClientes() {
     const selectorCliente = document.getElementById("listaCliente");
@@ -259,7 +345,6 @@ function obtenerListaVeterinarios() {
 }
 
 //Obtener lista tratamietos
-
 function obtenerListaTratamientos() {
     const selectorTratamiento = document.getElementById("listaTratamientos");
 
@@ -298,9 +383,3 @@ function obtenerListaTratamientos() {
 /**************/
 
 
-/*****Invocacion de las listas desplegables */
-obternerListaRaza();
-obternerListaClientes();
-obtenerListaSede();
-obtenerListaVeterinarios();
-obtenerListaTratamientos();
