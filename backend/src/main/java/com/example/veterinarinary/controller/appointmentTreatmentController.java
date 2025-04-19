@@ -23,10 +23,19 @@ public class appointmentTreatmentController {
     public ResponseEntity<responseDTO> registerAppointmentTreatment(@RequestBody appointmentTreatmentDTO appointmentTreatmentDTO) {
         try {
             responseDTO response = appointmentTreatmentService.save(appointmentTreatmentDTO);
-            return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+
+            // Convertir el código de estado a HttpStatus
+            HttpStatus status = HttpStatus.resolve(Integer.parseInt(response.getMessage()));
+            if (status == null) {
+                status = HttpStatus.INTERNAL_SERVER_ERROR; // Valor predeterminado si el código no es válido
+            }
+
+            return new ResponseEntity<>(response, status);
         } catch (Exception e) {
-            responseDTO response = new responseDTO(HttpStatus.INTERNAL_SERVER_ERROR.toString(), 
-                                                 "Error: " + e.getMessage());
+            responseDTO response = new responseDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR.toString(),
+                "Error: " + e.getMessage()
+            );
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

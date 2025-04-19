@@ -1,0 +1,203 @@
+:root {
+    --primary: #14b7c0;
+    --primary-light: #14b7c0be;
+    --primary-dark: #0e8a91;
+    --secondary: #3d3d3d;
+    --accent: #f8f9fa;
+    --text-dark: #333;
+    --text-light: #666;
+    --white: #fff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --success: #28a745;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.appointment-container {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+.appointment-card {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    padding: 2rem;
+}
+
+.appointment-title {
+    margin-bottom: 1.5rem;
+}
+
+.appointment-title h1 {
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 2rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+    display: inline-block;
+}
+
+.appointment-title h1:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    border-radius: 2px;
+}
+
+.appointment-description {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.appointment-image {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.form-label {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(20, 183, 192, 0.25);
+}
+
+.form-text {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(20, 183, 192, 0.3);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.appointment-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+}
+
+.divider-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.divider-text {
+    padding: 0 1rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+    .col-md-6 {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    .appointment-image {
+        max-width: 60%;
+        margin: 0 auto 2rem;
+    }
+}
+
+/* Select personalizado */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    appearance: none;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+    background-color: white;
+    cursor: pointer;
+}
+
+.custom-select:after {
+    content: '\f107';
+    font: normal normal normal 14px/1 FontAwesome;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--primary);
+}
+
+/* Estado de cita */
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-pending {
+    background-color: #fff9e6;
+    color: #ffb100;
+    border: 1px solid #ffecb3;
+}
+
+.status-confirmed {
+    background-color: #e6f7ee;
+    color: #28a745;
+    border: 1px solid #c3e6cb;
+}

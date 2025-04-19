@@ -36,23 +36,24 @@ public class appointmentTreatmentService {
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + dto.getAppointmentID()));
             
             treatment treatment = treatmentRepository.findById(dto.getTreatmentID())
-                .orElseThrow(() -> new RuntimeException("Tratamiento no encontrado con ID: " + dto.getAppointmentID()));
+                .orElseThrow(() -> new RuntimeException("Tratamiento no encontrado con ID: " + dto.getTreatmentID()));
 
+            // 2. Crear y guardar la relación
+            appointmentTreatment relation = new appointmentTreatment();
+            relation.setAppointmentID(appointment);
+            relation.setTreatmentId(treatment);
+            appointmentTreatmentRepository.save(relation);
 
-               // 2. Crear y guardar la relación
-               appointmentTreatment relation = new appointmentTreatment();
-              relation.setAppointmentID(appointment);
-                    relation.setTreatmentId(treatment);
-                        appointmentTreatmentRepository.save(relation);                        
-                        return new responseDTO(
-                            HttpStatus.OK.toString(),  // Usamos el código numérico en lugar de la cadena
-                            "Relación cita-tratamiento creada correctamente"
-                        );
-            
-            
-        } catch (Exception e) {
+            // Retornar respuesta exitosa
             return new responseDTO(
-                HttpStatus.INTERNAL_SERVER_ERROR.toString(),
+                HttpStatus.OK.value() + "", // Convertimos el valor numérico a cadena
+                "Relación cita-tratamiento creada correctamente"
+            );
+
+        } catch (Exception e) {
+            // Retornar respuesta de error
+            return new responseDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR.value() + "", // Convertimos el valor numérico a cadena
                 "Error al guardar: " + e.getMessage()
             );
         }

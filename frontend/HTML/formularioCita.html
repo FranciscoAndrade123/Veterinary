@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="/frontend/CSS/style.CSS">
+    <link rel="stylesheet" href="/frontend/CSS/formCita.css">
+    <link rel="stylesheet" href="/frontend/bootstrap/bootstrap-5.3.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/frontend/fontawesome/fontawesome-free-6.6.0-web/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+     <!-- Curvatura -->
+     <svg class="curvatura" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+        <path fill="#14b7c0be" fill-opacity="1"
+          d="M0,192L80,181.3C160,171,320,149,480,154.7C640,160,800,192,960,197.3C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
+        </path>
+      </svg>
+
+   <!--navegador-->
+<nav class="navegacion">
+    <div class="logo">
+        <img src="/frontend/img/petvetLogo.png" alt="Logo">
+    </div>
+    
+    <button class="menu-toggle" id="menu-toggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    
+    <div class="menu" id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="cita.html">Citas</a>
+        <a href="administrador.html">Administrador</a>
+    </div>
+</nav>
+<!--/navegador-->
+
+<!--formulario cita-->
+
+<div class="appointment-container">
+    <div class="appointment-card">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="appointment-title">
+                    <h1>Agendar Cita</h1>
+                </div>
+                <p class="appointment-description">
+                    Completa el formulario para agendar una cita con uno de nuestros veterinarios. Asegúrate de ingresar todos los datos correctamente.
+                </p>
+                <img src="/frontend/img/petvetLogo.png" alt="Veterinario con mascota" class="appointment-image">
+            </div>
+            <div class="col-md-6">
+                <form id="appointmentForm">
+                    <div class="mb-3">
+                        <label for="clientName" class="form-label">Cliente</label>
+                        <div class="custom-select">
+                            <select  class="form-control" id="listaCliente" required>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="petName" class="form-label">Nombre de la Mascota</label>
+                        <input type="text" class="form-control" id="nombreMascota" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="petType" class="form-label">Raza de la Mascota</label>
+                        <div class="custom-select">
+                            <select class="form-control" id="listaRaza" required>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="petType" class="form-label">Tratamiento</label>
+                        <div class="custom-select">
+                            <select class="form-control" id="listaTratamientos" required>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="petType" class="form-label">Sede:</label>
+                        <div class="custom-select">
+                            <select class="form-control" id="listaSede" required>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="appointmentDate" class="form-label">Fecha de la Cita</label>
+                                <input type="date" class="form-control" id="fechaCita" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="veterinarian" class="form-label">Veterinario</label>
+                        <div class="custom-select">
+                            <select class="form-control"  id="listaVeterinarios" required>
+                            </select>
+                        </div>
+                    </div>
+                    
+                
+                    <button type="button" class="btn-submit" id="botonCita">
+                        <i class="fas fa-calendar-check" ></i> Agendar Cita
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/frontend/JS/formCita.js"></script>
+<script src="/frontend/JS/index.js"></script>
+<script src="/frontend/bootstrap/bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script>
+</body>
+</html>
