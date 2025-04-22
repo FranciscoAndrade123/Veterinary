@@ -159,7 +159,7 @@ function actualizarTablaRaza(){
             const tr = document.createElement("tr");
             
             // Verificar que los datos existen antes de mostrarlos
-            const id = razas.id || 'N/A';
+            const id = razas.id || razas.breedID || 'N/A';
             const nombre = razas.breedName || 'Sin nombre';
             const caracteristicas = razas.characteristic || 'Sin características';
             

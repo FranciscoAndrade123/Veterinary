@@ -89,6 +89,11 @@ public class veterinarianSpecialtyService {
         return new responseDTO(HttpStatus.OK.toString(), "Veterinario-Especialidad actualizada correctamente.");
     }
 
+    //Filtrar veterinarios por nombre y especialidad
+    public List<veterinarianSpecialty> findByFilters(String veterinarianName, String specialtyName) {
+        return veterinarianSpecialtyRepository.findByFilters(veterinarianName, specialtyName);
+    }
+
 
     // Eliminar relación por ID
     @Transactional

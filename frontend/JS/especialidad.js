@@ -331,6 +331,7 @@ function eliminarEspecialidad(id) {
                 alert("Error al eliminar la especialidad: " + error.message);
             });
     }
+    actualizarTablaEspecialidades();
 }
 
 

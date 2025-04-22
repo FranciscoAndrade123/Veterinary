@@ -82,6 +82,11 @@ public class veterinarianService {
         );
     }
 
+    // Buscar veterinarios por nombre (filtro)
+    public List<veterinarian> findByName(String filter) {
+        return data.getListVeterinarianForName(filter);
+    }
+
     // Eliminar un veterinario por ID
     public responseDTO deleteVeterinarian(int id) {
         if (!findById(id).isPresent()) {

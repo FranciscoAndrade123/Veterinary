@@ -81,6 +81,13 @@ public class veterinarianController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // Endpoint para buscar veterinarios por nombre
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<Object> filterVeterinarians(@PathVariable String filter) {
+        var veterinariosFiltrados = veterinarianService.findByName(filter);
+        return new ResponseEntity<>(veterinariosFiltrados, HttpStatus.OK);
+    }
+
     
 
 
