@@ -31,6 +31,27 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
+                // Validar la fecha
+                const fechaSeleccionada = new Date(fecha);
+                const fechaActual = new Date();
+                const fechaMaxima = new Date();
+                fechaMaxima.setMonth(fechaActual.getMonth() + 1); // Fecha máxima: 1 mes desde hoy
+
+                // Eliminar la hora para comparar solo las fechas
+                fechaActual.setHours(0, 0, 0, 0);
+                fechaSeleccionada.setHours(0, 0, 0, 0);
+                fechaMaxima.setHours(0, 0, 0, 0);
+
+                if (fechaSeleccionada < fechaActual) {
+                    alert("No puedes seleccionar una fecha pasada.");
+                    return;
+                }
+
+                if (fechaSeleccionada > fechaMaxima) {
+                    alert("No puedes seleccionar una fecha que exceda un mes desde hoy.");
+                    return;
+                }
+
                 try {
                     // Paso 1: Registrar la mascota
                     const mascotaData = JSON.stringify({
