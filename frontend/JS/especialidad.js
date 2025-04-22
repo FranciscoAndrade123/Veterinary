@@ -1,5 +1,3 @@
-
-
 function filtrarEspecialidad() {
     // Esta función solo necesita llamar a actualizarTablaEspecialidades
     // ya que la lógica de filtrado ya está en obtenerEspecialidades
@@ -46,8 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const nombreEspecialidad = document.getElementById("nombreEspecialidad").value.trim();
             console.log("nombreEspecialidad capturado:", `"${nombreEspecialidad}"`);
 
-            if (!nombreEspecialidad) {
-                alert("El nombre de la especialidad no puede estar vacío");
+            // Validaciones
+            if (!nombreEspecialidad || !/^[a-zA-Z\s]+$/.test(nombreEspecialidad) || nombreEspecialidad.length < 3 || nombreEspecialidad.length > 50) {
+                alert("El nombre de la especialidad debe tener entre 3 y 50 caracteres y solo puede contener letras y espacios.");
                 return;
             }
 

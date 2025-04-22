@@ -41,13 +41,18 @@ document.addEventListener("DOMContentLoaded", function() {
         botonCliente.addEventListener("click", async function(event) {
             event.preventDefault(); // Prevenir el comportamiento predeterminado del botón
 
-            // Obtenemos los datos de la raza y sus características
-            const nombre = document.getElementById("nombreCliente").value;
-            const telefono = document.getElementById("teleCliente").value;
+            // Obtenemos los datos del formulario
+            const nombre = document.getElementById("nombreCliente").value.trim();
+            const telefono = document.getElementById("teleCliente").value.trim();
 
-            // Verificamos que los campos no estén vacíos
-            if (nombre === "" || telefono === "") {
-                alert("Por favor, completa todos los campos.");
+            // Validaciones
+            if (!nombre || !/^[a-zA-Z\s]+$/.test(nombre) || nombre.length < 3 || nombre.length > 50) {
+                alert("El nombre debe tener entre 3 y 50 caracteres y solo puede contener letras y espacios.");
+                return;
+            }
+
+            if (!telefono || !/^\d{10}$/.test(telefono)) {
+                alert("El número de teléfono debe contener exactamente 10 dígitos.");
                 return;
             }
 
@@ -73,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("Respuesta del servidor (POST cliente):", data);
 
                 if (!response.ok) {
-                    throw new Error(data.message || "Error al registrar la raza");
+                    throw new Error(data.message || "Error al registrar el cliente");
                 }
 
                 // Limpiar los campos del formulario
@@ -90,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 actualizarTablaCliente();
 
             } catch (error) {
-                console.error("❌ Error al registrar la raza:", error);
+                console.error("❌ Error al registrar el cliente:", error);
             }
         });
     }
