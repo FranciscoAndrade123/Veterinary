@@ -74,7 +74,22 @@ public class appointmentTreatmentService {
     }
 
     //Eliminar relación por ID
-    
-
-    
+    @Transactional
+    public responseDTO deleteById(int id) {
+        try {
+            appointmentTreatment relation = appointmentTreatmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Relación no encontrada con ID: " + id));
+            appointmentTreatmentRepository.delete(relation);
+            return new responseDTO(
+                HttpStatus.OK.value() + "", // Convertimos el valor numérico a cadena
+                "Relación eliminada correctamente"
+            );
+        } catch (Exception e) {
+            return new responseDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR.value() + "", // Convertimos el valor numérico a cadena
+                "Error al eliminar: " + e.getMessage()
+            );
+        }
+    }
 }
+    

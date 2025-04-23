@@ -65,9 +65,12 @@ public class veterinarianSpecialtyController {
     }
 
     // Filtrar por veterinario y especialidad
-    @GetMapping("/filter/{veterinarianName}/{specialtyName}")
-    public ResponseEntity<List<veterinarianSpecialty>> findByFilters(@PathVariable String veterinarianName, @PathVariable String specialtyName) {
-        List<veterinarianSpecialty> list = veterinarianSpecialtyService.findByFilters(veterinarianName, specialtyName);
+  
+    @GetMapping("/filter/{filterByName}")
+    public ResponseEntity<List<veterinarianSpecialty>> findByVeterinarianName(
+        @PathVariable(required = false) String filterByName
+    ) {
+        List<veterinarianSpecialty> list = veterinarianSpecialtyService.findByVeterinarianName(filterByName);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

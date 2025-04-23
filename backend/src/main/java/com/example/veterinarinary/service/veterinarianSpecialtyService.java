@@ -14,6 +14,7 @@ import com.example.veterinarinary.repository.iveterinarian;
 import com.example.veterinarinary.repository.ispecialty;
 import com.example.veterinarinary.repository.iveterinarianSpecialty;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,11 +91,14 @@ public class veterinarianSpecialtyService {
     }
 
     //Filtrar veterinarios por nombre y especialidad
-    public List<veterinarianSpecialty> findByFilters(String veterinarianName, String specialtyName) {
-        return veterinarianSpecialtyRepository.findByFilters(veterinarianName, specialtyName);
+
+    public List<veterinarianSpecialty> findByVeterinarianName(String veterinarianName) {
+        if (veterinarianName == null || veterinarianName.trim().isEmpty()) {
+            return new ArrayList<>(); // Devuelve una lista vacía si el nombre está vacío
+        }
+        return veterinarianSpecialtyRepository.findByVeterinarianName(veterinarianName);
     }
-
-
+ 
     // Eliminar relación por ID
     @Transactional
     public responseDTO deleteById(int id) {

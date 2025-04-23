@@ -19,13 +19,10 @@ public interface  iveterinarianSpecialty extends JpaRepository
      */
 
      @Query("SELECT vs FROM veterinarianSpecialty vs " +
-     "JOIN vs.veterinarianID v " +
-     "JOIN vs.specialtyID s " +
-     "WHERE (:veterinarianName IS NULL OR v.veterinarianName LIKE %:veterinarianName%) " +
-     "AND (:specialtyName IS NULL OR s.specialtyName LIKE %:specialtyName%)")
-List<veterinarianSpecialty> findByFilters(
-  @Param("veterinarianName") String veterinarianName,
-  @Param("specialtyName") String specialtyName
+       "JOIN vs.veterinarianID v " +
+       "WHERE v.veterinarianName LIKE %?1%")
+List<veterinarianSpecialty> findByVeterinarianName(
+    @Param("veterinarianName") String veterinarianName
 );
     
 }

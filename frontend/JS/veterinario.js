@@ -1,5 +1,40 @@
+function filtrarVeterinarios (){
+       // Esta función solo necesita llamar a actualizarTablaTratamientos
+    // ya que la lógica de filtrado ya está en obtenerEspecialidades
+    actualizarTablaVeterinarioEspecialidades();
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const botonEnvioVeterinario = document.getElementById("botonEnvioVeterinario");
+
+    // Agregar evento al botón de búsqueda
+    const botonFiltrar = document.querySelector(".filtrar-veterinarios button");
+    if (botonFiltrar) {
+        botonFiltrar.addEventListener("click", function() {
+            actualizarTablaVeterinarioEspecialidades();
+        });
+    }
+// Configurar evento para la tecla Enter en el campo de búsqueda
+    const filtroInput = document.getElementById("nameFilter");
+    if (filtroInput) {
+        filtroInput.addEventListener("input", function(event){
+            if(event.key === "Enter"){
+                event.preventDefault();
+                filtrarVeterinarios();
+            }
+
+        })
+    }
+
+// También podemos agregar un evento para limpiar el filtro cuando se borre el texto
+    if (filtroInput){
+        filtroInput.addEventListener("input" , function(event){
+            if (this.value === "") {
+                filtrarVeterinarios(); // Actualizar sin filtro cuando se borra el texto
+            }
+        } )
+    }
 
     if (botonEnvioVeterinario) {
         botonEnvioVeterinario.addEventListener("click", async function (event) {

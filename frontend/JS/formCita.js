@@ -212,10 +212,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             </div>
                         </div>
                          <div class="cita-acciones">
-                        <button class="btn-accion btn-editar" onclick="editarCita(1)">
+                        <button class="btn-accion btn-editar" >
                           <i class="fas fa-edit"></i> Editar
                         </button>
-                        <button class="btn-accion btn-eliminar" onclick="eliminarCita(1)">
+                        <button class="btn-accion btn-eliminar" >
                          <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                         </div>
@@ -400,7 +400,8 @@ function obtenerListaTratamientos() {
 
 
 }
-
 /**************/
+
+//Botones
 
 
