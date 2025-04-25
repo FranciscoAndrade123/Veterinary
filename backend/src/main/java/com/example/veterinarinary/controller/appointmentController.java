@@ -83,4 +83,12 @@ public class appointmentController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+        //Buscar el estados de las citas que esten activas e inactivas
+        @GetMapping("/filter/{status}")
+        public ResponseEntity<List<appointment>> filterByStatus(@PathVariable String status) {
+            boolean isActive = status.equalsIgnoreCase("activo");
+            List<appointment> appointments = appointmentService.findByStatus(isActive);
+            return ResponseEntity.ok(appointments);
+        }
 }

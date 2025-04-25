@@ -206,10 +206,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <strong>Teléfono:</strong>
                                     <span>${cliente.phone || "Sin teléfono"}</span>
                                 </div>
+                                <div class="cita-info">
+                                    <strong>Estado:</strong>
+                                    <span>${cita.status ? 'Activo' : 'Cancelada' || "Sin estado"}</span>
+                                </div>
                             </div>
                             <div class="cita-fecha">
                                 <div class="fecha">${cita.appointmentDate || "Sin fecha"}</div>
                             </div>
+                            
                         </div>
                          <div class="cita-acciones">
                         <button class="btn-accion btn-editar" >

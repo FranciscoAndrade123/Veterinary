@@ -37,15 +37,21 @@ public class appointment {
     @JoinColumn (name = "placeID" , nullable = false )
     private place place;
 
+    //estado de la cita
+    @Column(name="status",nullable = false,  columnDefinition = "boolean default true ")
+    private boolean status ;
+    
+
     // Constructor vacío (necesario para JPA)
     public appointment() {}
 
     // Constructor con parámetros
-    public appointment(LocalDate appointmentDate, pet pet, veterinarian veterinarian, place place) {
+    public appointment(LocalDate appointmentDate, pet pet, veterinarian veterinarian, place place ,boolean status) {
         this.appointmentDate = appointmentDate;
         this.pet = pet;
         this.veterinarian = veterinarian;
         this.place = place;
+        this.status = status;
     }
 
     // Getters y Setters
@@ -88,6 +94,15 @@ public class appointment {
     public void setPlace(place place){
         this.place = place;
     }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }    
+
 
 
     

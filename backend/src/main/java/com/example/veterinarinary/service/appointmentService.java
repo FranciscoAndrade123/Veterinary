@@ -57,6 +57,7 @@ public class appointmentService {
         appointmentEntity.setPlace(placeEntity.get());
         appointmentEntity.setPet(petEntity.get());
         appointmentEntity.setVeterinarian(vetEntity.get());
+        appointmentEntity.setStatus(true); // Asignar estado activo por defecto
         
         appointmentRepository.save(appointmentEntity);
         
@@ -70,7 +71,7 @@ public class appointmentService {
     
     // Listar todas las citas
     public List<appointment> findAll() {
-        return appointmentRepository.findAll();
+        return appointmentRepository.getListAppointmenttActive();
     }
     
     // Verificar si una cita existe
@@ -78,9 +79,17 @@ public class appointmentService {
         return appointmentRepository.existsById(id);
     }
     
+
     // Eliminar cita por ID
     @Transactional
     public void deleteById(int id) {
         appointmentRepository.deleteById(id);
     }
+
+        //Buscar las citas activas e inactivas
+        public List<appointment> findByStatus(boolean status) {
+            return appointmentRepository.findByStatus(status);
+        }
+
+    
 }
