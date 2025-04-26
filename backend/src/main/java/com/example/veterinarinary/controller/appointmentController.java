@@ -91,4 +91,14 @@ public class appointmentController {
             List<appointment> appointments = appointmentService.findByStatus(isActive);
             return ResponseEntity.ok(appointments);
         }
+        //Actualizar la cita 
+    @PutMapping("/{id}")
+    public ResponseEntity<responseDTO> updateAppointment(@PathVariable int id,@RequestBody appointmentDTO appointmentDTO) {
+    responseDTO response = appointmentService.updateAppointment(id, appointmentDTO);
+    if (response.getStatus().equals("error")) {
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    return new ResponseEntity<>(response, HttpStatus.OK);
+}
+
 }

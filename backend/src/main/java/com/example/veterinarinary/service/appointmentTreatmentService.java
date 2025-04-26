@@ -91,5 +91,41 @@ public class appointmentTreatmentService {
             );
         }
     }
+
+    // Actualizar relación por ID
+    @Transactional
+    public responseDTO updateById(int id, appointmentTreatmentDTO dto) {
+    try {
+        // Validar si la relación existe
+        appointmentTreatment existingRelation = appointmentTreatmentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Relación no encontrada con ID: " + id));
+
+        // Validar existencia de la cita
+        appointment appointment = appointmentRepository.findById(dto.getAppointmentID())
+            .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + dto.getAppointmentID()));
+
+        // Validar existencia del tratamiento
+        treatment treatment = treatmentRepository.findById(dto.getTreatmentID())
+            .orElseThrow(() -> new RuntimeException("Tratamiento no encontrado con ID: " + dto.getTreatmentID()));
+
+        // Actualizar la relación
+        existingRelation.setAppointmentID(appointment);
+        existingRelation.setTreatmentId(treatment);
+
+        // Guardar los cambios
+        appointmentTreatmentRepository.save(existingRelation);
+
+        return new responseDTO(
+            HttpStatus.OK.value() + "", // Convertimos el valor numérico a cadena
+            "Relación actualizada correctamente"
+        );
+
+    } catch (Exception e) {
+        return new responseDTO(
+            HttpStatus.INTERNAL_SERVER_ERROR.value() + "", // Convertimos el valor numérico a cadena
+            "Error al actualizar: " + e.getMessage()
+        );
+    }
+}
 }
     

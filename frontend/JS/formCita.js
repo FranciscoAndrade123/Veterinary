@@ -217,24 +217,181 @@ document.addEventListener("DOMContentLoaded", function () {
                             
                         </div>
                          <div class="cita-acciones">
-                        <button class="btn-accion btn-editar" >
+                        <button class="btn-accion btn-editar" data-id="${cita.appointmentID}" >
                           <i class="fas fa-edit"></i> Editar
                         </button>
-                        <button class="btn-accion btn-eliminar" >
+                        <button class="btn-accion btn-eliminar" data-id="${cita.appointmentID}" >
                          <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                         </div>
                     `;
                     contenedorCitas.appendChild(citaCard);
                 });
+                agregarEventosBotones(); // Agregar eventos a los botones de eliminar y actualizar
             } catch (error) {
                 console.error("Error al cargar las citas:", error);
             }
-        }
-
+        }   
         cargarCitas();
     }
 });
+
+
+//Función de eliminar cita 
+function eliminarCita (id){
+    if (confirm("¿Está seguro de que desea eliminar esta cita?")) {
+        fetch(`http://localhost:8080/api/v1/appointment/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "*/*",
+                "User-Agent": "web",
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.message || "Error al eliminar la cita");
+                });
+            }
+
+            // Si la eliminación fue exitosa, actualizar la tabla
+            console.log("Cita eliminada correctamente");
+            window.location.reload(); // Recargar la página
+            return { success: true };
+        })
+        .catch(error => {
+            console.error("Error al eliminar la cita:", error);
+            alert("Error al eliminar la cita: " + error.message);
+        });
+    }    
+}
+
+function editarCita(id) {
+    // Obtener los datos actuales de la cita
+    console.log("ID de la cita a editar:", id);
+    fetch(`http://localhost:8080/api/v1/appointment/${id}`, {
+        method: "GET",
+        headers: {
+            "Accept": "*/*",
+            "User-Agent": "web",
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al obtener los datos del veterinario y especialidad ");
+        }
+        return response.json();
+    })
+    .then(cita => {
+        console.log("Datos de la cita seleccionada:", cita);
+
+        const nombreMascota = cita.pet?.petName || "Sin nombre";
+        const fechaCita = cita.appointmentDate || "";
+
+        let modalHtml = `
+            <div class="modal fade" id="editarCitaModal" tabindex="-1" aria-labelledby="editarCitaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editarCitaModalLabel">Editar Cita</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formEditarCita">
+                                <div class="mb-3">
+                                    <label for="editarNombreMascota" class="form-label">Nombre de la Mascota</label>
+                                    <input type="text" class="form-control" id="editarNombreMascota" value="${nombreMascota}" required>
+                                    <br>
+                                    <label for="editarCliente" class="form-label">Cliente</label>
+                                    <select id="editarCliente" class="form-select" required>
+                                        <!-- Opciones se llenarán dinámicamente -->
+                                    </select>
+                                    <br>
+                                    <label for="editarVeterinario" class="form-label">Veterinario</label>
+                                    <select id="editarVeterinario" class="form-select" required>
+                                        <!-- Opciones se llenarán dinámicamente -->
+                                    </select>
+                                    <br>
+                                    <label for="editarTratamiento" class="form-label">Tratamiento</label>
+                                    <select id="editarTratamiento" class="form-select" required>
+                                        <!-- Opciones se llenarán dinámicamente -->
+                                    </select>
+                                    <br>
+                                    <label for="editarSede" class="form-label">Sede</label>
+                                    <select id="editarSede" class="form-select" required>
+                                        <!-- Opciones se llenarán dinámicamente -->
+                                    </select>
+                                    <br>
+                                    <label for="editarFechaCita" class="form-label">Fecha de la Cita</label>
+                                    <input type="date" class="form-control" id="editarFechaCita" value="${fechaCita}" required>
+                                    <input type="hidden" id="citaID" value="${id}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="guardarCita">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Eliminar el modal anterior si existe
+        const modalAnterior = document.getElementById('editarCitaModal');
+        if (modalAnterior) {
+            modalAnterior.remove();
+        }
+
+        // Agregar el nuevo modal al DOM
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        // Llenar las listas desplegables
+         // Llenar las listas desplegables con las funciones correctas
+        obternerListaClientes(cita.pet?.client?.id_client);
+        obtenerListaVeterinarios(cita.veterinarian?.veterinarianID);
+        obtenerListaTratamientos(cita.treatmentID);
+        obtenerListaSede(cita.place?.placeID);
+        // Inicializar el modal de Bootstrap
+        const modalElement = document.getElementById('editarCitaModal');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+        // Agregar evento al botón de guardar cambios
+        document.getElementById('guardarCita').addEventListener('click', function() {
+            //guardarEdicionCita();
+        });
+    })
+    .catch(error => {
+        console.error("Error al cargar datos para edición:", error);
+        alert("Error al cargar los datos de la cita: " + error.message);
+    });
+
+
+}
+
+
+//Botones
+function agregarEventosBotones() {
+     // Eventos para botones de editar
+     document.querySelectorAll(".btn-editar").forEach(button => {
+        button.addEventListener("click", function() {
+            const id = this.getAttribute("data-id");
+            editarCita(id);
+        });
+    });
+    // Eventos para botones de eliminar
+    document.querySelectorAll(".btn-eliminar").forEach(button => {
+        button.addEventListener("click", function() {
+            const id = this.getAttribute("data-id");
+            eliminarCita(id);
+        });
+    });
+}
+
+
 
 /****** FUNCIONES DE LAS LISTAS DESPLEGABLES LLAMADAS DESDE EL SERVIDOR ********/
 //Obtenemos la lista de clientes y la llenamos en el select

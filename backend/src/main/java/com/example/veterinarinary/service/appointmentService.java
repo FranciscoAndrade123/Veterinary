@@ -80,16 +80,52 @@ public class appointmentService {
     }
     
 
-    // Eliminar cita por ID
+    // Eliminar cita por ID Funciona
     @Transactional
     public void deleteById(int id) {
-        appointmentRepository.deleteById(id);
+        appointmentRepository.deactivateAppointment(id);
     }
 
-        //Buscar las citas activas e inactivas
-        public List<appointment> findByStatus(boolean status) {
-            return appointmentRepository.findByStatus(status);
+    //Buscar las citas activas e inactivas
+    public List<appointment> findByStatus(boolean status) {
+         return appointmentRepository.findByStatus(status);
+    }
+
+      //Actilizar los datos de la entidad cita 
+      @Transactional
+      public responseDTO updateAppointment(int id, appointmentDTO appointmentDTO) {
+        Optional<appointment> existingAppointment = appointmentRepository.findById(id);
+      
+        if (!existingAppointment.isPresent()) {
+             return new responseDTO("Cita con ID " + id + " no encontrada", "error");
         }
+      
+          Optional<place> placeEntity = placeRepository.findById(appointmentDTO.getPlaceID());
+          if (!placeEntity.isPresent()) {
+              return new responseDTO("Lugar no encontrado", "error");
+          }
+      
+          Optional<pet> petEntity = petRepository.findById(appointmentDTO.getPetID());
+          if (!petEntity.isPresent()) {
+              return new responseDTO("Mascota no encontrada", "error");
+          }
+      
+          Optional<veterinarian> vetEntity = veterinarianRepository.findById(appointmentDTO.getVeterinarianID());
+          if (!vetEntity.isPresent()) {
+              return new responseDTO("Veterinario no encontrado", "error");
+          }
+      
+          // Actualizar los datos de la cita existente
+          appointment appointmentEntity = existingAppointment.get();
+          appointmentEntity.setAppointmentDate(appointmentDTO.getAppointmentDate());
+          appointmentEntity.setPlace(placeEntity.get());
+          appointmentEntity.setPet(petEntity.get());
+          appointmentEntity.setVeterinarian(vetEntity.get());
+      
+          appointmentRepository.save(appointmentEntity);
+      
+          return new responseDTO("Cita actualizada correctamente", "success");
+      }
 
     
 }

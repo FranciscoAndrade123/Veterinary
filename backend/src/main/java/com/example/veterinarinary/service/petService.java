@@ -67,4 +67,30 @@ public class petService {
     public boolean existsById(int id) {
         return petRepository.existsById(id);
     }
+
+     // Actualizar mascota
+     @Transactional
+     public pet updatePet(int id, petDTO petDTO) {
+     // Verificar si la mascota existe
+     pet existingPet = petRepository.findById(id)
+         .orElseThrow(() -> new RuntimeException("Mascota no encontrada con ID: " + id));
+ 
+     // Buscar cliente asociado
+     client clientEntity = clientRepository.findById(petDTO.getClientID())
+         .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + petDTO.getClientID()));
+ 
+     // Buscar raza asociada
+     breed breedEntity = breedRepository.findById(petDTO.getBreedID())
+         .orElseThrow(() -> new RuntimeException("Raza no encontrada con ID: " + petDTO.getBreedID()));
+ 
+     // Actualizar los datos de la mascota
+     existingPet.setPetName(petDTO.getPetName());
+     existingPet.setClient(clientEntity);
+     existingPet.setBreed(breedEntity);
+ 
+     // Guardar los cambios
+     return petRepository.save(existingPet);
+ }
+
+
 }
