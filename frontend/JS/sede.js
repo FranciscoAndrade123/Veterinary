@@ -1,3 +1,6 @@
+const apiUrl = "http://localhost:8080/api/v1/place/";
+
+
 function filtrarSede() {
     // Esta función solo necesita llamar a actualizarTablaSede
     // ya que la lógica de filtrado ya está en la función obtenerSedes
@@ -76,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function(){
             });
 
             try {
-                const response = await fetch("http://localhost:8080/api/v1/place/", {
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -127,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function(){
 function obtenerSedes(){
     return new Promise (async(resolve, reject) => {
         try{
-            let url = 'http://localhost:8080/api/v1/place/';
+            let url = apiUrl;
             let filtro = document.getElementById('nameFilter').value;
 
             if(filtro != ''){
@@ -223,7 +226,7 @@ function elimiarSede(id){
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost:8080/api/v1/place/${id}`, {
+            fetch(`${apiUrl}${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "*/*",
@@ -271,7 +274,7 @@ function elimiarSede(id){
 // Función para editar una sede
 function editarSede(id){
         // Obtener los datos actuales de la especialidad
-        fetch(`http://localhost:8080/api/v1/place/${id}`, {
+        fetch(`${apiUrl}${id}`, {
             method: "GET",
             headers: {
                 "Accept": "*/*",
@@ -365,7 +368,7 @@ function guardarEdicionSede() {
         "placeName": nombreSede
     });
 
-    fetch(`http://localhost:8080/api/v1/place/${id}`, {
+    fetch(`${apiUrl}${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {

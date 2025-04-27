@@ -1,3 +1,9 @@
+const apiUrlPivote = "http://localhost:8080/api/v1/veterinarianSpecialty/";
+const apiUrlVeterinario = "http://localhost:8080/api/v1/veterinarian/";
+const apiUrlEspecialidad = "http://localhost:8080/api/v1/specialty/";
+
+
+
 function filtrarVeterinarios (){
        // Esta función solo necesita llamar a actualizarTablaTratamientos
     // ya que la lógica de filtrado ya está en obtenerEspecialidades
@@ -68,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Paso 1: Registrar el veterinario
-                const veterinarioResponse = await fetch("http://localhost:8080/api/v1/veterinarian/", {
+                const veterinarioResponse = await fetch(apiUrlVeterinario, {
                     method: "POST",
                     body: JSON.stringify({ veterinarianName: nombre }),
                     headers: {
@@ -83,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 // Paso 2: Obtener el ID del veterinario recién creado
-                const veterinariosResponse = await fetch("http://localhost:8080/api/v1/veterinarian/");
+                const veterinariosResponse = await fetch(apiUrlVeterinario);
                 if (!veterinariosResponse.ok) {
                     throw new Error("Error al obtener la lista de veterinarios");
                 }
@@ -100,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 //************PIVOTEEEEEEE****************/////
                    // Paso 3: Registrar la relación en la tabla pivote
-                    const pivoteResponse = await fetch("http://localhost:8080/api/v1/veterinarianSpecialty/", {
+                    const pivoteResponse = await fetch(apiUrlPivote, {
                     method: "POST",
                     body: JSON.stringify({
                     veterinarianID: veterinarioId,
@@ -158,7 +164,7 @@ function cargarEspecialidades() {
     const selectEspecialidades = document.getElementById("opciones-epecialidades");
 
     // Realizar una solicitud al servidor para obtener las especialidades
-    fetch("http://localhost:8080/api/v1/specialty/")
+    fetch(apiUrlEspecialidad)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Error al obtener las especialidades");
@@ -186,7 +192,7 @@ function cargarEspecialidades() {
 function obtenerVeterinarioYEspecialidades() {
     return new Promise(async (resolve, reject) => {
         try {
-            let url = 'http://localhost:8080/api/v1/veterinarianSpecialty/';
+            let url = apiUrlPivote;
             let filtro = document.getElementById("nameFilter").value;
 
             if (filtro !== '') {
@@ -299,7 +305,7 @@ function eliminarVeterinarioEspecialidad(id){
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost:8080/api/v1/veterinarianSpecialty/${id}`, {
+            fetch(`${apiUrlPivote}${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "*/*",
@@ -335,7 +341,7 @@ function eliminarVeterinarioEspecialidad(id){
 //Función para editar el veterinario
 function editarVeterinarioEspecialidad(id){
     // Obtener los datos actuales de la raza
-    fetch(`http://localhost:8080/api/v1/veterinarianSpecialty/${id}`, {
+    fetch(`${apiUrlPivote}${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -398,7 +404,7 @@ function editarVeterinarioEspecialidad(id){
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         // Llenar el select de especialidades
-        fetch("http://localhost:8080/api/v1/specialty/")
+        fetch(apiUrlEspecialidad)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Error al obtener las especialidades");
@@ -465,7 +471,7 @@ function guardarEdicionVeterinarios() {
     }
 
     // Paso 1: Actualizar el nombre del veterinario
-    fetch(`http://localhost:8080/api/v1/veterinarian/${idVeterinario}`, {
+    fetch(`${apiUrlVeterinario}${idVeterinario}`, {
         method: "PUT",
         body: JSON.stringify({ veterinarianName: nuevoNombre }),
         headers: {
@@ -484,7 +490,7 @@ function guardarEdicionVeterinarios() {
         console.log("Nombre del veterinario actualizado correctamente");
 
         // Paso 2: Actualizar la relación en la tabla pivote
-        return fetch(`http://localhost:8080/api/v1/veterinarianSpecialty/${idPivote}`, {
+        return fetch(`${apiUrlPivote}${idPivote}`, {
             method: "PUT",
             body: JSON.stringify({
                 veterinarianID: idVeterinario,

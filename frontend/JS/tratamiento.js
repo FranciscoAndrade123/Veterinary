@@ -1,3 +1,6 @@
+const apiUrl = "http://localhost:8080/api/v1/treatment/";
+
+
 function filtrarTratamiento() {
     // Esta función solo necesita llamar a actualizarTablaTratamientos
     // ya que la lógica de filtrado ya está en obtenerEspecialidades
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded' , function(){
             });
 
             try{
-                const response = await fetch('http://localhost:8080/api/v1/treatment/', {
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -131,7 +134,7 @@ document.addEventListener('DOMContentLoaded' , function(){
 function obtenerTratamiento(){
     return new Promise( async(resolve,reject)=> {
         try{
-            let url = 'http://localhost:8080/api/v1/treatment/';
+            let url = apiUrl;
             let filtro = document.getElementById('nameFilter').value;
 
             if(filtro != ''){
@@ -230,7 +233,7 @@ function eliminarTratamiento(id) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+            fetch(`${apiUrl}${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "*/*",
@@ -267,7 +270,7 @@ function eliminarTratamiento(id) {
 //Función para editar el tratamiento 
 function editarTratamiento(id) {
     // Obtener los datos actuales de la especialidad
-    fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+    fetch(`${apiUrl}${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -367,7 +370,7 @@ function guardarEdicionTratamiento() {
         "treatmentDescription": descripTratamiento
     });
     
-    fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+    fetch(`${apiUrl}${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {

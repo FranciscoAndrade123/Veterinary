@@ -1,3 +1,6 @@
+const apiUrl = "http://localhost:8080/api/v1/breed/";
+
+
 function filtrarRaza() {
     // Esta función solo necesita llamar a actualizarTablaRaza
     // ya que la lógica de filtrado ya está en obtenerRazas
@@ -78,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Realizamos la petición al servidor
             try {
-                const response = await fetch('http://localhost:8080/api/v1/breed/', {
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -129,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function obtenerRazas() {
     return new Promise(async (resolve, reject) => {
         try {
-            let url = 'http://localhost:8080/api/v1/breed/';
+            let url = apiUrl;
             let filtro = document.getElementById("nameFilter").value;
 
             if (filtro !== '') {
@@ -227,7 +230,7 @@ function eliminarRaza(id) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost:8080/api/v1/breed/${id}`, {
+            fetch(`${apiUrl}${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "*/*",
@@ -263,7 +266,7 @@ function eliminarRaza(id) {
 //Funcion para editar la raza
 function editarRaza(id) {
         // Obtener los datos actuales de la raza
-        fetch(`http://localhost:8080/api/v1/breed/${id}`, {
+        fetch(`${apiUrl}${id}`, {
             method: "GET",
             headers: {
                 "Accept": "*/*",
@@ -366,7 +369,7 @@ function guardarEdicionRaza() {
         "breedName": nombreRaza,
         "characteristic": caracteristicaRaza
     });
-    fetch(`http://localhost:8080/api/v1/breed/${id}`, {
+    fetch(`${apiUrl}${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {

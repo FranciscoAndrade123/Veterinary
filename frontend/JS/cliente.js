@@ -1,3 +1,7 @@
+const apiUrl = "http://localhost:8080/api/v1/client/"; // URL base de la API
+
+
+
 function filtrarCliente() {
     // Esta función solo necesita llamar a actualizarTablaCliente
     // ya que la lógica de filtrado ya está en la función obtenerClientes
@@ -72,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Realizamos la petición al servidor
             try {
-                const response = await fetch('http://localhost:8080/api/v1/client/', {
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     body: bodyContent,
                     headers: {
@@ -123,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function obtenerClientes() {
     return new Promise(async (resolve, reject) => {
         try {
-            let url = 'http://localhost:8080/api/v1/client/';
+            let url = apiUrl;
             let filtro = document.getElementById("nameFilter").value.toLowerCase();
 
             if (filtro === "activo" || filtro === "inactivo") {
@@ -225,7 +229,7 @@ function eliminarCliente(id){
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost:8080/api/v1/client/${id}`, {
+            fetch(`${apiUrl}${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "*/*",
@@ -261,7 +265,7 @@ function eliminarCliente(id){
 //Función para editar el cliente
 function editarCliente(id){
     // Obtener los datos actuales del cliente
-    fetch(`http://localhost:8080/api/v1/client/${id}`, {
+    fetch(`${apiUrl}${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -358,7 +362,7 @@ function guardarEdicionCliente(){
         "phone": telefono
     });
 
-    fetch(`http://localhost:8080/api/v1/client/${id}`, {
+    fetch(`${apiUrl}${id}`, {
         method: "PUT",
         body: bodyContent,
         headers: {

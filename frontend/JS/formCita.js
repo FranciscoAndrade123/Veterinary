@@ -1,3 +1,14 @@
+const apiUrlMascotas = "http://localhost:8080/api/v1/pet/";
+const apiUrlCitas = "http://localhost:8080/api/v1/appointment/";
+const apiUrlCitasTratamientos = "http://localhost:8080/api/v1/appointmentTreatment/";
+
+
+const apiUrlClientes = "http://localhost:8080/api/v1/client/";
+const apiUrlRaza = "http://localhost:8080/api/v1/breed/";
+const apiUrlSede = "http://localhost:8080/api/v1/place/";
+const apiUrlVeterinarios = "http://localhost:8080/api/v1/veterinarian/";
+const apiUrlTratamientos = "http://localhost:8080/api/v1/treatment/";
+
 document.addEventListener("DOMContentLoaded", function () {
     const currentPage = window.location.pathname;
 
@@ -35,32 +46,35 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
+             
                 // Validar la fecha
+                     
                 const fechaSeleccionada = new Date(fecha);
                 const fechaActual = new Date();
                 const fechaMaxima = new Date();
                 fechaMaxima.setMonth(fechaActual.getMonth() + 1); // Fecha máxima: 1 mes desde hoy
 
-                // Eliminar la hora para comparar solo las fechas
-                fechaActual.setHours(0, 0, 0, 0);
-                fechaSeleccionada.setHours(0, 0, 0, 0);
-                fechaMaxima.setHours(0, 0, 0, 0);
+                // Convertir a formato de solo fecha (YYYY-MM-DD) para comparación
+                const soloFechaSeleccionada = new Date(fechaSeleccionada.getFullYear(), fechaSeleccionada.getMonth(), fechaSeleccionada.getDate());
+                const soloFechaActual = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate());
+                const soloFechaMaxima = new Date(fechaMaxima.getFullYear(), fechaMaxima.getMonth(), fechaMaxima.getDate());
 
-                if (fechaSeleccionada < fechaActual) {
+                // Comparar solo las fechas (sin horas)
+                if (soloFechaSeleccionada < soloFechaActual) {
                     Swal.fire({
                         icon: "error",
                         title: "Error",
                         text: "No puedes seleccionar una fecha anterior a hoy.",
-                      });
+                    });
                     return;
                 }
 
-                if (fechaSeleccionada > fechaMaxima) {
+                if (soloFechaSeleccionada > soloFechaMaxima) {
                     Swal.fire({
                         icon: "error",
                         title: "Error",
                         text: "No puedes seleccionar una fecha más allá de un mes.",
-                      });
+                    });
                     return;
                 }
 
@@ -72,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         breedID: razaMascota,
                     });
 
-                    const petResponse = await fetch("http://localhost:8080/api/v1/pet/", {
+                    const petResponse = await fetch(apiUrlMascotas, {
                         method: "POST",
                         body: mascotaData,
                         headers: {
@@ -84,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         throw new Error("Error al registrar la mascota");
                     }
 
-                    const mascotas = await fetch("http://localhost:8080/api/v1/pet/").then((res) => res.json());
+                    const mascotas = await fetch(apiUrlMascotas).then((res) => res.json());
                     const mascota = mascotas.find((pet) => pet.petName === nombreMascota);
                     const mascotaID = mascota.petID;
 
@@ -96,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         placeID: sede,
                     });
 
-                    const appointmentResponse = await fetch("http://localhost:8080/api/v1/appointment/", {
+                    const appointmentResponse = await fetch(apiUrlCitas, {
                         method: "POST",
                         body: citaData,
                         headers: {
@@ -109,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     // Paso 3: Registrar la tabla pivote appointmentTreatment
-                    const citas = await fetch("http://localhost:8080/api/v1/appointment/").then((res) => res.json());
+                    const citas = await fetch(apiUrlCitas).then((res) => res.json());
                     const cita = citas.find((app) => app.appointmentDate === fecha);
                     const citaID = cita.appointmentID;
 
@@ -118,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         treatmentID: tratamiento,
                     });
 
-                    const appointmentTreatmentResponse = await fetch("http://localhost:8080/api/v1/appointmentTreatment/", {
+                    const appointmentTreatmentResponse = await fetch(apiUrlCitasTratamientos, {
                         method: "POST",
                         body: appointmentTreatmentData,
                         headers: {
@@ -160,21 +174,21 @@ document.addEventListener("DOMContentLoaded", function () {
             // Determinar qué endpoint usar basado en el tipo de filtro
             if (filtro === "estado" && (valor === "activo" || valor === "inactivo")) {
                 // Filtrar por estado (activo/inactivo)
-                citas = await fetch(`http://localhost:8080/api/v1/appointment/filter/${valor}`).then((res) => res.json());
+                citas = await fetch(`${apiUrlCitas}filter/${valor}`).then((res) => res.json());
                 console.log(`Citas filtradas por estado (${valor}):`, citas);
             } else if (filtro === "mascota" && valor) {
                 // Filtrar por nombre de mascota
-                citas = await fetch(`http://localhost:8080/api/v1/appointment/filterPetName/${valor}`).then((res) => res.json());
+                citas = await fetch(`${apiUrlCitas}filterPetName/${valor}`).then((res) => res.json());
                 console.log(`Citas filtradas por nombre de mascota (${valor}):`, citas);
             } else {
                 // Cargar todas las citas si no hay filtro
-                citas = await fetch("http://localhost:8080/api/v1/appointment/").then((res) => res.json());
+                citas = await fetch(`${apiUrlCitas}`).then((res) => res.json());
                 console.log("Todas las citas:", citas);
             }
             
             // Obtener las demás entidades (por si necesitamos cruzar información)
-            const tratamientos = await fetch("http://localhost:8080/api/v1/treatment/").then((res) => res.json());
-            const appointmentTreatments = await fetch("http://localhost:8080/api/v1/appointmentTreatment/").then((res) => res.json());
+            const tratamientos = await fetch(apiUrlTratamientos).then((res) => res.json());
+            const appointmentTreatments = await fetch(apiUrlCitasTratamientos).then((res) => res.json());
             
             const contenedorCitas = document.querySelector(".agendamiento");
             contenedorCitas.innerHTML = ''; // Limpiar el contenedor
@@ -334,7 +348,7 @@ function eliminarCita (id){
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost:8080/api/v1/appointment/${id}`, {
+            fetch(`${apiUrlCitas}${id}`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "*/*",
@@ -373,7 +387,7 @@ function eliminarCita (id){
 function editarCita(id) {
     // Obtener los datos actuales de la cita
     console.log("ID de la cita a editar:", id);
-    fetch(`http://localhost:8080/api/v1/appointment/${id}`, {
+    fetch(`${apiUrlCitas}${id}`, {
         method: "GET",
         headers: {
             "Accept": "*/*",
@@ -493,7 +507,7 @@ function editarCita(id) {
                     breedID: valoresFormulario.razaSeleccionada, // Incluye la raza
                 });
         
-                const petResponse = await fetch(`http://localhost:8080/api/v1/pet/${citaID}`, {
+                const petResponse = await fetch(`${apiUrlMascotas}${citaID}`, {
                     method: "PUT",
                     body: mascotaData,
                     headers: {
@@ -513,7 +527,7 @@ function editarCita(id) {
                     placeID: valoresFormulario.sedeSeleccionada,
                 });
         
-                const appointmentResponse = await fetch(`http://localhost:8080/api/v1/appointment/${citaID}`, {
+                const appointmentResponse = await fetch(`${apiUrlCitas}${citaID}`, {
                     method: "PUT",
                     body: citaData,
                     headers: {
@@ -531,7 +545,7 @@ function editarCita(id) {
                     treatmentID: valoresFormulario.tratamientoSeleccionado,
                 });
         
-                const appointmentTreatmentResponse = await fetch(`http://localhost:8080/api/v1/appointmentTreatment/${citaID}`, {
+                const appointmentTreatmentResponse = await fetch(`${apiUrlCitasTratamientos}${citaID}`, {
                     method: "PUT",
                     body: appointmentTreatmentData,
                     headers: {
@@ -618,6 +632,9 @@ function agregarEventosBotones() {
 
 /****** FUNCIONES DE LAS LISTAS DESPLEGABLES LLAMADAS DESDE EL SERVIDOR ********/
 //Obtenemos la lista de clientes y la llenamos en el select
+
+
+
 function obternerListaClientes() {
     const selectorCliente = document.getElementById("listaCliente");
 
@@ -627,7 +644,7 @@ function obternerListaClientes() {
     }
 
     // Realizar una solicitud al servidor para obtener los clientes
-    fetch("http://localhost:8080/api/v1/client/")
+    fetch(apiUrlClientes)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Error al obtener los clientes");
@@ -660,7 +677,7 @@ function obternerListaRaza() {
         return;
     }
     // Realizar una solicitud al servidor para obtener las razas
-    fetch("http://localhost:8080/api/v1/breed/")
+    fetch(apiUrlRaza)
     .then(response => {
         if (!response.ok) {
             throw new Error("Error al obtener las razas");
@@ -693,7 +710,7 @@ function obtenerListaSede() {
         return;
     }
     // Realizar una solicitud al servidor para obtener las sedes
-    fetch("http://localhost:8080/api/v1/place/")
+    fetch(apiUrlSede)
     .then(response => {
         if (!response.ok) {
             throw new Error("Error al obtener las sedes");
@@ -726,7 +743,7 @@ function obtenerListaVeterinarios() {
         return;
     }
     // Realizar una solicitud al servidor para obtener las sedes
-    fetch("http://localhost:8080/api/v1/veterinarian/")
+    fetch(apiUrlVeterinarios)
     .then(response => {
         if (!response.ok) {
             throw new Error("Error al obtener los veterinarios");
@@ -760,7 +777,7 @@ function obtenerListaTratamientos() {
     }
 
      // Realizar una solicitud al servidor para obtener los tratamientos
-     fetch("http://localhost:8080/api/v1/treatment/")
+     fetch(apiUrlTratamientos)
      .then(response => {
          if (!response.ok) {
              throw new Error("Error al obtener los tratamientos");
