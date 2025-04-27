@@ -91,6 +91,15 @@ public class appointmentController {
             List<appointment> appointments = appointmentService.findByStatus(isActive);
             return ResponseEntity.ok(appointments);
         }
+          
+    //Filtrar por el nombre de la mascota de la cita
+     @GetMapping("/filterPetName/{petName}")
+    public ResponseEntity<List<appointment>> filterByPetName(@PathVariable String petName) {
+        List<appointment> appointments = appointmentService.findByPetName(petName);
+        return ResponseEntity.ok(appointments);
+    }
+
+
         //Actualizar la cita 
     @PutMapping("/{id}")
     public ResponseEntity<responseDTO> updateAppointment(@PathVariable int id,@RequestBody appointmentDTO appointmentDTO) {

@@ -31,5 +31,11 @@ public interface iappointment  extends JpaRepository
     @Query("UPDATE appointment app SET app.status = false WHERE app.id = :id")
     void deactivateAppointment(@Param("id") int id);
 
+    //Filtracion del nombre del nombre de la mascota
+    @Query("SELECT app FROM appointment app " +
+    "JOIN app.pet p " +
+    "WHERE p.petName LIKE %:petName%")
+List<appointment> findByPetName(@Param("petName") String petName);
+
 
 }

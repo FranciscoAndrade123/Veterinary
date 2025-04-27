@@ -128,113 +128,173 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     } else if (currentPage.includes("citasAgendadas.html")) {
-        // Lógica para mostrar citas agendadas
-        async function cargarCitas() {
-            try {
-                // Obtener citas
-                const citas = await fetch("http://localhost:8080/api/v1/appointment/").then((res) => res.json());
-                console.log("Citas:", citas);
-                
-                // Obtener las demás entidades (por si necesitamos cruzar información)
-                const tratamientos = await fetch("http://localhost:8080/api/v1/treatment/").then((res) => res.json());
-                const appointmentTreatments = await fetch("http://localhost:8080/api/v1/appointmentTreatment/").then((res) => res.json());
-                
-                const contenedorCitas = document.querySelector(".agendamiento");
-                contenedorCitas.innerHTML = ''; // Limpiar el contenedor
-        
-                citas.forEach((cita) => {
-                    console.log("Procesando cita:", cita);
-                    
-                    // Acceder directamente a los datos anidados
-                    const mascota = cita.pet || {};
-                    const cliente = mascota.client || {};
-                    const raza = mascota.breed || {};
-                    const veterinario = cita.veterinarian || {};
-                    const lugar = cita.place || {};
-                    
-                    // Obtener tratamiento a través de la tabla pivote
-                    let tratamiento = {};
-                    const appointmentTreatmentsList = Array.isArray(appointmentTreatments) 
-                        ? appointmentTreatments 
-                        : appointmentTreatments.data || [];
-                    
-                    const apptTreatment = appointmentTreatmentsList.find(at => at.appointmentID === cita.appointmentID);
-                    
-                    if (apptTreatment && apptTreatment.treatmentID) {
-                        tratamiento = tratamientos.find(t => 
-                            t.treatmentId === apptTreatment.treatmentID || 
-                            t.id === apptTreatment.treatmentID
-                        ) || {};
-                    }
-                    
-                    // Crear la tarjeta de cita
-                    const citaCard = document.createElement("div");
-                    citaCard.classList.add("cita-card");
-                    citaCard.innerHTML = `
-                        <div class="cita-header">
-                            <div class="cita-mascota">
-                                <div class="cita-mascota-icono">
-                                    <i class="fas fa-dog"></i>
-                                </div>
-                                <div class="cita-mascota-info">
-                                    <h4>${mascota.petName || "Sin nombre"}</h4>
-                                    <p>Dueño: ${cliente.clientName || "Sin dueño"}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cita-body">
-                            <div class="cita-columna">
-                                <div class="cita-info">
-                                    <strong>Raza:</strong>
-                                    <span>${raza.breedName || "Sin raza"}</span>
-                                </div>
-                                <div class="cita-info">
-                                    <strong>Veterinario:</strong>
-                                    <span>${veterinario._veterinarianName || "Sin veterinario"}</span>
-                                </div>
-                                <div class="cita-info">
-                                    <strong>Lugar:</strong>
-                                    <span>${lugar.placeName || "Sin lugar"}</span>
-                                </div>
-                            </div>
-                            <div class="cita-columna">
-                                <div class="cita-info">
-                                    <strong>Tratamiento:</strong>
-                                    <span>${tratamiento.treatmentName || "Sin tratamiento"}</span>
-                                </div>
-                                <div class="cita-info">
-                                    <strong>Teléfono:</strong>
-                                    <span>${cliente.phone || "Sin teléfono"}</span>
-                                </div>
-                                <div class="cita-info">
-                                    <strong>Estado:</strong>
-                                    <span>${cita.status ? 'Activo' : 'Cancelada' || "Sin estado"}</span>
-                                </div>
-                            </div>
-                            <div class="cita-fecha">
-                                <div class="fecha">${cita.appointmentDate || "Sin fecha"}</div>
-                            </div>
-                            
-                        </div>
-                         <div class="cita-acciones">
-                        <button class="btn-accion btn-editar" data-id="${cita.appointmentID}" >
-                          <i class="fas fa-edit"></i> Editar
-                        </button>
-                        <button class="btn-accion btn-eliminar" data-id="${cita.appointmentID}" >
-                         <i class="fas fa-trash-alt"></i> Eliminar
-                        </button>
-                        </div>
-                    `;
-                    contenedorCitas.appendChild(citaCard);
-                });
-                agregarEventosBotones(); // Agregar eventos a los botones de eliminar y actualizar
-            } catch (error) {
-                console.error("Error al cargar las citas:", error);
+        // Función para cargar citas con diferentes filtros
+    async function cargarCitas(filtro = null, valor = null) {
+        try {
+            let citas;
+            
+            // Determinar qué endpoint usar basado en el tipo de filtro
+            if (filtro === "estado" && (valor === "activo" || valor === "inactivo")) {
+                // Filtrar por estado (activo/inactivo)
+                citas = await fetch(`http://localhost:8080/api/v1/appointment/filter/${valor}`).then((res) => res.json());
+                console.log(`Citas filtradas por estado (${valor}):`, citas);
+            } else if (filtro === "mascota" && valor) {
+                // Filtrar por nombre de mascota
+                citas = await fetch(`http://localhost:8080/api/v1/appointment/filterPetName/${valor}`).then((res) => res.json());
+                console.log(`Citas filtradas por nombre de mascota (${valor}):`, citas);
+            } else {
+                // Cargar todas las citas si no hay filtro
+                citas = await fetch("http://localhost:8080/api/v1/appointment/").then((res) => res.json());
+                console.log("Todas las citas:", citas);
             }
-        }   
-        cargarCitas();
+            
+            // Obtener las demás entidades (por si necesitamos cruzar información)
+            const tratamientos = await fetch("http://localhost:8080/api/v1/treatment/").then((res) => res.json());
+            const appointmentTreatments = await fetch("http://localhost:8080/api/v1/appointmentTreatment/").then((res) => res.json());
+            
+            const contenedorCitas = document.querySelector(".agendamiento");
+            contenedorCitas.innerHTML = ''; // Limpiar el contenedor
+    
+            if (!citas || citas.length === 0) {
+                contenedorCitas.innerHTML = '<div class="no-citas">No se encontraron citas con los criterios de búsqueda.</div>';
+                return;
+            }
+    
+            citas.forEach((cita) => {
+                console.log("Procesando cita:", cita);
+                
+                // Acceder directamente a los datos anidados
+                const mascota = cita.pet || {};
+                const cliente = mascota.client || {};
+                const raza = mascota.breed || {};
+                const veterinario = cita.veterinarian || {};
+                const lugar = cita.place || {};
+                
+                // Obtener tratamiento a través de la tabla pivote
+                let tratamiento = {};
+                const appointmentTreatmentsList = Array.isArray(appointmentTreatments) 
+                    ? appointmentTreatments 
+                    : appointmentTreatments.data || [];
+                
+                const apptTreatment = appointmentTreatmentsList.find(at => at.appointmentID === cita.appointmentID);
+                
+                if (apptTreatment && apptTreatment.treatmentID) {
+                    tratamiento = tratamientos.find(t => 
+                        t.treatmentId === apptTreatment.treatmentID || 
+                        t.id === apptTreatment.treatmentID
+                    ) || {};
+                }
+                
+                // Crear la tarjeta de cita
+                const citaCard = document.createElement("div");
+                citaCard.classList.add("cita-card");
+                citaCard.innerHTML = `
+                    <div class="cita-header">
+                        <div class="cita-mascota">
+                            <div class="cita-mascota-icono">
+                                <i class="fas fa-dog"></i>
+                            </div>
+                            <div class="cita-mascota-info">
+                                <h4>${mascota.petName || "Sin nombre"}</h4>
+                                <p>Dueño: ${cliente.clientName || "Sin dueño"}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cita-body">
+                        <div class="cita-columna">
+                            <div class="cita-info">
+                                <strong>Raza:</strong>
+                                <span>${raza.breedName || "Sin raza"}</span>
+                            </div>
+                            <div class="cita-info">
+                                <strong>Veterinario:</strong>
+                                <span>${veterinario._veterinarianName || "Sin veterinario"}</span>
+                            </div>
+                            <div class="cita-info">
+                                <strong>Lugar:</strong>
+                                <span>${lugar.placeName || "Sin lugar"}</span>
+                            </div>
+                        </div>
+                        <div class="cita-columna">
+                            <div class="cita-info">
+                                <strong>Tratamiento:</strong>
+                                <span>${tratamiento.treatmentName || "Sin tratamiento"}</span>
+                            </div>
+                            <div class="cita-info">
+                                <strong>Teléfono:</strong>
+                                <span>${cliente.phone || "Sin teléfono"}</span>
+                            </div>
+                            <div class="cita-info">
+                                <strong>Estado:</strong>
+                                <span>${cita.status ? 'Activo' : 'Cancelada' || "Sin estado"}</span>
+                            </div>
+                        </div>
+                        <div class="cita-fecha">
+                            <div class="fecha">${cita.appointmentDate || "Sin fecha"}</div>
+                        </div>
+                        
+                    </div>
+                     <div class="cita-acciones">
+                    <button class="btn-accion btn-editar" data-id="${cita.appointmentID}" >
+                      <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn-accion btn-eliminar" data-id="${cita.appointmentID}" >
+                     <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                    </div>
+                `;
+                contenedorCitas.appendChild(citaCard);
+            });
+            agregarEventosBotones(); // Agregar eventos a los botones de eliminar y actualizar
+        } catch (error) {
+            console.error("Error al cargar las citas:", error);
+        }
     }
-});
+
+    // Agregar evento al botón de búsqueda para filtrar
+    document.getElementById("btnBuscar").addEventListener("click", filtrarCitas);
+    
+    // Agregar evento al campo de búsqueda
+    const inputBusqueda = document.getElementById("buscarMascota");
+    
+    // Evento para detectar cuando se presiona Enter
+    inputBusqueda.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            filtrarCitas();
+        }
+    });
+    
+    // Evento para detectar cuando el campo está vacío
+    inputBusqueda.addEventListener("input", function() {
+        if (this.value.trim() === "") {
+            cargarCitas(); // Cargar todas las citas cuando el campo está vacío
+        }
+    });
+
+    // Función para filtrar citas según el término ingresado
+    function filtrarCitas() {
+        const terminoBusqueda = document.getElementById("buscarMascota").value.trim().toLowerCase();
+        
+        // Si el campo está vacío, cargar todas las citas
+        if (terminoBusqueda === "") {
+            cargarCitas();
+            return;
+        }
+        
+        // Verificar si el término es "activo" o "inactivo"
+        if (terminoBusqueda === "activo" || terminoBusqueda === "inactivo") {
+            cargarCitas("estado", terminoBusqueda);
+        } else {
+            // Si no es un estado, asumir que es nombre de mascota
+            cargarCitas("mascota", terminoBusqueda);
+        }
+    }
+    
+    // Cargar todas las citas al iniciar la página
+    cargarCitas();
+    }
+})
+
 
 
 //Función de eliminar cita 
@@ -305,23 +365,23 @@ function editarCita(id) {
                                     <input type="text" class="form-control" id="editarNombreMascota" value="${nombreMascota}" required>
                                     <br>
                                     <label for="editarCliente" class="form-label">Cliente</label>
-                                    <select id="editarCliente" class="form-select" required>
-                                        <!-- Opciones se llenarán dinámicamente -->
-                                    </select>
+                                       <select  class="form-control" id="listaCliente" required>
+                                   </select>
                                     <br>
+                                    <label for="editarCliente" class="form-label">Raza</label>
+                                       <select  class="form-control" id="listaRaza" required>
+                                   </select>
+                                     <br>
                                     <label for="editarVeterinario" class="form-label">Veterinario</label>
-                                    <select id="editarVeterinario" class="form-select" required>
-                                        <!-- Opciones se llenarán dinámicamente -->
+                                     <select class="form-control"  id="listaVeterinarios" required>
                                     </select>
                                     <br>
                                     <label for="editarTratamiento" class="form-label">Tratamiento</label>
-                                    <select id="editarTratamiento" class="form-select" required>
-                                        <!-- Opciones se llenarán dinámicamente -->
-                                    </select>
+                                   <select class="form-control" id="listaTratamientos" required>
+                                  </select>
                                     <br>
                                     <label for="editarSede" class="form-label">Sede</label>
-                                    <select id="editarSede" class="form-select" required>
-                                        <!-- Opciones se llenarán dinámicamente -->
+                                  <select class="form-control" id="listaSede" required>
                                     </select>
                                     <br>
                                     <label for="editarFechaCita" class="form-label">Fecha de la Cita</label>
@@ -349,19 +409,100 @@ function editarCita(id) {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         // Llenar las listas desplegables
-         // Llenar las listas desplegables con las funciones correctas
+        // Llenar las listas desplegables con las funciones correctas
         obternerListaClientes(cita.pet?.client?.id_client);
         obtenerListaVeterinarios(cita.veterinarian?.veterinarianID);
         obtenerListaTratamientos(cita.treatmentID);
         obtenerListaSede(cita.place?.placeID);
+        obternerListaRaza(cita.breed?.id);
         // Inicializar el modal de Bootstrap
         const modalElement = document.getElementById('editarCitaModal');
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
 
         // Agregar evento al botón de guardar cambios
-        document.getElementById('guardarCita').addEventListener('click', function() {
-            //guardarEdicionCita();
+        document.getElementById('guardarCita').addEventListener('click', async function () {
+            try {
+                // Obtener los valores del formulario
+                const valoresFormulario = obtenerValoresFormulario();
+                const citaID = document.getElementById("citaID").value;
+        
+                // Validar que todos los campos estén llenos
+                if (!valoresFormulario.nombreMascota || 
+                    !valoresFormulario.clienteSeleccionado || 
+                    !valoresFormulario.veterinarioSeleccionado || 
+                    !valoresFormulario.tratamientoSeleccionado || 
+                    !valoresFormulario.sedeSeleccionada || 
+                    !valoresFormulario.fechaCita || 
+                    !valoresFormulario.razaSeleccionada) {
+                    alert("Por favor, completa todos los campos.");
+                    return;
+                }
+        
+                // Paso 1: Actualizar la mascota (incluyendo raza)
+                const mascotaData = JSON.stringify({
+                    petName: valoresFormulario.nombreMascota,
+                    clientID: valoresFormulario.clienteSeleccionado,
+                    breedID: valoresFormulario.razaSeleccionada, // Incluye la raza
+                });
+        
+                const petResponse = await fetch(`http://localhost:8080/api/v1/pet/${citaID}`, {
+                    method: "PUT",
+                    body: mascotaData,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+        
+                if (!petResponse.ok) {
+                    throw new Error("Error al actualizar la mascota");
+                }
+        
+                // Paso 2: Actualizar la cita
+                const citaData = JSON.stringify({
+                    appointmentDate: valoresFormulario.fechaCita,
+                    petID: citaID,
+                    veterinarianID: valoresFormulario.veterinarioSeleccionado,
+                    placeID: valoresFormulario.sedeSeleccionada,
+                });
+        
+                const appointmentResponse = await fetch(`http://localhost:8080/api/v1/appointment/${citaID}`, {
+                    method: "PUT",
+                    body: citaData,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+        
+                if (!appointmentResponse.ok) {
+                    throw new Error("Error al actualizar la cita");
+                }
+        
+                // Paso 3: Actualizar la tabla pivote appointmentTreatment
+                const appointmentTreatmentData = JSON.stringify({
+                    appointmentID: citaID,
+                    treatmentID: valoresFormulario.tratamientoSeleccionado,
+                });
+        
+                const appointmentTreatmentResponse = await fetch(`http://localhost:8080/api/v1/appointmentTreatment/${citaID}`, {
+                    method: "PUT",
+                    body: appointmentTreatmentData,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+        
+                if (!appointmentTreatmentResponse.ok) {
+                    throw new Error("Error al actualizar el tratamiento de la cita");
+                }
+        
+                // Redirigir a la página de citas agendadas
+                alert("Cita actualizada correctamente");
+                window.location.href = "citasAgendadas.html";
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Hubo un problema al actualizar la cita. Inténtalo de nuevo.");
+            }
         });
     })
     .catch(error => {
@@ -371,6 +512,30 @@ function editarCita(id) {
 
 
 }
+
+//Funcion para obtener los valores de los campos del formulario 
+function obtenerValoresFormulario() {
+    const nombreMascota = document.getElementById("editarNombreMascota").value;
+    const clienteSeleccionado = document.getElementById("listaCliente").value;
+    const razaSeleccionada = document.getElementById("listaRaza").value; // Nuevo campo para la raza
+    const veterinarioSeleccionado = document.getElementById("listaVeterinarios").value;
+    const tratamientoSeleccionado = document.getElementById("listaTratamientos").value;
+    const sedeSeleccionada = document.getElementById("listaSede").value;
+    const fechaCita = document.getElementById("editarFechaCita").value;
+
+    return {
+        nombreMascota,
+        clienteSeleccionado,
+        razaSeleccionada, // Incluye la raza
+        veterinarioSeleccionado,
+        tratamientoSeleccionado,
+        sedeSeleccionada,
+        fechaCita
+    };
+}
+
+
+
 
 
 //Botones

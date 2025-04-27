@@ -91,6 +91,11 @@ public class appointmentService {
          return appointmentRepository.findByStatus(status);
     }
 
+    //Filtrar el nombre de la macota 
+    public List<appointment> findByPetName(String petName) {
+        return appointmentRepository.findByPetName(petName);
+    }
+
       //Actilizar los datos de la entidad cita 
       @Transactional
       public responseDTO updateAppointment(int id, appointmentDTO appointmentDTO) {
