@@ -51,7 +51,7 @@ public class specialtyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteSpecialty(@PathVariable int id) {
         responseDTO response = specialtyService.deleteSpecialty(id);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) ? HttpStatus.OK : HttpStatus.OK;
         return new ResponseEntity<>(response, status);
     }
 

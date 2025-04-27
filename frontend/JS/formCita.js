@@ -27,7 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Validar que todos los campos estén llenos
                 if (!nombreCliente || !nombreMascota || !razaMascota || !sede || !fecha || !veterinario || !tratamiento) {
-                    alert("Por favor, completa todos los campos.");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Error",
+                        text: "Por favor, completa todos los campos.",
+                      });
                     return;
                 }
 
@@ -43,12 +47,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 fechaMaxima.setHours(0, 0, 0, 0);
 
                 if (fechaSeleccionada < fechaActual) {
-                    alert("No puedes seleccionar una fecha pasada.");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No puedes seleccionar una fecha anterior a hoy.",
+                      });
                     return;
                 }
 
                 if (fechaSeleccionada > fechaMaxima) {
-                    alert("No puedes seleccionar una fecha que exceda un mes desde hoy.");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No puedes seleccionar una fecha más allá de un mes.",
+                      });
                     return;
                 }
 
@@ -119,8 +131,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     // Redirigir a la página de citas agendadas
-                    alert("Cita registrada correctamente");
-                    window.location.href = "citasAgendadas.html";
+                    //Mostrar modal de éxito de registro
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Registro exitoso!",
+                        text: "Cita registrada correctamente.",
+                        showConfirmButton: true,
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Aceptar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirigir a la página de citas agendadas
+                            window.location.href = "citasAgendadas.html";
+                        }
+                    });
                 } catch (error) {
                     console.error("Error:", error);
                     alert("Hubo un problema al registrar la cita. Inténtalo de nuevo.");
@@ -299,15 +323,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Función de eliminar cita 
 function eliminarCita (id){
-    if (confirm("¿Está seguro de que desea eliminar esta cita?")) {
-        fetch(`http://localhost:8080/api/v1/appointment/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/appointment/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
@@ -315,9 +349,18 @@ function eliminarCita (id){
                 });
             }
 
-            // Si la eliminación fue exitosa, actualizar la tabla
-            console.log("Cita eliminada correctamente");
-            window.location.reload(); // Recargar la página
+            Swal.fire({
+                icon: "success",
+                title: "¡Registro exitoso!",
+                text: "Cita eliminada correctamente.",
+                showConfirmButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Aceptar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload(); // Recargar la página
+                }
+            });
             return { success: true };
         })
         .catch(error => {
@@ -325,7 +368,7 @@ function eliminarCita (id){
             alert("Error al eliminar la cita: " + error.message);
         });
     }    
-}
+})}
 
 function editarCita(id) {
     // Obtener los datos actuales de la cita
@@ -435,7 +478,11 @@ function editarCita(id) {
                     !valoresFormulario.sedeSeleccionada || 
                     !valoresFormulario.fechaCita || 
                     !valoresFormulario.razaSeleccionada) {
-                    alert("Por favor, completa todos los campos.");
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Error",
+                            text: "Por favor, completa todos los campos.",
+                          });
                     return;
                 }
         
@@ -497,8 +544,19 @@ function editarCita(id) {
                 }
         
                 // Redirigir a la página de citas agendadas
-                alert("Cita actualizada correctamente");
-                window.location.href = "citasAgendadas.html";
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Actualización exitosa!",
+                    text: "Cita actualizada correctamente.",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Aceptar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirigir a la página de citas agendadas
+                        window.location.href = "citasAgendadas.html";
+                    }
+                });
             } catch (error) {
                 console.error("Error:", error);
                 alert("Hubo un problema al actualizar la cita. Inténtalo de nuevo.");

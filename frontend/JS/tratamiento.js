@@ -53,8 +53,24 @@ document.addEventListener('DOMContentLoaded' , function(){
             console.log("Nombre del tratamiento: " + treatmentName);
             console.log("Descripción del tratamiento: " + treatmentDescription);
 
+            // Validamos que no contengan números
+            const contieneNumeros = /\d/; // Expresión regular para detectar números
+
+            if (contieneNumeros.test(treatmentName) || contieneNumeros.test(treatmentDescription)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre y la descripción no pueden contener números.",
+                  });
+                return; 
+            }
+
             if(!treatmentName || !treatmentDescription){
-                alert("Por favor, ingrese los datos solicitados");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Oops...",
+                    text: "Por favor, completa todos los campos.",
+                  });
                 return; 
             }
 
@@ -93,6 +109,16 @@ document.addEventListener('DOMContentLoaded' , function(){
                 document.getElementById("descripTratamiento").value = "";
 
                 actualizarTablaTratamientos()
+
+                //Mostrar modal de éxito de registro
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Registro exitoso!",
+                    text: "El tratamiento ha sido registrado correctamente.",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#3085d6",
+                   confirmButtonText: "Aceptar"
+                   });
 
             }catch{
                 console.error("❌ Error al registrar el tratamiento", error);
@@ -193,15 +219,25 @@ function actualizarTablaTratamientos(){
 
 //Función de elimiar la tabla en el html de la especialidad 
 function eliminarTratamiento(id) {
-    if (confirm("¿Está seguro de que desea eliminar este tratamiento?")) {
-        fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/treatment/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
@@ -209,6 +245,14 @@ function eliminarTratamiento(id) {
                 });
             }
             
+            // Mostrar mensaje de éxito
+            Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El tratamiento ha sido eliminado exitosamente.',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
             // Si la eliminación fue exitosa, actualizar la tabla
             actualizarTablaTratamientos();
             return { success: true };
@@ -218,7 +262,7 @@ function eliminarTratamiento(id) {
             alert("Error al eliminar el tratamiento: " + error.message);
         });
     }
-} 
+})}
 
 //Función para editar el tratamiento 
 function editarTratamiento(id) {
@@ -298,9 +342,25 @@ function guardarEdicionTratamiento() {
     const descripTratamiento = document.getElementById('editarDescripTratamiento').value.trim();
     
     if (!nombreTratamiento || !descripTratamiento) {
-        alert("No pueden estar vacios los campos");
-        return;
+        Swal.fire({
+            icon: "warning",
+            title: "Oops...",
+            text: "Por favor, completa todos los campos.",
+          });
+        return; 
     }
+
+     // Validamos que no contengan números
+     const contieneNumeros = /\d/; // Expresión regular para detectar números
+
+     if (contieneNumeros.test(nombreTratamiento) || contieneNumeros.test(descripTratamiento)) {
+         Swal.fire({
+             icon: "error",
+             title: "Error",
+             text: "El nombre y la descripción no pueden contener números.",
+           });
+         return; 
+     }
     //empaquetamiento actualizado en formato JSON
     const bodyContent = JSON.stringify({
         "treatmentName": nombreTratamiento,
@@ -332,6 +392,17 @@ function guardarEdicionTratamiento() {
         if (modal) {
             modal.hide();
         }
+
+         //Mostrar modal de éxito de registro
+         Swal.fire({
+            icon: "success",
+            title: "Actualizado exitosamente!",
+            text: "El tratamiento ha sido actualizado correctamente.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+           confirmButtonText: "Aceptar"
+           });
+        
         
         // Actualizar la tabla con los nuevos datos
         actualizarTablaTratamientos();

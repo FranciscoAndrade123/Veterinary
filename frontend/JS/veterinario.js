@@ -46,7 +46,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Validar que los campos no estén vacíos
             if (!nombre || !especialidadId) {
-                alert("Por favor, completa todos los campos.");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Oops...",
+                    text: "Por favor, completa todos los campos.",
+                  });
+                return;
+            }
+
+            
+            // Validamos que no contengan números
+            const contieneNumeros = /\d/; // Expresión regular para detectar números
+            if (contieneNumeros.test(nombre)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "El nombre del veterinario no puede contener números.",
+                  });
                 return;
             }
 
@@ -116,6 +132,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                  // Actualizar la tabla automáticamente
                actualizarTablaVeterinarioEspecialidades();
+
+                 //Mostrar modal de éxito de registro
+                 Swal.fire({
+                    icon: "success",
+                    title: "¡Registro exitoso!",
+                    text: "Veterinario registrado correctamente.",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#3085d6",
+                   confirmButtonText: "Aceptar"
+                   });
 
             } catch (error) {
                 console.error("❌ Error al registrar el veterinario o la relación:", error);
@@ -238,7 +264,7 @@ function actualizarTablaVeterinarioEspecialidades() {
                 const nombreEspecialidad = vet.specialtyID?._specialtyName || "Sin especialidad";
 
                 tr.innerHTML = `
-                    <td>${id}</td>
+                    <td><span class="vet-id">${id}</span></td>
                     <td>${nombreVeterinario}</td>
                     <td class="especialidad-tag">${nombreEspecialidad}</td>
                      <td>
@@ -262,15 +288,25 @@ actualizarTablaVeterinarioEspecialidades();
 
 //Funcion para eliminar el veterinario
 function eliminarVeterinarioEspecialidad(id){
-    if (confirm("¿Está seguro de que desea eliminar el registro del veterinario?")) {
-        fetch(`http://localhost:8080/api/v1/veterinarianSpecialty/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/veterinarianSpecialty/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
@@ -278,8 +314,14 @@ function eliminarVeterinarioEspecialidad(id){
                 });
             }
 
-            // Si la eliminación fue exitosa, actualizar la tabla
-            console.log("Veterinario eliminado correctamente");
+             // Mostrar mensaje de éxito
+             Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El Veterinario ha sido eliminado exitosamente.',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
             actualizarTablaVeterinarioEspecialidades(); // Llamada para recargar la tabla
             return { success: true };
         })
@@ -288,7 +330,7 @@ function eliminarVeterinarioEspecialidad(id){
             alert("Error al eliminar la raza: " + error.message);
         });
     }    
-}
+} )}
 
 //Función para editar el veterinario
 function editarVeterinarioEspecialidad(id){
@@ -404,7 +446,21 @@ function guardarEdicionVeterinarios() {
 
     // Validar que los campos no estén vacíos
     if (!nuevoNombre || !nuevaEspecialidad) {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire({
+            icon: "warning",
+            title: "Oops...",
+            text: "Por favor, completa todos los campos.",
+          });
+        return;
+    }
+    // Validamos que no contengan números
+    const contieneNumeros = /\d/; // Expresión regular para detectar números
+    if (contieneNumeros.test(nuevoNombre)) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El nombre del veterinario no puede contener números.",
+          });
         return;
     }
 
@@ -455,6 +511,16 @@ function guardarEdicionVeterinarios() {
         if (modal) {
             modal.hide();
         }
+
+           //Mostrar modal de éxito de registro
+           Swal.fire({
+            icon: "success",
+            title: "Actualizado exitosamente!",
+            text: "El veterinario ha sido actualizado correctamente.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+           confirmButtonText: "Aceptar"
+           });
 
         // Actualizar la tabla automáticamente
         actualizarTablaVeterinarioEspecialidades();

@@ -48,9 +48,25 @@ document.addEventListener("DOMContentLoaded", function() {
             const raza = document.getElementById("nombreRaza").value;
             const caracteristicas = document.getElementById("descripRaza").value;
 
+            // Validamos que no contengan números
+            const contieneNumeros = /\d/; // Expresión regular para detectar números
+
+            if (contieneNumeros.test(raza) || contieneNumeros.test(caracteristicas)) {
+              Swal.fire({
+                  icon: "error",
+                  title: "Datos inválidos",
+                  text: "Los campos no deben contener números.",
+            });
+             return;
+            }
+
             // Verificamos que los campos no estén vacíos
             if (raza === "" || caracteristicas === "") {
-                alert("Por favor, completa todos los campos.");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Oops...",
+                    text: "Por favor, completa todos los campos.",
+                  });
                 return;
             }
 
@@ -91,6 +107,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Actualizar la tabla con los nuevos datos
                 actualizarTablaRaza(); // Llamada para recargar la tabla
+
+                 //Mostrar modal de éxito de registro
+                 Swal.fire({
+                    icon: "success",
+                    title: "¡Registro exitoso!",
+                    text: "La raza ha sido registrada correctamente.",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#3085d6",
+                   confirmButtonText: "Aceptar"
+                   });
 
             } catch (error) {
                 console.error("❌ Error al registrar la raza:", error);
@@ -190,24 +216,39 @@ actualizarTablaRaza();
 
 //Funcion para eliminar la raza
 function eliminarRaza(id) {
-    if (confirm("¿Está seguro de que desea eliminar esta raza?")) {
-        fetch(`http://localhost:8080/api/v1/breed/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/breed/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
                     throw new Error(data.message || "Error al eliminar la raza");
                 });
             }
-
-            // Si la eliminación fue exitosa, actualizar la tabla
-            console.log("Raza eliminada correctamente");
+              // Mostrar mensaje de éxito
+              Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'La raza ha sido eliminada exitosamente.',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
             actualizarTablaRaza(); // Llamada para recargar la tabla
             return { success: true };
         })
@@ -215,7 +256,8 @@ function eliminarRaza(id) {
             console.error("Error al eliminar la raza:", error);
             alert("Error al eliminar la raza: " + error.message);
         });
-    }    
+    } 
+  })
 }
 
 //Funcion para editar la raza
@@ -298,9 +340,26 @@ function guardarEdicionRaza() {
     const caracteristicaRaza = document.getElementById('editarCaracteristicasRaza').value.trim();
 
     if (nombreRaza === "" || caracteristicaRaza === "") {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire({
+            icon: "warning",
+            title: "Oops...",
+            text: "Por favor, completa todos los campos.",
+          });
         return;
     }
+
+    // Validamos que no contengan números
+    const contieneNumeros = /\d/; // Expresión regular para detectar números
+
+    
+    if (contieneNumeros.test(nombreRaza) || contieneNumeros.test(caracteristicaRaza)) {
+        Swal.fire({
+            icon: "error",
+            title: "Datos inválidos",
+            text: "Los campos no deben contener números.",
+      });
+       return;
+      }
 
     //empaquetamos los datos en un objeto JSON
     const bodyContent = JSON.stringify({
@@ -332,6 +391,16 @@ function guardarEdicionRaza() {
         if (modal) {
             modal.hide();
         }
+
+         //Mostrar modal de éxito de registro
+         Swal.fire({
+            icon: "success",
+            title: "Actualizado exitosamente!",
+            text: "La raza ha sido actualizado correctamente.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+           confirmButtonText: "Aceptar"
+           });
         
         // Actualizar la tabla con los nuevos datos
         actualizarTablaRaza();

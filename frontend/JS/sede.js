@@ -51,8 +51,22 @@ document.addEventListener("DOMContentLoaded", function(){
             // Imprimimos en consola las variables obtenidas
             console.log("Nombre de la sede: ", nombreSede);
 
+            // Validar que NO contenga números
+             const contieneNumeros = /\d/.test(nombreSede);
+             if (contieneNumeros) {
+            Swal.fire({
+                icon: "error",
+                title: "Dato inválido",
+                text: "El nombre de la sede no debe contener números",
+            });
+            return;
+        }
             if (!nombreSede) {
-                alert("Por favor, completa todos los campos requeridos.");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Oops...",
+                    text: "No pueden estar vacios los campos",
+                  });
                 return;
             }
 
@@ -90,6 +104,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // Actualizar la tabla con los nuevos datos
                 actualizarTablaSede(); // Llamada para recargar la tabla
+
+                //Mostrar modal de éxito de registro
+                 Swal.fire({
+                 icon: "success",
+                 title: "¡Registro exitoso!",
+                 text: "La sede ha sido registrada correctamente.",
+                 showConfirmButton: true,
+                 confirmButtonColor: "#3085d6",
+                confirmButtonText: "Aceptar"
+                });
 
             } catch (error) {
                 console.error("❌ Error al registrar la sede", error);
@@ -188,31 +212,58 @@ function actualizarTablaSede (){
 
 // Función para eliminar una sede
 function elimiarSede(id){
-    if(confirm("Esta seguro de eliminar la sede")){
-        fetch(`http://localhost:8080/api/v1/place/${id}`,{
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || "Error al eliminar la sede");
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/place/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || "Error al eliminar la sede");
+                    });
+                }
+
+                // Actualizar la tabla
+                actualizarTablaSede();
+
+                // Mostrar mensaje de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Eliminado!',
+                    text: 'La sede ha sido eliminada exitosamente.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
                 });
-            }
-            
-            // Si la eliminación fue exitosa, actualizar la tabla
-            actualizarTablaSede();
-            return { success: true };
-        })
-        .catch(error => {
-            console.error("Error al eliminar la sede:", error);
-            alert("Error al eliminar la sede: " + error.message);
-        });
-    }
+            })
+            .catch(error => {
+                console.error("Error al eliminar la sede:", error);
+
+                // Mostrar error bonito
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Cerrar'
+                });
+            });
+        }
+    });
 
 }
 
@@ -291,11 +342,24 @@ function editarSede(id){
 function guardarEdicionSede() {
     const id = document.getElementById('sedeId').value;
     const nombreSede= document.getElementById('editarNombreSede').value.trim();
-
-    if (!nombreSede) {
-        alert("No pueden estar vacios los campos");
-        return;
-    }
+            // Validar que NO contenga números
+            const contieneNumeros = /\d/.test(nombreSede);
+            if (contieneNumeros) {
+           Swal.fire({
+               icon: "error",
+               title: "Dato inválido",
+               text: "El nombre de la sede no debe contener números",
+           });
+           return;
+       }
+           if (!nombreSede) {
+               Swal.fire({
+                   icon: "warning",
+                   title: "Oops...",
+                   text: "No pueden estar vacios los campos",
+                 });
+               return;
+           }
       //empaquetamiento actualizado en formato JSON
       const bodyContent = JSON.stringify({
         "placeName": nombreSede
@@ -326,7 +390,17 @@ function guardarEdicionSede() {
         if (modal) {
             modal.hide();
         }
-        
+
+         //Mostrar modal de éxito de registro
+         Swal.fire({
+            icon: "success",
+            title: "Actualizado exitosamente!",
+            text: "La sede ha sido actualizado correctamente.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+           confirmButtonText: "Aceptar"
+           });
+
         // Actualizar la tabla con los nuevos datos
         actualizarTablaSede();
     })

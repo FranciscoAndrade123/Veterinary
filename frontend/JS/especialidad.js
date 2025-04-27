@@ -44,12 +44,28 @@ document.addEventListener("DOMContentLoaded", function () {
             const nombreEspecialidad = document.getElementById("nombreEspecialidad").value.trim();
             console.log("nombreEspecialidad capturado:", `"${nombreEspecialidad}"`);
 
+
+             // Que no este vacio el campo
+                if (nombreEspecialidad === "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Campo vacío",
+                        text: "Por favor, ingrese un nombre para la especialidad.",
+                    });
+                    return;
+             }
+
             // Validaciones
             if (!nombreEspecialidad || !/^[a-zA-Z\s]+$/.test(nombreEspecialidad) || nombreEspecialidad.length < 3 || nombreEspecialidad.length > 50) {
-                alert("El nombre de la especialidad debe tener entre 3 y 50 caracteres y solo puede contener letras y espacios.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Datos inválidos",
+                    text: "El nombre de la especialidad debe contener entre 3 y 50 caracteres y no puede contener números ni caracteres especiales.",
+              });
                 return;
             }
 
+            //Empaquetar el body para enviarlo al servidor
             const bodyContent = JSON.stringify({
                 "specialtyName": nombreEspecialidad
             });
@@ -83,6 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Actualizar la tabla con los nuevos datos
                 actualizarTablaEspecialidades();
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Éxito",
+                    text: "La especialidad se ha registrado correctamente.",
+                });
 
                 return data;
             } catch (error) {
@@ -260,10 +282,16 @@ function guardarEdicionEspecialidad() {
     const id = document.getElementById('especialidadId').value;
     const nombreEspecialidad = document.getElementById('editarNombreEspecialidad').value.trim();
 
-    if (!nombreEspecialidad) {
-        alert("El nombre de la especialidad no puede estar vacío");
-        return;
-    }
+             // Que no este vacio el campo
+             if (nombreEspecialidad === "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Campo vacío",
+                    text: "Por favor, ingrese un nombre para la especialidad.",
+                });
+                return;
+         }
+
 
     const bodyContent = JSON.stringify({
         "specialtyName": nombreEspecialidad
@@ -295,6 +323,17 @@ function guardarEdicionEspecialidad() {
                 modal.hide();
             }
 
+               //Mostrar modal de éxito de registro
+         Swal.fire({
+            icon: "success",
+            title: "Actualizado exitosamente!",
+            text: "La especialidad ha sido actualizado correctamente.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+           confirmButtonText: "Aceptar"
+           });
+        
+
             // Actualizar la tabla con los nuevos datos
             actualizarTablaEspecialidades();
         })
@@ -304,16 +343,27 @@ function guardarEdicionEspecialidad() {
 }
 
 //Función de elimiar la tabla en el html de la especialidad 
+//Función de eliminar la especialidad
 function eliminarEspecialidad(id) {
-    if (confirm("¿Está seguro de que desea eliminar esta especialidad?")) {
-        fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/specialty/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(data => {
@@ -321,17 +371,32 @@ function eliminarEspecialidad(id) {
                     });
                 }
 
-                // Si la eliminación fue exitosa, actualizar la tabla
+                // Mostrar mensaje de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Eliminado!',
+                    text: 'La especialidad ha sido eliminada exitosamente.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                });
+
+                // Actualizar la tabla solo si la eliminación fue exitosa
                 actualizarTablaEspecialidades();
+
                 return { success: true };
             })
             .catch(error => {
                 console.error("Error al eliminar especialidad:", error);
-                alert("Error al eliminar la especialidad: " + error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Error al eliminar la especialidad: " + error.message,
+                });
             });
-    }
-    actualizarTablaEspecialidades();
+        }
+    });
 }
+
 
 
 

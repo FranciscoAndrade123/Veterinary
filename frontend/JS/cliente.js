@@ -47,12 +47,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Validaciones
             if (!nombre || !/^[a-zA-Z\s]+$/.test(nombre) || nombre.length < 3 || nombre.length > 50) {
-                alert("El nombre debe tener entre 3 y 50 caracteres y solo puede contener letras y espacios.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre del cliente debe contener entre 3 y 50 caracteres y no debe contener números.",
+                  });
                 return;
             }
 
             if (!telefono || !/^\d{10}$/.test(telefono)) {
-                alert("El número de teléfono debe contener exactamente 10 dígitos.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El teléfono debe contener exactamente 10 dígitos.",
+                  });
                 return;
             }
 
@@ -93,6 +101,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Actualizar la tabla con los nuevos datos
                 actualizarTablaCliente();
+
+                //Mostrar modal de éxito de registro
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Registro exitoso!",
+                    text: "El cliente ha sido registrado correctamente.",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#3085d6",
+                   confirmButtonText: "Aceptar"
+                   });
 
             } catch (error) {
                 console.error("❌ Error al registrar el cliente:", error);
@@ -196,15 +214,25 @@ actualizarTablaCliente() // Llamada inicial para actualizar la tabla al cargar l
 
 //Función para eliminar el cliente
 function eliminarCliente(id){
-    if (confirm("¿Está seguro de que desea eliminar este cliente?")) {
-        fetch(`http://localhost:8080/api/v1/client/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "*/*",
-                "User-Agent": "web",
-                "Content-Type": "application/json"
-            }
-        })
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`http://localhost:8080/api/v1/client/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "web",
+                    "Content-Type": "application/json"
+                }
+            })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
@@ -212,8 +240,14 @@ function eliminarCliente(id){
                 });
             }
 
-            // Si la eliminación fue exitosa, actualizar la tabla
-            console.log("Cliente eliminado correctamente");
+             // Mostrar mensaje de éxito
+             Swal.fire({
+                icon: 'success',
+                title: '¡Eliminado!',
+                text: 'El cliente ha sido eliminado correctamente.',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
             actualizarTablaCliente(); // Llamada para recargar la tabla
             return { success: true };
         })
@@ -222,7 +256,7 @@ function eliminarCliente(id){
             alert("Error al eliminar el cliente: " + error.message);
         });
     }    
-}
+})}
 
 //Función para editar el cliente
 function editarCliente(id){
@@ -299,8 +333,22 @@ function guardarEdicionCliente(){
     const telefono = document.getElementById("editarTelefono").value;
 
     
-    if (nombre === "" || telefono === "") {
-        alert("Por favor, completa todos los campos.");
+    // Validaciones
+    if (!nombre || !/^[a-zA-Z\s]+$/.test(nombre) || nombre.length < 3 || nombre.length > 50) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "El nombre del cliente debe contener entre 3 y 50 caracteres y no debe contener números.",
+          });
+        return;
+    }
+
+    if (!telefono || !/^\d{10}$/.test(telefono)) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "El teléfono debe contener exactamente 10 dígitos.",
+          });
         return;
     }
 
@@ -335,6 +383,17 @@ function guardarEdicionCliente(){
         if (modal) {
             modal.hide();
         }
+
+         //Mostrar modal de éxito de registro
+         Swal.fire({
+            icon: "success",
+            title: "Actualizado exitosamente!",
+            text: "El cliente ha sido actualizado correctamente.",
+            showConfirmButton: true,
+            confirmButtonColor: "#3085d6",
+           confirmButtonText: "Aceptar"
+           });
+        
         
         // Actualizar la tabla con los nuevos datos
         actualizarTablaCliente();
